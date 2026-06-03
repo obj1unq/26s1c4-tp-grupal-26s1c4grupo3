@@ -1,0 +1,9 @@
+import example.pepita
+
+describe "group of tests for pepita" {
+
+  test "personaje tiene 100 de vida al iniciar el juego" {
+    assert.equals(100, personaje.vida())
+  }
+
+}
