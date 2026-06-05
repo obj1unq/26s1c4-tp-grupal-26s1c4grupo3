@@ -1,31 +1,29 @@
 import personajePrincipal.*
 
-class Espada {
-    const alcance = 1
-    const poderBase = 5
+class Arma {
+    const alcance = 0
+    const poderBase = 0
 
     method alcanceDelArma() = alcance
-
+    method efectoSobre(personaje) = personaje.equiparArma(self)
     method poder() = poderBase
+}
+class Espada inherits Arma {
 
 
 }
 
 
-class Baculo {
-    const alcance = 2
-    const poderBase = 4
+class Baculo inherits Arma {
 
-    method alcanceDelArma() = alcance
 
-    method poder() = poderBase
 }
 
-class Arco {
-    const alcance = 3
-    const poderBase = 3
+class Arco inherits Arma {
 
-    method alcanceDelArma() = alcance
+}
 
-    method poder() = poderBase
+object sinArma {
+  method alcanceDelArma() = 0
+  method poder() = 0
 }
