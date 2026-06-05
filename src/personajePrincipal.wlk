@@ -1,7 +1,12 @@
+import armas.*
+
 object personaje {
   var vida = 100
   var fuerzaBase = 10
   const inventario = #{}
+  const armaEquipada = null
+
+  method poder() = fuerzaBase + armaEquipada.poder()
 
   var property position = game.at(3, 3)
 
