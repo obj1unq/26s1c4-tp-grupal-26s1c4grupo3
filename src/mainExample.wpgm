@@ -2,20 +2,19 @@ import wollok.game.*
 import personajePrincipal.*
 import direcciones.*
 
-
 program escapaDeLaFortaleza {
 	game.title("escapaDeLaFortaleza")
-	game.height(10)
-	game.width(10)
-	game.boardGround("fondo")
-
-	keyboard.up().onPressDo ({ personaje.mover(arriba)})
-    keyboard.down().onPressDo ({ personaje.mover(abajo)})
-    keyboard.right().onPressDo ({ personaje.mover(derecha)})
-    keyboard.left().onPressDo ({ personaje.mover(izquierda)})
-
+	game.height(30)
+	game.width(30)
+	game.boardGround("fondoGris.png")
+	
+	keyboard.up().onPressDo({ personaje.mover(arriba) })
+	keyboard.down().onPressDo({ personaje.mover(abajo) })
+	keyboard.right().onPressDo({ personaje.mover(derecha) })
+	keyboard.left().onPressDo({ personaje.mover(izquierda) })
+	
 	game.addVisual(personaje)
-
-
+	
+	
 	game.start()
 }
