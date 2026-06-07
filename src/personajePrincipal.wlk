@@ -7,6 +7,7 @@ object personaje {
   const inventario = #{}
   var property estado = vivo
   var property arma = sinArma
+  var property image = "personaje-frente_128.png"
 
   method inventario() = inventario
   
@@ -16,8 +17,6 @@ object personaje {
 
   method vida() = vida
 
-  method image() = "personaje_frente_128.png"
-
   method puedeMoverseA(unaPosicion) = mapa.estaDentroDelTablero(unaPosicion) && estado.estaVivo()
 	
 	method mover(direccion) {
@@ -25,6 +24,7 @@ object personaje {
 		const posicionNueva = direccion.siguiente(posicionAnterior)
 		if (self.puedeMoverseA(posicionNueva)) {
 			position = posicionNueva
+      self.cambiarImagen(direccion)
 		}
 	}
   method equiparArma(unaArma) {
@@ -32,6 +32,12 @@ object personaje {
     arma = unaArma
   }
   
+  method cambiarImagen(direccion) {
+    image = ("personaje-" + direccion.orientacion()) + ".png"
+  }
+  
+
+
 }
 
 object vivo {
