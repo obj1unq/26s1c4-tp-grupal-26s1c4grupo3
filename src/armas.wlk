@@ -20,6 +20,20 @@ class Arma {
   }
 }
 
+  override method alcanceDelArma() = 1
+
+  override method poder() = 10
+}
+
+object espadaSimple inherits Espada { 
+  
+  override method nombre() = "Espada Simple"
+
+  override method image() = "espadaSimple.png"
+
+  override method poder() = super().poder() + 5
+
+  override  method position() = game.center()
 
 object espada inherits Arma(alcance = alcanceEspada, poder = 10) {
 
