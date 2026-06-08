@@ -7,28 +7,37 @@ object personaje {
   const inventario = #{}
   var property estado = vivo
   var property arma = sinArma
-  var property position = game.at(3, 3)
-  
+  var property image = "personaje-frente_128.png"
+
   method inventario() = inventario
   
-  method image() = "personaje_frente_128.png"
-  
-  method puedeMoverseA(unaPosicion) = mapa.estaDentroDelMapa(unaPosicion) && estado.estaVivo()
-  
-  method mover(direccion) {
-    const posicionAnterior = position
-    const posicionNueva = direccion.siguiente(posicionAnterior)
-    if (self.puedeMoverseA(posicionNueva)) {
-      position = posicionNueva
-    }
-  }
+  var property position = game.at(3, 3)
 
-  method poder() = arma.poder() + self.fuerzaBase()
+  method fuerzaBase() = fuerzaBase
 
+  method vida() = vida
+
+  method puedeMoverseA(unaPosicion) = mapa.estaDentroDelTablero(unaPosicion) && estado.estaVivo()
+	
+	method mover(direccion) {
+		const posicionAnterior = position
+		const posicionNueva = direccion.siguiente(posicionAnterior)
+		if (self.puedeMoverseA(posicionNueva)) {
+			position = posicionNueva
+      self.cambiarImagen(direccion)
+		}
+	}
   method equiparArma(unaArma) {
     inventario.add(unaArma)
     arma = unaArma
   }
+  
+  method cambiarImagen(direccion) {
+    image = ("personaje-" + direccion.orientacion()) + ".png"
+  }
+  
+
+
 }
 
 object vivo {
