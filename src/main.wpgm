@@ -1,6 +1,7 @@
 import wollok.game.*
 import personajePrincipal.*
 import direcciones.*
+import armas.*
 
 program escapaDeLaFortaleza {
 	game.title("escapaDeLaFortaleza")
@@ -12,6 +13,13 @@ program escapaDeLaFortaleza {
 	keyboard.down().onPressDo({ personaje.mover(abajo) })
 	keyboard.right().onPressDo({ personaje.mover(derecha) })
 	keyboard.left().onPressDo({ personaje.mover(izquierda) })
+
+	keyboard.k().onPressDo({ personaje.atacar() })
+	
+	game.onCollideDo(alcanceEspada, { enemigo => alcanceEspada.encontrarEnemigo(enemigo) })
+	
+	
+	
 	
 	game.addVisual(personaje)
 	
