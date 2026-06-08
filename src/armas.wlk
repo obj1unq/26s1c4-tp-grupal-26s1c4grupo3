@@ -5,12 +5,11 @@ class Arma {
   const alcance
   const property poder
 
-  //method alcanceDelArma() = alcance
+  method image() 
 
-  //method poder() = poderBase
+  method position()
 
-  //method efectoSobre(personaje) = personaje.equiparArma(self)
-  // No entendi el uso del mensaje
+  method nombre() 
 
   method enemigosEnAlcance(personaje) {
     alcance.buscarEnemigos(personaje)
@@ -20,40 +19,46 @@ class Arma {
   }
 }
 
-  override method alcanceDelArma() = 1
+object espada inherits Arma (alcance = alcanceEspada, poder = 10) {
 
-  override method poder() = 10
-}
-
-object espadaSimple inherits Espada { 
-  
-  override method nombre() = "Espada Simple"
+  override method nombre() = "Espada"
 
   override method image() = "espadaSimple.png"
 
-  override method poder() = super().poder() + 5
+  override method position() = game.center()
+}
 
-  override  method position() = game.center()
 
-object espada inherits Arma(alcance = alcanceEspada, poder = 10) {
+object baculo inherits Arma (alcance = alcanceBaculo, poder = 10) {
+
+  override method nombre() = "Baculo"
+
+  override method image() = ""
+
+  override method position() = game.center()
 
 }
 
 
-class Baculo inherits Arma {
+object arco inherits Arma (alcance = alcanceArco, poder = 50) {
 
+  override method nombre() = "Arco"
+
+  override method image() = ""
+
+  override method position() = game.center()
 
 }
-
-
-class Arco inherits Arma {
-
-}
-
 
 object sinArma inherits Arma (alcance = alcanceSinArma, poder = 0){
+  
+  override method nombre() = "Sin Arma"
 
+  override method image() = ""
+
+  override method position() = game.center()
 }
+
 
 // La idea de este objeto, ademas de hacer funcional el juego sin armas o sin el arma equipada, es definir si "alcance" puede ser una clase de la cual hereden los distintos tipos de alcance que habran.
 object alcanceSinArma {
@@ -77,7 +82,7 @@ object alcanceSinArma {
 
 	method mover(direccion) {
 		const posicionNueva = direccion.siguiente(position)
-		if (mapa.estaDentroDelTablero(posicionNueva)) {
+		if (mapa.estaDentroDelMapa(posicionNueva)) {
 			position = posicionNueva
 		}
 	}
@@ -114,16 +119,24 @@ object alcanceEspada {
 
 	method mover(direccion) {
 		const posicionNueva = direccion.siguiente(position)
-		if (mapa.estaDentroDelTablero(posicionNueva)) {
+		if (mapa.estaDentroDelMapa(posicionNueva)) {
 			position = posicionNueva
 		}
 	}
 
-  //method puedeMoverseA(unaPosicion) = mapa.estaDentroDelTablero(unaPosicion) 
+  //method puedeMoverseA(unaPosicion) = mapa.estaDentroDelMapa(unaPosicion) 
 
   //method aumentarAlcance() {}
 }
 
+
+object alcanceArco {
+
+}
+
+object alcanceBaculo {
+
+}
 
 
 

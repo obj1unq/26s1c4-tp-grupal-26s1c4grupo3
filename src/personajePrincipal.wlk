@@ -7,18 +7,17 @@ object personaje {
   var vida = 100
   var fuerzaBase = 10
   var arma = sinArma
-  var orientacionActual = derecha
+  var property orientacionActual = derecha
+  var estado = vivo
   //const property inventario = #{}
-  //var estado = vivo
-  // Atributos comentados por no haber sido requeridos por ahora.
 
-  method image() = "personaje_frente_128.png"
-
-  method poderDeAtaque() = fuerzaBase + arma.poder()
+  method image() = "personaje-" + orientacionActual.nombre() + ".png"
 
   //method vida() = vida
 
-  method puedeMoverseA(unaPosicion) = mapa.estaDentroDelTablero(unaPosicion) //&& estado.estaVivo()
+  method poderDeAtaque() = fuerzaBase + arma.poder()
+
+  method puedeMoverseA(unaPosicion) = mapa.estaDentroDelMapa(unaPosicion) //&& estado.estaVivo()
 	
 	method mover(direccion) {
 		const posicionNueva = direccion.siguiente(position)
@@ -29,8 +28,6 @@ object personaje {
 		}
 	}
 
-  method orientacionActual() = orientacionActual
-
   method equiparArma(unArma) { arma = unArma }
   
   method atacar() {
@@ -38,9 +35,10 @@ object personaje {
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
   }
 
+
 }
 
 
-// object vivo {
-//   method estaVivo() = true
-// }
+object vivo {
+  method estaVivo() = true
+}
