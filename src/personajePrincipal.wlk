@@ -1,45 +1,46 @@
 import armas.*
 import mapa.*
+import direcciones.*
 
 object personaje {
-  var property vida = 100
-  var property fuerzaBase = 10
-  const inventario = #{}
-  var property estado = vivo
-  var property arma = sinArma
-  var property image = "personaje-frente_128.png"
-
-  method inventario() = inventario
-  
   var property position = game.at(3, 3)
+  var vida = 100
+  var fuerzaBase = 10
+  var arma = sinArma
+  var orientacionActual = derecha
+  //const property inventario = #{}
+  //var estado = vivo
+  // Atributos comentados por no haber sido requeridos por ahora.
 
-  method fuerzaBase() = fuerzaBase
+  method image() = "personaje_frente_128.png"
 
-  method vida() = vida
+  method poderDeAtaque() = fuerzaBase + arma.poder()
 
-  method puedeMoverseA(unaPosicion) = mapa.estaDentroDelTablero(unaPosicion) && estado.estaVivo()
+  //method vida() = vida
+
+  method puedeMoverseA(unaPosicion) = mapa.estaDentroDelTablero(unaPosicion) //&& estado.estaVivo()
 	
 	method mover(direccion) {
-		const posicionAnterior = position
-		const posicionNueva = direccion.siguiente(posicionAnterior)
-		if (self.puedeMoverseA(posicionNueva)) {
+		const posicionNueva = direccion.siguiente(position)
+	
+  	if (self.puedeMoverseA(posicionNueva)) {
 			position = posicionNueva
-      self.cambiarImagen(direccion)
+      orientacionActual = direccion
 		}
 	}
-  method equiparArma(unaArma) {
-    inventario.add(unaArma)
-    arma = unaArma
-  }
-  
-  method cambiarImagen(direccion) {
-    image = ("personaje-" + direccion.orientacion()) + ".png"
-  }
-  
 
+  method orientacionActual() = orientacionActual
+
+  method equiparArma(unArma) { arma = unArma }
+  
+  method atacar() {
+    const enemigos = arma.enemigosEnAlcance(self)
+    enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
+  }
 
 }
 
-object vivo {
-  method estaVivo() = true
-}
+
+// object vivo {
+//   method estaVivo() = true
+// }
