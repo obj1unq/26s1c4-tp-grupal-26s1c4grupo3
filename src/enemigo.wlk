@@ -1,4 +1,8 @@
 class Enemigo {
-    var vidaBase 
-    var fuerzaBase
+    var vida
+    var fuerza
+
+    method recibirAtaque(daño) {
+        vida -= daño.max(0)
+    }
 }
