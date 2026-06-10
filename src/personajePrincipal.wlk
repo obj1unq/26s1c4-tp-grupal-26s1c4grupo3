@@ -6,16 +6,16 @@ object personaje {
   var property position = game.at(3, 3)
   var vida = 100
   var fuerzaBase = 10
-  var arma = sinArma
+  var inventario = #{}
+  var property armaEquipada = sinArma
   var property orientacionActual = derecha
   var estado = vivo
-  //const property inventario = #{}
+  
+  method inventario() = inventario
 
   method image() = "personaje-" + orientacionActual.nombre() + ".png"
 
-  //method vida() = vida
-
-  method poderDeAtaque() = fuerzaBase + arma.poder()
+  method poderDeAtaque() = fuerzaBase + armaEquipada.poder()
 
   method puedeMoverseA(unaPosicion) = mapa.estaDentroDelMapa(unaPosicion) //&& estado.estaVivo()
 	
@@ -28,10 +28,31 @@ object personaje {
 		}
 	}
 
-  method equiparArma(unArma) { arma = unArma }
+  method obtenerArma(arma) {
+    inventario.add(arma)
+  }
+
+
+  method equiparArma(arma) { 
+    if (not inventario.contains(arma)){
+      self.error("No se posee arma elegida en inventario!")
+    }
+    armaEquipada = arma
+  }
+
+
+  // method encontrar(arma) {
+  //   if(!self.hayLugar()){ 
+  //     //Lo dejo por si hay alguna limitacion en inventario
+  //     self.error("No tengo lugar en inventario!")
+  //     self.obtenerArma(arma)
+  //   }
+  // }
+ 
+
   
   method atacar() {
-    const enemigos = arma.enemigosEnAlcance(self)
+    const enemigos = armaEquipada.enemigosEnAlcance(self)
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
   }
 

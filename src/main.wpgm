@@ -7,7 +7,7 @@ program escapaDeLaFortaleza {
 	game.title("escapaDeLaFortaleza")
 	game.height(30)
 	game.width(30)
-	game.boardGround("fondoGris.png")
+	game.boardGround("fondoVerdeConArboles.png")
 	
 	keyboard.up().onPressDo({ personaje.mover(arriba) })
 	keyboard.down().onPressDo({ personaje.mover(abajo) })
@@ -23,6 +23,7 @@ program escapaDeLaFortaleza {
 	
 	
 	game.addVisual(personaje)
+	game.addVisual(espada)
 	
 	
 	game.start()
