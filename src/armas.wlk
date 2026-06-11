@@ -109,20 +109,36 @@ object alcanceEspada {
   }
 
   method buscarEnAlcance(direccion) {
-    alcance.times({ i => self.mover(direccion) })
+    //alcance.times({ i => self.mover(direccion) })
   }
 
+  // AYUDA DE NICO:
+  
   // Para que pueda contemplar un alcance tanto en largo como en ancho, podria utilizar times 2 veces
   // Un primer times, que evalua el alcance en ancho, Alcance se mueve a la primer columna de la izquierda y la verifica de abajo hacia arriba con un time que solo evalua columnas
   // Luego de terminar la columna, pasa a la siguiente fila hacia la derecha y vuelve a repetir ese time que evalua de abajo hacia arriba.
   // Una vez terminado el times principal, va a haber verificado todo el alcance.
 
-	method mover(direccion) {
-		const posicionNueva = direccion.siguiente(position)
-		if (mapa.estaDentroDelMapa(posicionNueva)) {
-			position = posicionNueva
-		}
-	}
+  // Recorrer las posiciones con este metodo y preguntarle al juego si hay o no un objeto con esta posicion
+  // getObjectsIn(position), devuelve una coleccion
+  
+  // Definir rango (x,y), do, doble for each o map
+  // Primer metodo que obtiene los objetos de todas las posiciones del rango con getObjectsIn, flatten para unirlos y despues foreach para afectar el daño.
+  // Todos los objetos que pueda detectar tienen que entender el mensaje recibir daño, osea ser polimorfico
+  // aquellos objetos que no sean enemigos o los que correspondan recibir daño, no haran nada, pero seran polimorficos para evitar ifs
+
+
+  // 2da opcion Poco probable q funcione:
+  // Generar N objetos alcance que todos se crean y todos generan colisiones al mismo tiempo, generando muchos objetos en varias posiciones a la vez
+
+
+
+	// method mover(direccion) {
+	// 	const posicionNueva = direccion.siguiente(position)
+	// 	if (mapa.estaDentroDelMapa(posicionNueva)) {
+	// 		position = posicionNueva
+	// 	}
+	// }
 
   //method puedeMoverseA(unaPosicion) = mapa.estaDentroDelMapa(unaPosicion) 
 

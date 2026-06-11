@@ -16,6 +16,14 @@ program escapaDeLaFortaleza {
 
 	keyboard.k().onPressDo({ personaje.atacar() })
 	
+
+	//keyboard.n().onPressDo({ personaje.equiparArma(espada) })
+
+	//keyboard.n().onPressDo({ personaje.equiparArma(game.uniqueCollider(personaje)) })
+	
+	//game.onCollideDo(espada, { espada => personaje.equiparArma(espada) })
+	
+
 	game.onCollideDo(alcanceEspada, { enemigo => alcanceEspada.encontrarEnemigo(enemigo) })
 	// primer colision de prueba para el objeto alcanceEspada, donde en la teoria
 	// cuando este haciendo la busqueda de enemigos en el alcance del arma, cuando encuentre uno va a colisionar gracias a esto
