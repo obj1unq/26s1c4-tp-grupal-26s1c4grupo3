@@ -14,6 +14,9 @@ object personaje {
   method inventario() = inventario
 
   method image() = "personaje-" + orientacionActual.nombre() + ".png"
+                                                      // + self.imagenSegunArma() 
+
+  //method imagenSegunArma() = armaEquipada.imageActual()
 
   method poderDeAtaque() = fuerzaBase + armaEquipada.poder()
 
@@ -28,20 +31,19 @@ object personaje {
 		}
 	}
 
-  method obtenerArma(arma) {
-    inventario.add(arma)
-  }
-
-
   method equiparArma(arma) { 
-    if (not inventario.contains(arma)){
-      self.error("No se posee arma elegida en inventario!")
-    }
     armaEquipada = arma
   }
 
 
-  // method encontrar(arma) {
+
+  // method obtener(arma) {
+  //   inventario.add(arma)
+  // }
+
+
+ 
+  // method encontrarObjeto(arma) {
   //   if(!self.hayLugar()){ 
   //     //Lo dejo por si hay alguna limitacion en inventario
   //     self.error("No tengo lugar en inventario!")
