@@ -2,12 +2,13 @@ import wollok.game.*
 import personajePrincipal.*
 import direcciones.*
 import armas.*
+import enemigo.*
 
 program escapaDeLaFortaleza {
 	game.title("escapaDeLaFortaleza")
-	game.height(30)
-	game.width(30)
-	game.boardGround("fondoVerdeConArboles.png")
+	game.height(25)
+	game.width(25)
+	game.boardGround("fondoPrimerMapa.png")
 	
 	keyboard.up().onPressDo({ personaje.mover(arriba) })
 	keyboard.down().onPressDo({ personaje.mover(abajo) })
@@ -23,16 +24,50 @@ program escapaDeLaFortaleza {
 	
 	//game.onCollideDo(espada, { espada => personaje.equiparArma(espada) })
 	
-
+	
 	game.onCollideDo(alcanceEspada, { enemigo => alcanceEspada.encontrarEnemigo(enemigo) })
 	// primer colision de prueba para el objeto alcanceEspada, donde en la teoria
 	// cuando este haciendo la busqueda de enemigos en el alcance del arma, cuando encuentre uno va a colisionar gracias a esto
 	// y va a almacenar ese enemigo en su coleccion interna, para que luego el Personaje pueda hacer los efectos del ataque a esos enemigos
 	
-	
+	const enemigoEsqueleto1 = new Enemigo(
+  vida = 50,
+  fuerza = 15,
+  position = game.at(5, 5)
+)
+
+const enemigoEsqueleto2 = new Enemigo(
+  vida = 50,
+  fuerza = 15,
+  position = game.at(19, 5)
+)
+
+const enemigoEsqueleto3 = new Enemigo(
+  vida = 50,
+  fuerza = 15,
+  position = game.at(5, 19)
+)
+
+const enemigoEsqueleto4 = new Enemigo(
+  vida = 50,
+  fuerza = 15,
+  position = game.at(19, 19)
+)
+
+const enemigoEsqueleto5 = new Enemigo(
+  vida = 50,
+  fuerza = 15,
+  position = game.at(12, 15)
+)
+	const enemigos = [enemigoEsqueleto1, enemigoEsqueleto2, enemigoEsqueleto3, enemigoEsqueleto4, enemigoEsqueleto5]
 	game.addVisual(personaje)
 	game.addVisual(espada)
-	
+
+	enemigos.forEach({ enemigo => game.addVisual(enemigo) })
+
+	game.onTick(500, "moverEnemigos", {
+		enemigos.forEach({ enemigo => enemigo.perseguir(personaje) })
+	})
 	
 	game.start()
 }

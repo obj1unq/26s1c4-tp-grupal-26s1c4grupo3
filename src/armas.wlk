@@ -11,6 +11,8 @@ class Arma {
 
   method nombre() 
 
+  method bloqueaMovimiento() = false
+
   method enemigosEnAlcance(personaje) {
     alcance.buscarEnemigos(personaje)
     return alcance.enemigosEnAlcance()
