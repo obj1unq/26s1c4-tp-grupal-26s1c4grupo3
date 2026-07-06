@@ -64,10 +64,6 @@ const enemigoEsqueleto5 = new Enemigo(
 	game.addVisual(espada)
 
 	enemigos.forEach({ enemigo => game.addVisual(enemigo) })
-
-	game.onTick(500, "moverEnemigos", {
-		enemigos.forEach({ enemigo => enemigo.perseguir(personaje) })
-	})
 	
 	game.start()
 }

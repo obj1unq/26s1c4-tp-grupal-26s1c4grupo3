@@ -18,8 +18,6 @@ object personaje {
 
   //method imagenSegunArma() = armaEquipada.imageActual()
 
-  method bloqueaMovimiento() = true
-
   method poderDeAtaque() = fuerzaBase + armaEquipada.poder()
 
   method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion) //&& estado.estaVivo()
