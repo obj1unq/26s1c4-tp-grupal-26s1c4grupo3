@@ -12,11 +12,21 @@ class Enemigo {
 
     method esEnemigo() = true
 
+    method estaVivo() = vida > 0
+
     method recibirAtaque(daño) {
-        vida -= daño.max(0)
+        vida = (vida - daño).max(0)
+        console.println("Recibí " + daño + " de daño, me quedan " + vida + " de vida")
+        if (!self.estaVivo()) {
+            self.morir()
+        }
     }
 
-    method estaVivo() = vida > 0
+    method morir() {
+        game.removeVisual(self)
+    }
+
+    //method atacar()
 
 }
 

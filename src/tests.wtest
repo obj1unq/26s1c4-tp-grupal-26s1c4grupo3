@@ -1,19 +1,19 @@
 import personajePrincipal.*
 import armas.*
 
-describe "personaje Principal" {
+// describe "personaje Principal" {
     
-  test "Obtiene un baculo, va a almacernarlo en inventario, lo equipa y su poder de ataque es 20" {
-    personaje.obtenerArma(baculo)
-    personaje.equiparArma(baculo)
+//   test "Obtiene un baculo, va a almacernarlo en inventario, lo equipa y su poder de ataque es 20" {
+//     personaje.obtenerArma(baculo)
+//     personaje.equiparArma(baculo)
 
-    assert.that(personaje.inventario().contains(baculo))
-    assert.equals(20, personaje.poderDeAtaque())
-    assert.equals(baculo, personaje.armaEquipada())
-  }
+//     assert.that(personaje.inventario().contains(baculo))
+//     assert.equals(20, personaje.poderDeAtaque())
+//     assert.equals(baculo, personaje.armaEquipada())
+//   }
 
-  test "no puede equipar un arma que no posee" {
+//   test "no puede equipar un arma que no posee" {
 
-    assert.throwsException({personaje.equiparArma(espada)})
-  }
-}
+//     assert.throwsException({personaje.equiparArma(espada)})
+//   }
+// }

@@ -2,26 +2,27 @@ import armas.*
 import mapa.*
 import direcciones.*
 
-object personaje {
-  var property position = game.at(17, 20)
+object prisionero {
+  var property position = game.at(12, 3)
   var vida = 100
   var fuerzaBase = 10
-  const property inventario = #{}
-  var armaEquipada = sinArma
+  var arma = sinArma
   var orientacionActual = arriba
-  var estado = vivo
+  //var estado = vivo
+  //const property inventario = #{}
 
-  method image() = "personaje-" + orientacionActual.stringImage() + ".png"
-                                                      // + self.imagenSegunArma() 
+  method image() = "personaje-" + orientacionActual.stringImage() + arma.stringImage() + ".png"
 
-  //method imagenSegunArma() = armaEquipada.imageActual()
+  method orientacionActual() = orientacionActual
 
   method esEnemigo() = false
 
-  method poderDeAtaque() = fuerzaBase + armaEquipada.poder()
-
-  method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion) //&& estado.estaVivo()
+  method poderDeAtaque() = fuerzaBase + arma.poder()
 	
+  method recibirAtaque(daño) {
+    vida = (vida - daño).max(0)
+  }
+
 	method mover(direccion) {
 		const posicionNueva = direccion.siguiente(position)
 	
@@ -31,35 +32,31 @@ object personaje {
 		}
 	}
 
-  method equiparArma(unaArma) { 
-    if (!inventario.contains(unaArma)) {
-      self.error("No podes equipar un arma que no tenes")
-    }
+  method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion) //&& estado.estaVivo()
 
-    armaEquipada = unaArma
-  }
+  method obtenerArma(unArma) { arma = unArma }
 
-  // method obtener(arma) {
-  //   inventario.add(arma)
-  // }
- 
-  // method encontrarObjeto(arma) {
+// Por ahora solo tendra un arma, que es la inicial.
+
+  // method equiparArma(unaArma) { 
+  //   if (!inventario.contains(unaArma)) {
+  //     self.error("No podes equipar un arma que no tenes")
+  //   }
+  //   armaEquipada = unaArma
+  // } 
+
+  // method encontrarObjeto(objeto) {
   //   if(!self.hayLugar()){ 
   //     //Lo dejo por si hay alguna limitacion en inventario
   //     self.error("No tengo lugar en inventario!")
-  //     self.obtenerArma(arma)
+  //     self.obtenerObjeto(objeto)
   //   }
   // }
   
   method atacar() {
-    const enemigos = armaEquipada.enemigosEnAlcance(self)
+    const enemigos = arma.enemigosEnAlcance(self)
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
   }
-
-  method recibirAtaque(daño) {
-    vida -= daño.max(0)
-  }
-
 
 }
 

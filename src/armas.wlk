@@ -6,7 +6,7 @@ class Arma {
   const alcance
   const property poder
 
-  method image() 
+  method stringImage() 
 
   //method position()
   // Creo que no vamos a necesitar un metodo position porque cuando elija x arma va a definir un valor de image
@@ -20,29 +20,31 @@ class Arma {
   
 }
 
-object espada inherits Arma (alcance = new Alcance(ancho = 3, profundidad = 1), poder = 40) {
+object espada inherits Arma (alcance = new Alcance(ancho = 3, profundidad = 1), poder = 30) {
 
-  override method image() = "espadaSimple.png"
+  method image() = "espadaSimple.png"
 
-}
-
-
-object baculo inherits Arma (alcance = new Alcance(ancho = 5, profundidad = 10), poder = 30) {
-
-  override method image() = ""
+  override method stringImage() = ""
 
 }
 
 
-object arco inherits Arma (alcance = new Alcance(ancho = 11, profundidad = 20), poder = 50) {
+object baculo inherits Arma (alcance = new Alcance(ancho = 5, profundidad = 10), poder = 20) {
 
-  override method image() = ""
+  override method stringImage() = ""
+
+}
+
+
+object arco inherits Arma (alcance = new Alcance(ancho = 11, profundidad = 20), poder = 90) {
+
+  override method stringImage() = ""
 
 }
 
 object sinArma inherits Arma (alcance = new Alcance(ancho = 1, profundidad = 1), poder = 0){
 
-  override method image() = ""
+  override method stringImage() = ""
 
 }
 

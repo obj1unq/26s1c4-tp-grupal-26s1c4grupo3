@@ -10,12 +10,18 @@ program escapaDeLaFortaleza {
 	game.width(25)
 	game.boardGround("fondoPrimerMapa.png")
 	
-	keyboard.up().onPressDo({ personaje.mover(arriba) })
-	keyboard.down().onPressDo({ personaje.mover(abajo) })
-	keyboard.right().onPressDo({ personaje.mover(derecha) })
-	keyboard.left().onPressDo({ personaje.mover(izquierda) })
+	keyboard.w().onPressDo({ prisionero.mover(arriba) })
+	keyboard.s().onPressDo({ prisionero.mover(abajo) })
+	keyboard.d().onPressDo({ prisionero.mover(derecha) })
+	keyboard.a().onPressDo({ prisionero.mover(izquierda) })
 
-	keyboard.k().onPressDo({ personaje.atacar() })
+	// keyboard.up().onPressDo({ prisionero.mover(arriba) })
+	// keyboard.down().onPressDo({ prisionero.mover(abajo) })
+	// keyboard.right().onPressDo({ prisionero.mover(derecha) })
+	// keyboard.left().onPressDo({ prisionero.mover(izquierda) })
+
+
+	keyboard.k().onPressDo({ prisionero.atacar() })
 	
 
 	//keyboard.n().onPressDo({ personaje.equiparArma(espada) })
@@ -32,12 +38,17 @@ program escapaDeLaFortaleza {
 	const enemigoEsqueleto3 = new EnemigoEsqueleto(position = game.at(5, 19))
 
 	const enemigoEsqueleto4 = new EnemigoEsqueleto(position = game.at(19, 19))
+	
+	const enemigoEsqueleto5 = new EnemigoEsqueleto(position = game.at(11, 15))
 
-	const enemigoEsqueleto5 = new EnemigoEsqueleto(position = game.at(12, 15))
+	const enemigoEsqueleto6 = new EnemigoEsqueleto(position = game.at(12, 15))
 
-	const enemigos = [enemigoEsqueleto1, enemigoEsqueleto2, enemigoEsqueleto3, enemigoEsqueleto4, enemigoEsqueleto5]
+	const enemigoEsqueleto7 = new EnemigoEsqueleto(position = game.at(13, 15))
 
-	game.addVisual(personaje)
+	const enemigos = [enemigoEsqueleto1, enemigoEsqueleto2, enemigoEsqueleto3, enemigoEsqueleto4, enemigoEsqueleto5, enemigoEsqueleto6, enemigoEsqueleto7]
+
+	game.addVisual(prisionero)
+	prisionero.obtenerArma(espada)
 
 	enemigos.forEach({ enemigo => game.addVisual(enemigo) })
 	
