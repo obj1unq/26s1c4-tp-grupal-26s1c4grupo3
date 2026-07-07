@@ -1,25 +1,72 @@
 import wollok.game.*
 
-object arriba {
-    method siguiente(unaPosicion) = unaPosicion.up(1)
+class Direccion {
 
-    method nombre() = "arriba"
+    method stringImage()
+
+    method siguiente(unaPosicion)
+
+    method posicionesAdyacentes(centro, radio)
+
+    method posicionesHaciaAdelante(centro, profundidad)
 }
 
-object abajo {
-    method siguiente(unaPosicion) = unaPosicion.down(1)
+object arriba inherits Direccion{
 
-    method nombre() = "abajo"
+    override method stringImage() = "arriba"
+
+    override method siguiente(unaPosicion) = unaPosicion.up(1)
+
+    override method posicionesAdyacentes(centro, radio) {
+        return (centro.x() - radio .. centro.x() + radio).map { x => game.at(x, centro.y()) }
+    }
+
+    override method posicionesHaciaAdelante(centro, profundidad) {
+        return (1..profundidad).map { p => game.at(centro.x(), centro.y() + p) }
+    }
 }
 
-object izquierda {
-    method siguiente(unaPosicion) = unaPosicion.left(1)
+object abajo inherits Direccion{
 
-    method nombre() = "izquierda"
+    override method stringImage() = "abajo"
+    
+    override method siguiente(unaPosicion) = unaPosicion.down(1)
+
+    override method posicionesAdyacentes(centro, radio) {
+        return (centro.x() - radio .. centro.x() + radio).map { x => game.at(x, centro.y()) }
+    }
+
+    override method posicionesHaciaAdelante(centro, profundidad) {
+        return (1..profundidad).map { p => game.at(centro.x(), centro.y() - p) }
+    }
 }
 
-object derecha {
-    method siguiente(unaPosicion) = unaPosicion.right(1)
+object izquierda inherits Direccion{
 
-    method nombre() = "derecha"
+    override method stringImage() = "izquierda"
+
+    override method siguiente(unaPosicion) = unaPosicion.left(1)
+
+    override method posicionesAdyacentes(centro, radio) {
+        return (centro.y() - radio .. centro.y() + radio).map { y => game.at(centro.x(), y) }
+    }
+
+    override method posicionesHaciaAdelante(centro, profundidad) {
+        return (1..profundidad).map { p => game.at(centro.x() - p, centro.y()) }
+    }
+}
+
+object derecha inherits Direccion{
+
+    override method stringImage() = "derecha"
+    
+    override method siguiente(unaPosicion) = unaPosicion.right(1)
+
+    override method posicionesAdyacentes(centro, radio) {
+        return (centro.y() - radio .. centro.y() + radio).map { y => game.at(centro.x(), y) }
+    }
+
+    override method posicionesHaciaAdelante(centro, profundidad) {
+        return (1..profundidad).map { p => game.at(centro.x() + p, centro.y()) }
+    }
 }

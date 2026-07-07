@@ -23,15 +23,9 @@ program escapaDeLaFortaleza {
 	
 	//game.onCollideDo(espada, { espada => personaje.equiparArma(espada) })
 	
-
-	game.onCollideDo(alcanceEspada, { enemigo => alcanceEspada.encontrarEnemigo(enemigo) })
-	// primer colision de prueba para el objeto alcanceEspada, donde en la teoria
-	// cuando este haciendo la busqueda de enemigos en el alcance del arma, cuando encuentre uno va a colisionar gracias a esto
-	// y va a almacenar ese enemigo en su coleccion interna, para que luego el Personaje pueda hacer los efectos del ataque a esos enemigos
 	
 	
 	game.addVisual(personaje)
-	game.addVisual(espada)
 	
 	
 	game.start()

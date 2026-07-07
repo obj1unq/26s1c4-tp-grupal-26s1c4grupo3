@@ -6,17 +6,17 @@ object personaje {
   var property position = game.at(3, 3)
   var vida = 100
   var fuerzaBase = 10
-  var inventario = #{}
-  var property armaEquipada = sinArma
-  var property orientacionActual = derecha
+  const property inventario = #{}
+  var armaEquipada = sinArma
+  var orientacionActual = arriba
   var estado = vivo
-  
-  method inventario() = inventario
 
-  method image() = "personaje-" + orientacionActual.nombre() + ".png"
+  method image() = "personaje-" + orientacionActual.stringImage() + ".png"
                                                       // + self.imagenSegunArma() 
 
   //method imagenSegunArma() = armaEquipada.imageActual()
+
+  method esEnemigo() = false
 
   method poderDeAtaque() = fuerzaBase + armaEquipada.poder()
 
@@ -35,13 +35,9 @@ object personaje {
     armaEquipada = arma
   }
 
-
-
   // method obtener(arma) {
   //   inventario.add(arma)
   // }
-
-
  
   // method encontrarObjeto(arma) {
   //   if(!self.hayLugar()){ 
@@ -50,8 +46,6 @@ object personaje {
   //     self.obtenerArma(arma)
   //   }
   // }
- 
-
   
   method atacar() {
     const enemigos = armaEquipada.enemigosEnAlcance(self)
