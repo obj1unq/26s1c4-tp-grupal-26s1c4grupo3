@@ -3,7 +3,7 @@ import mapa.*
 import direcciones.*
 
 object personaje {
-  var property position = game.at(3, 3)
+  var property position = game.at(17, 20)
   var vida = 100
   var fuerzaBase = 10
   const property inventario = #{}
@@ -20,19 +20,23 @@ object personaje {
 
   method poderDeAtaque() = fuerzaBase + armaEquipada.poder()
 
-  method puedeMoverseA(unaPosicion) = mapa.estaDentroDelMapa(unaPosicion) //&& estado.estaVivo()
+  method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion) //&& estado.estaVivo()
 	
 	method mover(direccion) {
 		const posicionNueva = direccion.siguiente(position)
 	
-  	if (self.puedeMoverseA(posicionNueva)) {
+    if (self.puedeMoverseA(posicionNueva)) {
 			position = posicionNueva
       orientacionActual = direccion
 		}
 	}
 
-  method equiparArma(arma) { 
-    armaEquipada = arma
+  method equiparArma(unaArma) { 
+    if (!inventario.contains(unaArma)) {
+      self.error("No podes equipar un arma que no tenes")
+    }
+
+    armaEquipada = unaArma
   }
 
   // method obtener(arma) {
@@ -50,6 +54,10 @@ object personaje {
   method atacar() {
     const enemigos = armaEquipada.enemigosEnAlcance(self)
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
+  }
+
+  method recibirAtaque(daño) {
+    vida -= daño.max(0)
   }
 
 

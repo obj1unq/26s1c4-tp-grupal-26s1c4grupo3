@@ -2,12 +2,13 @@ import wollok.game.*
 import personajePrincipal.*
 import direcciones.*
 import armas.*
+import enemigo.*
 
 program escapaDeLaFortaleza {
 	game.title("escapaDeLaFortaleza")
-	game.height(30)
-	game.width(30)
-	game.boardGround("fondoVerdeConArboles.png")
+	game.height(25)
+	game.width(25)
+	game.boardGround("fondoPrimerMapa.png")
 	
 	keyboard.up().onPressDo({ personaje.mover(arriba) })
 	keyboard.down().onPressDo({ personaje.mover(abajo) })
@@ -24,9 +25,21 @@ program escapaDeLaFortaleza {
 	//game.onCollideDo(espada, { espada => personaje.equiparArma(espada) })
 	
 	
-	
+	const enemigoEsqueleto1 = new EnemigoEsqueleto(position = game.at(5, 5))
+
+	const enemigoEsqueleto2 = new EnemigoEsqueleto(position = game.at(19, 5))
+
+	const enemigoEsqueleto3 = new EnemigoEsqueleto(position = game.at(5, 19))
+
+	const enemigoEsqueleto4 = new EnemigoEsqueleto(position = game.at(19, 19))
+
+	const enemigoEsqueleto5 = new EnemigoEsqueleto(position = game.at(12, 15))
+
+	const enemigos = [enemigoEsqueleto1, enemigoEsqueleto2, enemigoEsqueleto3, enemigoEsqueleto4, enemigoEsqueleto5]
+
 	game.addVisual(personaje)
-	
+
+	enemigos.forEach({ enemigo => game.addVisual(enemigo) })
 	
 	game.start()
 }
