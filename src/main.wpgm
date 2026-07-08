@@ -2,7 +2,7 @@ import wollok.game.*
 import personajePrincipal.*
 import direcciones.*
 import armas.*
-import enemigo.*
+import enemigos.*
 
 program escapaDeLaFortaleza {
 	game.title("escapaDeLaFortaleza")
@@ -51,6 +51,11 @@ program escapaDeLaFortaleza {
 	prisionero.obtenerArma(espada)
 
 	enemigos.forEach({ enemigo => game.addVisual(enemigo) })
+
+	game.onTick(700, "perseguirAlPrisionero", {
+    	enemigos.filter({ enemigo => enemigo.estaVivo() }).forEach({ enemigo => enemigo.perseguir(prisionero) })
+	})
+
 	
 	game.start()
 }
