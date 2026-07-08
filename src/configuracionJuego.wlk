@@ -9,6 +9,18 @@ object configuracionJuego {
   }
 
   method aplicarFondo(unFondo) {
-    game.boardGround(unFondo)
+    fondo.cambiarA(unFondo)
+    game.addVisual(fondo)
+  }
+}
+
+object fondo {
+  var property imagenActual = ""
+
+  method position() = game.at(0, 0)
+  method image() = imagenActual
+
+  method cambiarA(unaImagen) {
+    imagenActual = unaImagen
   }
 }

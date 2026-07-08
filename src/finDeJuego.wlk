@@ -1,16 +1,17 @@
 import wollok.game.*
 import menuInicio.*
+import configuracionJuego.*
 
 object finDeJuego {
   method mostrarVictoria() {
     game.clear()
-    game.boardGround("victoria.png") // PENDIENTE: reemplazar por el asset final de Nicole
+    configuracionJuego.aplicarFondo("victoria.png") // PENDIENTE: reemplazar por el asset final de Nicole
     self.configurarVuelta()
   }
 
   method mostrarDerrota() {
     game.clear()
-    game.boardGround("derrota.png") // PENDIENTE: reemplazar por el asset final de Nicole
+    configuracionJuego.aplicarFondo("derrota.png") // PENDIENTE: reemplazar por el asset final de Nicole
     self.configurarVuelta()
   }
 

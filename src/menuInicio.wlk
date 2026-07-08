@@ -1,11 +1,12 @@
 import wollok.game.*
 import nivel1.*
 import pantallaControles.*
+import configuracionJuego.*
 
 object menuInicio {
   method mostrar() {
     game.clear()
-    game.boardGround("fondoGris.png") // PENDIENTE: reemplazar por el asset final de Nicole (texto "ENTER: empezar" / "C: controles")
+    configuracionJuego.aplicarFondo("fondoGris.png") // PENDIENTE: reemplazar por el asset final de Nicole (texto "ENTER: empezar" / "C: controles")
     self.configurarTeclado()
   }
 
