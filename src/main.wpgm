@@ -5,9 +5,13 @@ import armas.*
 import mapa.*
 import menuInicio.*
 import configuracionJuego.*
+import musicaDeFondo.*
 
 program escapaDeLaFortaleza {
   configuracionJuego.iniciar()
+  musicaDeFondo.iniciar()
+  keyboard.plusKey().onPressDo({ musicaDeFondo.subirVolumen() })
+  keyboard.minusKey().onPressDo({ musicaDeFondo.bajarVolumen() })
   menuInicio.mostrar()
   game.start()
 }
