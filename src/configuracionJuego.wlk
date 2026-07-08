@@ -3,7 +3,7 @@ import wollok.game.*
 object configuracionJuego {
 
   method iniciar() {
-    game.title("escapaDeLaFortaleza")
+    game.title("Escapa de la fortaleza")
     game.width(25)
     game.height(25)
     game.cellSize(64)

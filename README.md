@@ -1,4 +1,4 @@
-# Escapa de la prisión
+# Escapa de la fortaleza
 
 ## Equipo de desarrollo
 
