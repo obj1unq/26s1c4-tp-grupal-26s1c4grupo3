@@ -20,7 +20,7 @@ class Arma {
   
 }
 
-object espada inherits Arma (alcance = new Alcance(ancho = 3, profundidad = 1), poder = 30) {
+object espada inherits Arma (alcance = new Alcance(ancho = 3, profundidad = 2), poder = 30) {
 
   method image() = "espadaSimple.png"
 

@@ -1,6 +1,6 @@
 import personajePrincipal.*
 import armas.*
-import enemigo.*
+import enemigos.*
 import direcciones.*
 
 describe "Movimiento del personaje respetando los límites del mapa" {
@@ -53,7 +53,7 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
     prisionero.position(game.at(12, 11))
     prisionero.mover(arriba)
     prisionero.obtenerArma(espada)
-    const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(12, 14))
+    const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(12, 15))
     const esqueletoFueraDeAncho = new EnemigoEsqueleto(position = game.at(14, 13))
     game.addVisual(esqueletoMuyLejos)
     game.addVisual(esqueletoFueraDeAncho)
@@ -93,6 +93,60 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
 
     assert.equals(0, esqueletoDebil.vida())
     assert.that(!esqueletoDebil.estaVivo())
+  }
+
+}
+
+describe "Movimiento autónomo del enemigo hacia su objetivo" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Si la diferencia en X hacia el objetivo es mayor que en Y, el enemigo se mueve un paso en el eje X" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
+    prisionero.position(game.at(15, 11))
+
+    esqueleto.perseguir(prisionero)
+
+    assert.equals(game.at(11, 10), esqueleto.position())
+  }
+
+  test "Si la diferencia en Y hacia el objetivo es mayor que en X, el enemigo se mueve un paso en el eje Y" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
+    prisionero.position(game.at(11, 15))
+
+    esqueleto.perseguir(prisionero)
+
+    assert.equals(game.at(10, 11), esqueleto.position())
+  }
+
+  test "Si la dirección principal está bloqueada por el límite del mapa, el enemigo se mueve en la dirección alternativa" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(3, 10))
+    prisionero.position(game.at(0, 11))
+
+    esqueleto.perseguir(prisionero)
+
+    assert.equals(game.at(3, 11), esqueleto.position())
+  }
+
+  test "Si el enemigo ya está en la misma posición que el objetivo, no se mueve" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
+    prisionero.position(game.at(10, 10))
+
+    esqueleto.perseguir(prisionero)
+
+    assert.equals(game.at(10, 10), esqueleto.position())
+  }
+
+  test "Si las dos direcciones candidatas están bloqueadas, el enemigo no se mueve" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(3, 3))
+    prisionero.position(game.at(0, 0))
+
+    esqueleto.perseguir(prisionero)
+
+    assert.equals(game.at(3, 3), esqueleto.position())
   }
 
 }
