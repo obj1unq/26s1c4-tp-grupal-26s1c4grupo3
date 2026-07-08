@@ -72,7 +72,7 @@ object baculoEnMapa {
 }
 
 object arco {
-  const alcance = new Alcance(ancho = 3, profundidad = 9)
+  const alcance = new Alcance(ancho = 1, profundidad = 9)
   const property poder = 90
 
   method image() = "arcoNivel1.png"

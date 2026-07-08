@@ -49,8 +49,6 @@ object gestorArmas {
 
     armaYaElegida = true
     self.quitarArmasDelNivel()
-
-    game.say(prisionero, "Elegiste " + armaReal.nombre())
   }
 
   method quitarArmasDelNivel() {
