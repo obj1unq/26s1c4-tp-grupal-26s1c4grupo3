@@ -4,11 +4,13 @@ import direcciones.*
 class Enemigo {
     var property position
     var vida
-    var fuerza
+    const fuerza
+
+    method vida() = vida // getter para verificar daño del PJ principal sobre los enemigos en los tests
 
     method image()
 
-    method bloqueaMovimiento() = true
+    method bloqueaMovimiento() = false
 
     method esEnemigo() = true
 
