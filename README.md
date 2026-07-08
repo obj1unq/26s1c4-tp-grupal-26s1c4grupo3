@@ -1,4 +1,4 @@
-# Nombre del juego (<- borrar y completar)
+# Escapa de la prisión
 
 ## Equipo de desarrollo
 
@@ -8,17 +8,22 @@
 
 ## Capturas 
 
-(agregar)
+![menu principal](capturas/menu_juego.jpg)
 
 ## Reglas de Juego / Instrucciones
 
-El juego comienza con el personaje dentro de alguno de los calabozos de una fortaleza, de la cual tendrá que escapar atravesando enemigos.
-Para ello, va a poder encontrar recompensas que le brinden mas fuerza, vida o inclusive curen sus heridas. 
-En cada sala que avance, tendra enemigos a los cuales vencer y al abrirse las puertas para avanzar va a obtener dichas recompensas. 
-Las recompensas pueden ser un objeto especial que le mejore los atributos mientras lo posea, aumentos de estadisticas temporales o por unica vez o nada.
-Ademas, para escapar con éxito tendrá que vencer a un jefe poderoso el cual requerirá haber hecho una buena elección de las recompensas previas para superar su poder de pelea. 
+Un prisionero debe escapar de una fortaleza atravesando 3 niveles, cada uno con más enemigos y de mayor dificultad que el anterior.
 
+Al arrancar el juego aparece un menú principal:
+- **ENTER**: empezar la partida.
 
+Controles durante el juego:
+- **WASD** o **flechas**: moverse.
+- **K**: atacar con el arma equipada.
+- **ENTER**: elegir un arma / confirmar.
+- **R**: reiniciar el nivel actual.
+
+Al comenzar cada nivel, el prisionero aparece frente a 3 armas (espada, báculo y arco, cada una con su propio alcance y poder de ataque). Al elegir una, las demás desaparecen y recién ahí los enemigos empiezan a acercarse. Un nivel se completa al derrotar a todos sus enemigos, lo que habilita la puerta de salida al siguiente nivel. Al completar el nivel 3 se gana la partida; si la vida del prisionero llega a 0 en cualquier nivel, se pierde. En ambos casos se vuelve al menú principal.
 
 ## Otros
 
