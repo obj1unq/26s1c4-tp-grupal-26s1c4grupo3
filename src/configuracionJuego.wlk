@@ -1,6 +1,7 @@
 import wollok.game.*
 
 object configuracionJuego {
+
   method iniciar() {
     game.title("escapaDeLaFortaleza")
     game.width(25)

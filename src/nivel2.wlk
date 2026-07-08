@@ -27,7 +27,7 @@ object nivel2 {
   }
 
   method configurarMapa() {
-    configuracionJuego.aplicarFondo("fondoSegundoMapa.png")
+    configuracionJuego.aplicarFondo("fondoPrimerMapa.png")
   }
 
   method configurarPersonaje() {

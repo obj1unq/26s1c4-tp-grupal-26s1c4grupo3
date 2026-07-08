@@ -26,7 +26,7 @@ object nivel3 {
   }
 
   method configurarMapa() {
-    configuracionJuego.aplicarFondo("fondoSegundoMapa.png") // PENDIENTE: crear un fondo propio para el nivel 3
+    configuracionJuego.aplicarFondo("fondoPrimerMapa.png") // PENDIENTE: crear un fondo propio para el nivel 3
   }
 
   method configurarPersonaje() {
