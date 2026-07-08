@@ -6,7 +6,7 @@ import configuracionJuego.*
 object menuInicio {
   method mostrar() {
     game.clear()
-    configuracionJuego.aplicarFondo("menu_juego.jpg") // PENDIENTE: reemplazar por el asset final de Nicole (texto "ENTER: empezar" / "C: controles")
+    configuracionJuego.aplicarFondo("menu_juego.jpg")
     self.configurarTeclado()
   }
 

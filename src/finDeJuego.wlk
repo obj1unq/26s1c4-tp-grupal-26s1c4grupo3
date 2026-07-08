@@ -5,7 +5,7 @@ import configuracionJuego.*
 object finDeJuego {
   method mostrarVictoria() {
     game.clear()
-    configuracionJuego.aplicarFondo("cartel_victoria.png") // PENDIENTE: reemplazar por el asset final de Nicole
+    configuracionJuego.aplicarFondo("cartel_victoria.png")
     self.configurarVuelta()
   }
 
