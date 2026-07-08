@@ -2,6 +2,8 @@ import personajePrincipal.*
 import armas.*
 import enemigos.*
 import direcciones.*
+import gestorArmas.*
+import nivel1.*
 
 describe "Movimiento del personaje respetando los límites del mapa" {
 
@@ -11,7 +13,7 @@ describe "Movimiento del personaje respetando los límites del mapa" {
   }
 
   test "Si el personaje se mueve a una celda transitable, actualiza su posicion y orientacion" {
-    prisionero.position(game.at(10, 10))
+    prisionero.position_(game.at(10, 10))
 
     prisionero.mover(derecha)
 
@@ -20,11 +22,11 @@ describe "Movimiento del personaje respetando los límites del mapa" {
   }
 
   test "Si el personaje se intenta mover hacia una posicion y choca con el limite del mapa, mantiene su posicion y orientacion" {
-    prisionero.position(game.at(3, 10))
+    prisionero.position_(game.at(1, 10))
 
     prisionero.mover(izquierda)
 
-    assert.equals(game.at(3, 10), prisionero.position())
+    assert.equals(game.at(1, 10), prisionero.position())
     assert.equals(arriba, prisionero.orientacionActual())
   }
 
@@ -38,7 +40,7 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Un esqueleto ubicado justo enfrente del personaje con espada equipada recibe 40 de daño y le quedan 60 de vida" {
-    prisionero.position(game.at(6, 5))
+    prisionero.position_(game.at(6, 5))
     prisionero.mover(arriba)
     prisionero.obtenerArma(espada)
     const esqueleto = new EnemigoEsqueleto(position = game.at(6, 7))
@@ -50,7 +52,7 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Los esqueletos ubicados fuera del alcance de la espada, tanto en profundidad como en ancho, no reciben daño" {
-    prisionero.position(game.at(12, 11))
+    prisionero.position_(game.at(12, 11))
     prisionero.mover(arriba)
     prisionero.obtenerArma(espada)
     const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(12, 15))
@@ -65,7 +67,7 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Los 3 esqueletos ubicados en el ancho completo del alcance de la espada reciben daño al mismo tiempo" {
-    prisionero.position(game.at(18, 5))
+    prisionero.position_(game.at(18, 5))
     prisionero.mover(arriba)
     prisionero.obtenerArma(espada)
     const esqueletoIzquierda = new EnemigoEsqueleto(position = game.at(17, 7))
@@ -83,7 +85,7 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Un esqueleto con 40 de vida muere al recibir un ataque de espada" {
-    prisionero.position(game.at(6, 17))
+    prisionero.position_(game.at(6, 17))
     prisionero.mover(arriba)
     prisionero.obtenerArma(espada)
     const esqueletoDebil = new EnemigoEsqueleto(position = game.at(6, 19), vida = 40)
@@ -97,6 +99,79 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
 
 }
 
+describe "Ataque del personaje principal con báculo" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Un esqueleto dentro del alcance del báculo recibe 30 de daño" {
+    prisionero.position_(game.at(10, 10))
+    prisionero.mover(arriba)
+    prisionero.obtenerArma(baculo)
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 13))
+    game.addVisual(esqueleto)
+
+    prisionero.atacar()
+
+    assert.equals(70, esqueleto.vida())
+  }
+
+  test "Un esqueleto fuera del alcance del báculo, tanto en profundidad como en ancho, no recibe daño" {
+    prisionero.position_(game.at(10, 10))
+    prisionero.mover(arriba)
+    prisionero.obtenerArma(baculo)
+    const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(10, 17))
+    const esqueletoFueraDeAncho = new EnemigoEsqueleto(position = game.at(13, 14))
+    game.addVisual(esqueletoMuyLejos)
+    game.addVisual(esqueletoFueraDeAncho)
+
+    prisionero.atacar()
+
+    assert.equals(100, esqueletoMuyLejos.vida())
+    assert.equals(100, esqueletoFueraDeAncho.vida())
+  }
+
+}
+
+describe "Ataque del personaje principal con arco" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Un esqueleto dentro del alcance del arco recibe el ataque y muere" {
+    prisionero.position_(game.at(10, 5))
+    prisionero.mover(arriba)
+    prisionero.obtenerArma(arco)
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 13))
+    game.addVisual(esqueleto)
+
+    prisionero.atacar()
+
+    assert.equals(0, esqueleto.vida())
+    assert.that(!esqueleto.estaVivo())
+  }
+
+  test "Un esqueleto fuera del alcance del arco, tanto en profundidad como en ancho, no recibe daño" {
+    prisionero.position_(game.at(10, 5))
+    prisionero.mover(arriba)
+    prisionero.obtenerArma(arco)
+    const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(10, 16))
+    const esqueletoFueraDeAncho = new EnemigoEsqueleto(position = game.at(12, 13))
+    game.addVisual(esqueletoMuyLejos)
+    game.addVisual(esqueletoFueraDeAncho)
+
+    prisionero.atacar()
+
+    assert.equals(100, esqueletoMuyLejos.vida())
+    assert.equals(100, esqueletoFueraDeAncho.vida())
+  }
+
+}
+
 describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   method initialize() {
@@ -106,7 +181,7 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   test "Si la diferencia en X hacia el objetivo es mayor que en Y, el enemigo se mueve un paso en el eje X" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position(game.at(15, 11))
+    prisionero.position_(game.at(15, 11))
 
     esqueleto.perseguir(prisionero)
 
@@ -115,7 +190,7 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   test "Si la diferencia en Y hacia el objetivo es mayor que en X, el enemigo se mueve un paso en el eje Y" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position(game.at(11, 15))
+    prisionero.position_(game.at(11, 15))
 
     esqueleto.perseguir(prisionero)
 
@@ -123,17 +198,17 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
   }
 
   test "Si la dirección principal está bloqueada por el límite del mapa, el enemigo se mueve en la dirección alternativa" {
-    const esqueleto = new EnemigoEsqueleto(position = game.at(3, 10))
-    prisionero.position(game.at(0, 11))
+    const esqueleto = new EnemigoEsqueleto(position = game.at(1, 10))
+    prisionero.position_(game.at(-2, 11))
 
     esqueleto.perseguir(prisionero)
 
-    assert.equals(game.at(3, 11), esqueleto.position())
+    assert.equals(game.at(1, 11), esqueleto.position())
   }
 
   test "Si el enemigo ya está en la misma posición que el objetivo, no se mueve" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position(game.at(10, 10))
+    prisionero.position_(game.at(10, 10))
 
     esqueleto.perseguir(prisionero)
 
@@ -141,12 +216,99 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
   }
 
   test "Si las dos direcciones candidatas están bloqueadas, el enemigo no se mueve" {
-    const esqueleto = new EnemigoEsqueleto(position = game.at(3, 3))
-    prisionero.position(game.at(0, 0))
+    const esqueleto = new EnemigoEsqueleto(position = game.at(1, 1))
+    prisionero.position_(game.at(-2, -2))
 
     esqueleto.perseguir(prisionero)
 
-    assert.equals(game.at(3, 3), esqueleto.position())
+    assert.equals(game.at(1, 1), esqueleto.position())
+  }
+
+}
+
+describe "Comportamiento de ataque de los enemigos" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Si el objetivo está en una posición adyacente (incluida la diagonal), el enemigo lo ataca en vez de moverse" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
+    prisionero.position_(game.at(11, 11))
+    prisionero.vida(100)
+
+    esqueleto.actuar(prisionero)
+
+    assert.equals(85, prisionero.vida())
+    assert.equals(game.at(10, 10), esqueleto.position())
+  }
+
+  test "Si el objetivo está a 2 o más casilleros de distancia en cualquier eje, el enemigo se mueve hacia él en vez de atacar" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
+    prisionero.position_(game.at(13, 10))
+    prisionero.vida(100)
+
+    esqueleto.actuar(prisionero)
+
+    assert.equals(100, prisionero.vida())
+    assert.equals(game.at(11, 10), esqueleto.position())
+  }
+
+}
+
+describe "Recolección de armas del nivel" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+    gestorArmas.iniciar()
+    game.addVisual(prisionero)
+    prisionero.equiparArma(sinArma)
+  }
+
+  test "Si el personaje está parado sobre un arma del nivel y la elige, queda equipada" {
+    prisionero.position_(game.at(10, 6))
+    gestorArmas.agregarArma(espadaEnMapa, game.at(10, 6))
+
+    gestorArmas.intentarElegirArma()
+
+    assert.that(prisionero.inventario().contains(espada))
+  }
+
+  test "Si el personaje no está parado sobre ningún arma, intentar elegir no hace nada" {
+    prisionero.position_(game.at(0, 0))
+    gestorArmas.agregarArma(espadaEnMapa, game.at(10, 6))
+
+    gestorArmas.intentarElegirArma()
+
+    assert.that(!prisionero.inventario().contains(espada))
+  }
+
+}
+
+describe "Transición de nivel al completarlo y llegar a la puerta" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Si el nivel está completo y el personaje está en la puerta, se detecta ambas condiciones" {
+    nivel1.configurarEnemigos()
+    nivel1.enemigosDelNivel().forEach({ enemigo => enemigo.recibirAtaque(1000) })
+    prisionero.position_(game.at(22, 4))
+
+    assert.that(nivel1.llegoALaPuerta())
+    assert.that(nivel1.nivelCompleto())
+  }
+
+  test "Si el nivel NO está completo, aunque el personaje esté en la puerta, no se detecta como completo" {
+    nivel1.configurarEnemigos()
+    prisionero.position_(game.at(22, 4))
+
+    assert.that(nivel1.llegoALaPuerta())
+    assert.that(!nivel1.nivelCompleto())
   }
 
 }
