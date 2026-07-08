@@ -297,7 +297,7 @@ describe "Transición de nivel al completarlo y llegar a la puerta" {
   test "Si el nivel está completo y el personaje está en la puerta, se detecta ambas condiciones" {
     nivel1.configurarEnemigos()
     nivel1.enemigosDelNivel().forEach({ enemigo => enemigo.recibirAtaque(1000) })
-    prisionero.position_(game.at(22, 4))
+    prisionero.position_(game.at(12, 22))
 
     assert.that(nivel1.llegoALaPuerta())
     assert.that(nivel1.nivelCompleto())
@@ -305,7 +305,7 @@ describe "Transición de nivel al completarlo y llegar a la puerta" {
 
   test "Si el nivel NO está completo, aunque el personaje esté en la puerta, no se detecta como completo" {
     nivel1.configurarEnemigos()
-    prisionero.position_(game.at(22, 4))
+    prisionero.position_(game.at(12, 22))
 
     assert.that(nivel1.llegoALaPuerta())
     assert.that(!nivel1.nivelCompleto())

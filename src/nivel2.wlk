@@ -11,7 +11,7 @@ import nivel3.*
 
 object nivel2 {
   const enemigos = #{}
-  const puerta = game.at(22, 4)
+  const puerta = game.at(12, 22)
   var combateIniciado = false
 
   method iniciar() {
