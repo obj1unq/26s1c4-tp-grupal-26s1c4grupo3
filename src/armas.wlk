@@ -30,7 +30,7 @@ object espada {
   method image() = "espadaNivel1.png"
   //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Espada"
-  method iconoHud() = "hudArmaPlaceholder.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
+  method iconoHud() = "inventario_espada.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
 }
 
@@ -54,7 +54,7 @@ object baculo {
   method image() = "baculoNivel1.png"
   //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Báculo"
-  method iconoHud() = "hudArmaPlaceholder.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
+  method iconoHud() = "inventario_baculo.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
 }
 
@@ -78,7 +78,7 @@ object arco {
   method image() = "arcoNivel1.png"
   //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Arco"
-  method iconoHud() = "hudArmaPlaceholder.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
+  method iconoHud() = "inventario_arco.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
 }
 
@@ -102,6 +102,6 @@ object sinArma {
   method image() = ""
   //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Sin arma"
-  method iconoHud() = "" // estado vacío del HUD, sin arma equipada
+  method iconoHud() = "inventario_vacio.png" 
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
 }
