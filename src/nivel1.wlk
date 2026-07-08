@@ -15,6 +15,7 @@ object nivel1 {
   var combateIniciado = false
 
   method iniciar() {
+    game.clear()
     combateIniciado = false
     self.configurarMapa()
     self.configurarPersonaje()
@@ -114,12 +115,10 @@ object nivel1 {
   }
 
   method transicionarANivel2() {
-    game.clear()
     nivel2.iniciar()
   }
 
   method reiniciar() {
-    game.clear()
     self.iniciar()
   }
 }

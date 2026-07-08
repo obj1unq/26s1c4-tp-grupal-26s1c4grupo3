@@ -14,6 +14,7 @@ object nivel3 {
   var combateIniciado = false
 
   method iniciar() {
+    game.clear()
     combateIniciado = false
     self.configurarMapa()
     self.configurarPersonaje()
@@ -105,7 +106,6 @@ object nivel3 {
   method enemigosDelNivel() = enemigos // getter para tests
 
   method reiniciar() {
-    game.clear()
     self.iniciar()
   }
 }
