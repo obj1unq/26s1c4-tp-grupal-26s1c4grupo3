@@ -5,7 +5,7 @@ import configuracionJuego.*
 object finDeJuego {
   method mostrarVictoria() {
     game.clear()
-    configuracionJuego.aplicarFondo("cartel_victoria.png")
+    configuracionJuego.aplicarFondo("cartel_victoria.jpg")
     self.configurarVuelta()
   }
 
