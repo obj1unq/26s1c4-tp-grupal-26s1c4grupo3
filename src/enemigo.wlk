@@ -1,16 +1,20 @@
+import wollok.game.*
 import mapa.*
 import direcciones.*
 
 class Enemigo {
-    var property position
-    var vida
-    const fuerza
+    var ubicacion = game.at(0, 0)
+    var property vida
+    var property fuerza
 
-    method vida() = vida // getter para verificar daño del PJ principal sobre los enemigos en los tests
+    method position() = ubicacion
+    method position_(nuevaPosicion) {
+        ubicacion = nuevaPosicion
+    }
 
     method image()
 
-    method bloqueaMovimiento() = false
+    method bloqueaMovimiento() = true
 
     method esEnemigo() = true
 

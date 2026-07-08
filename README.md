@@ -25,3 +25,23 @@ Ademas, para escapar con éxito tendrá que vencer a un jefe poderoso el cual re
 - Objetos 1 c4, UNQ
 - Version Wollok: "4.2.3"
 - Una vez terminado, no tenemos problemas en que el repositorio sea público.
+
+## Ejecutar localmente
+
+Recomendado: usar Node.js v18 con `nvm` para evitar incompatibilidades con la CLI de Wollok.
+
+Comandos rápidos:
+
+```bash
+# instalar/usar Node 18 (si tenés nvm)
+nvm install 18
+nvm use 18
+
+# instalar wollok CLI (si no está instalada)
+npm install -g wollok-ts-cli@latest
+
+# ejecutar el juego (abre http://localhost:4200)
+wollok run 'src.main.escapaDeLaFortaleza' --skipValidations --port 4200 -p .
+```
+
+También podés usar `nvm use 18` antes de cada sesión, o simplemente ejecutar `nvm install` si hay un archivo `.nvmrc` (se incluye en el repo).

@@ -1,62 +1,12 @@
-//import personajePrincipal.*
+import wollok.game.*
 import mapa.*
-//import wollok.game.*
-
-class Arma {
-  const alcance
-  const property poder
-
-  method stringImage() 
-
-  //method position()
-  // Creo que no vamos a necesitar un metodo position porque cuando elija x arma va a definir un valor de image
-  // y en base a ese valor de image va a cambiar la imagen del personaje, 
-  // pero no necesariamente el objeto Arma debe existir en el tablero
-
-  //method nombre() 
-  // Creo que en ningun momento vamos a necesitar el nombre del arma.
-
-  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
-  
-}
-
-object espada inherits Arma (alcance = new Alcance(ancho = 3, profundidad = 1), poder = 30) {
-
-  method image() = "espadaSimple.png"
-
-  override method stringImage() = ""
-
-}
-
-
-object baculo inherits Arma (alcance = new Alcance(ancho = 5, profundidad = 10), poder = 20) {
-
-  override method stringImage() = ""
-
-}
-
-
-object arco inherits Arma (alcance = new Alcance(ancho = 11, profundidad = 20), poder = 90) {
-
-  override method stringImage() = ""
-
-}
-
-object sinArma inherits Arma (alcance = new Alcance(ancho = 1, profundidad = 1), poder = 0){
-
-  override method stringImage() = ""
-
-}
-
 
 class Alcance {
-  const ancho       // Siempre debe ser impar para no romper el funcionamiento de radio() y el calculo posterior.
+  const ancho
   const profundidad
 
   method ancho() = ancho
-  
   method profundidad() = profundidad
-
   method radio() = (ancho - 1) / 2
 
   method enemigosEnAlcance(personaje) = self.objetosEnAlcance(personaje).filter { objeto => objeto.esEnemigo() }
@@ -71,10 +21,85 @@ class Alcance {
   method posicionesDelAlcanceDentroDelMapa(personaje) = self.posicionesDelAlcance(personaje).filter { posicion => mapa.estaDentroDelMapa(posicion) }
 
   method objetosEnAlcance(personaje) = self.posicionesDelAlcanceDentroDelMapa(personaje).map { posicion => game.getObjectsIn(posicion) }.flatten()
-
 }
 
+object espada {
+  const alcance = new Alcance(ancho = 3, profundidad = 1)
+  const property poder = 30
 
+  method image() = "espadaNivel1.png"
+  method stringImage() = ""
+  method nombre() = "Espada"
+  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
+}
 
+object espadaEnMapa {
+  var ubicacion = game.at(10, 6)
+
+  method position() = ubicacion
+  method position_(nuevaPosicion) {
+    ubicacion = nuevaPosicion
+  }
+
+  method image() = "espadaNivel1.png"
+  method arma() = espada
+  method esEnemigo() = false
+}
+
+object baculo {
+  const alcance = new Alcance(ancho = 5, profundidad = 2)
+  const property poder = 20
+
+  method image() = "baculoNivel1.png"
+  method stringImage() = ""
+  method nombre() = "Báculo"
+  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
+}
+
+object baculoEnMapa {
+  var ubicacion = game.at(12, 6)
+
+  method position() = ubicacion
+  method position_(nuevaPosicion) {
+    ubicacion = nuevaPosicion
+  }
+
+  method image() = "baculoNivel1.png"
+  method arma() = baculo
+  method esEnemigo() = false
+}
+
+object arco {
+  const alcance = new Alcance(ancho = 7, profundidad = 3)
+  const property poder = 90
+
+  method image() = "arcoNivel1.png"
+  method stringImage() = ""
+  method nombre() = "Arco"
+  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
+}
+
+object arcoEnMapa {
+  var ubicacion = game.at(14, 6)
+
+  method position() = ubicacion
+  method position_(nuevaPosicion) {
+    ubicacion = nuevaPosicion
+  }
+
+  method image() = "arcoNivel1.png"
+  method arma() = arco
+  method esEnemigo() = false
+}
+
+object sinArma {
+  const alcance = new Alcance(ancho = 1, profundidad = 1)
+  const property poder = 0
+
+  method image() = ""
+  method stringImage() = ""
+  method nombre() = "Sin arma"
+  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
+}
 
 

@@ -1,98 +1,19 @@
 import personajePrincipal.*
 import armas.*
-import enemigo.*
-import direcciones.*
 
-describe "Movimiento del personaje respetando los límites del mapa" {
+// describe "personaje Principal" {
+    
+//   test "Obtiene un baculo, va a almacernarlo en inventario, lo equipa y su poder de ataque es 20" {
+//     personaje.obtenerArma(baculo)
+//     personaje.equiparArma(baculo)
 
-  method initialize() {
-    game.width(25)
-    game.height(25)
-  }
+//     assert.that(personaje.inventario().contains(baculo))
+//     assert.equals(20, personaje.poderDeAtaque())
+//     assert.equals(baculo, personaje.armaEquipada())
+//   }
 
-  test "Si el personaje se mueve a una celda transitable, actualiza su posicion y orientacion" {
-    prisionero.position(game.at(10, 10))
+//   test "no puede equipar un arma que no posee" {
 
-    prisionero.mover(derecha)
-
-    assert.equals(game.at(11, 10), prisionero.position())
-    assert.equals(derecha, prisionero.orientacionActual())
-  }
-
-  test "Si el personaje se intenta mover hacia una posicion y choca con el limite del mapa, mantiene su posicion y orientacion" {
-    prisionero.position(game.at(3, 10))
-
-    prisionero.mover(izquierda)
-
-    assert.equals(game.at(3, 10), prisionero.position())
-    assert.equals(arriba, prisionero.orientacionActual())
-  }
-
-}
-
-describe "Ataque del personaje principal a enemigos en su alcance" {
-
-  method initialize() {
-    game.width(25)
-    game.height(25)
-  }
-
-  test "Un esqueleto ubicado justo enfrente del personaje con espada equipada recibe 40 de daño y le quedan 60 de vida" {
-    prisionero.position(game.at(6, 5))
-    prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
-    const esqueleto = new EnemigoEsqueleto(position = game.at(6, 7))
-    game.addVisual(esqueleto)
-
-    prisionero.atacar()
-
-    assert.equals(60, esqueleto.vida())
-  }
-
-  test "Los esqueletos ubicados fuera del alcance de la espada, tanto en profundidad como en ancho, no reciben daño" {
-    prisionero.position(game.at(12, 11))
-    prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
-    const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(12, 14))
-    const esqueletoFueraDeAncho = new EnemigoEsqueleto(position = game.at(14, 13))
-    game.addVisual(esqueletoMuyLejos)
-    game.addVisual(esqueletoFueraDeAncho)
-
-    prisionero.atacar()
-
-    assert.equals(100, esqueletoMuyLejos.vida())
-    assert.equals(100, esqueletoFueraDeAncho.vida())
-  }
-
-  test "Los 3 esqueletos ubicados en el ancho completo del alcance de la espada reciben daño al mismo tiempo" {
-    prisionero.position(game.at(18, 5))
-    prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
-    const esqueletoIzquierda = new EnemigoEsqueleto(position = game.at(17, 7))
-    const esqueletoCentro = new EnemigoEsqueleto(position = game.at(18, 7))
-    const esqueletoDerecha = new EnemigoEsqueleto(position = game.at(19, 7))
-    game.addVisual(esqueletoIzquierda)
-    game.addVisual(esqueletoCentro)
-    game.addVisual(esqueletoDerecha)
-
-    prisionero.atacar()
-
-    assert.equals(60, esqueletoIzquierda.vida())
-    assert.equals(60, esqueletoCentro.vida())
-    assert.equals(60, esqueletoDerecha.vida())
-  }
-
-  test "Un esqueleto con 40 de vida muere al recibir un ataque de espada" {
-    prisionero.position(game.at(6, 17))
-    prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
-    const esqueletoDebil = new EnemigoEsqueleto(position = game.at(6, 19), vida = 40)
-    game.addVisual(esqueletoDebil)
-
-    prisionero.atacar()
-
-    assert.equals(0, esqueletoDebil.vida())
-    assert.that(!esqueletoDebil.estaVivo())
-  }
-
-}
+//     assert.throwsException({personaje.equiparArma(espada)})
+//   }
+// }

@@ -1,19 +1,33 @@
+import wollok.game.*
 import armas.*
 import mapa.*
 import direcciones.*
 
 object prisionero {
-  var property position = game.at(12, 3)
+  var ubicacion = game.at(12, 3)
   var vida = 100
   var fuerzaBase = 10
   var arma = sinArma
   var orientacionActual = arriba
+  const inventario = #{ }
+  var property armaEquipada = sinArma
   //var estado = vivo
   //const property inventario = #{}
 
   method image() = "personaje-" + orientacionActual.stringImage() + arma.stringImage() + ".png"
 
+  method position() = ubicacion
+  method position_(nuevaPosicion) {
+    ubicacion = nuevaPosicion
+  }
+
   method orientacionActual() = orientacionActual
+
+  method orientacionActual(nuevaOrientacion) {
+    orientacionActual = nuevaOrientacion
+  }
+
+  method inventario() = inventario
 
   method esEnemigo() = false
 
@@ -24,17 +38,25 @@ object prisionero {
   }
 
 	method mover(direccion) {
-		const posicionNueva = direccion.siguiente(position)
+		const posicionNueva = direccion.siguiente(self.position())
 	
     if (self.puedeMoverseA(posicionNueva)) {
-			position = posicionNueva
-      orientacionActual = direccion
+			self.position_(posicionNueva)
+      self.orientacionActual(direccion)
 		}
 	}
 
   method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion) //&& estado.estaVivo()
 
-  method obtenerArma(unArma) { arma = unArma }
+  method obtenerArma(unArma) {
+    inventario.add(unArma)
+    self.equiparArma(unArma)
+  }
+
+  method equiparArma(unaArma) {
+    arma = unaArma
+    armaEquipada = unaArma
+  }
 
 // Por ahora solo tendra un arma, que es la inicial.
 
@@ -57,6 +79,7 @@ object prisionero {
     const enemigos = arma.enemigosEnAlcance(self)
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
   }
+
 
 }
 

@@ -2,10 +2,10 @@
 object mapa {
 
   method estaBloqueada(posicion) =
-  posicion.x() <= 2 ||
-  posicion.x() >= 22 ||
-  posicion.y() <= 2 ||
-  posicion.y() >= 22
+  posicion.x() <= 0 ||
+  posicion.x() >= 24 ||
+  posicion.y() <= 0 ||
+  posicion.y() >= 24
 
   method estaDentroDelMapa(posicion) =
     posicion.x() >= 0 && posicion.x() < game.width() &&
