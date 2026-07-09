@@ -31,9 +31,9 @@ object nivel2 {
   }
 
   method configurarPersonaje() {
-    prisionero.reiniciarEstado()
+    prisionero.prepararParaNivel()
     prisionero.ubicarEn(game.at(12, 4), arriba)
-  }
+}
 
   method configurarEnemigos() {
     enemigos.clear()
@@ -114,6 +114,7 @@ object nivel2 {
   }
 
   method reiniciar() {
+    prisionero.reiniciarVida()
     self.iniciar()
-  }
+}
 }

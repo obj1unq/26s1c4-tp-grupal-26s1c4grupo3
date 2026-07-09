@@ -4,6 +4,9 @@ import enemigos.*
 import direcciones.*
 import gestorArmas.*
 import nivel1.*
+import nivel2.*
+import configuracionJuego.*
+
 
 describe "Movimiento del personaje respetando los límites del mapa" {
 
@@ -313,20 +316,37 @@ describe "Transición de nivel al completarlo y llegar a la puerta" {
 
 }
 
-describe "Reinicio del personaje al configurar un nivel" {
+describe "Configuracion del personaje al entrar a un nivel" {
 
-  test "Al configurar el nivel, el personaje recupera vida, queda sin arma y vacia su inventario" {
+  test "Al configurar el nivel, el personaje conserva su vida, queda sin arma y vacia su inventario" {
     prisionero.vida(35)
     prisionero.obtenerArma(espada)
     prisionero.ubicarEn(game.at(20, 20), derecha)
 
     nivel1.configurarPersonaje()
 
-    assert.equals(100, prisionero.vida())
+    assert.equals(35, prisionero.vida())
     assert.equals(game.at(12, 4), prisionero.position())
     assert.equals(arriba, prisionero.orientacionActual())
     assert.equals(10, prisionero.poderDeAtaque())
     assert.that(!prisionero.inventario().contains(espada))
+  }
+
+}
+describe "Transicion de nivel conservando la vida" {
+
+  test "Al pasar de nivel2 a nivel3, el personaje conserva la vida que viene arrastrando" {
+    configuracionJuego.iniciar()
+    nivel2.configurarEnemigos()
+    nivel2.enemigosDelNivel().forEach({ enemigo => enemigo.recibirAtaque(1000) })
+    prisionero.vida(35)
+    prisionero.position_(game.at(12, 21))
+
+    nivel2.moverYTransicionar(arriba)
+
+    assert.equals(35, prisionero.vida())
+    assert.equals(game.at(12, 4), prisionero.position())
+    assert.equals(arriba, prisionero.orientacionActual())
   }
 
 }

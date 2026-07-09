@@ -16,10 +16,12 @@ object menuInicio {
   }
 
   method empezar() {
-    nivel1.iniciar()
-  }
+    nivel1.iniciarNuevaPartida()
+}
 
   method verControles() {
     pantallaControles.mostrar()
   }
+
+  
 }

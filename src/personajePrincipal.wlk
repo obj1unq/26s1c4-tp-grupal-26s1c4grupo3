@@ -67,10 +67,13 @@ object prisionero {
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
   }
 
-  method reiniciarEstado() {
-    vida = 100
+  method prepararParaNivel() {
     inventario.clear()
     self.equiparArma(sinArma)
+  }
+
+  method reiniciarVida() {
+    vida = 100
   }
 
   method ubicarEn(unaPosicion, unaOrientacion) {

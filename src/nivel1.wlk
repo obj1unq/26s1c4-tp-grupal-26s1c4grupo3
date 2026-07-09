@@ -30,8 +30,13 @@ object nivel1 {
     configuracionJuego.aplicarFondo("fondoPrimerMapa.png")
   }
 
+  method iniciarNuevaPartida() {
+    prisionero.reiniciarVida()
+    self.iniciar()
+  }
+
   method configurarPersonaje() {
-    prisionero.reiniciarEstado()
+    prisionero.prepararParaNivel()
     prisionero.ubicarEn(game.at(12, 4), arriba)
   }
 
@@ -117,6 +122,7 @@ object nivel1 {
   }
 
   method reiniciar() {
+    prisionero.reiniciarVida()
     self.iniciar()
   }
 }
