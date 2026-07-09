@@ -312,3 +312,21 @@ describe "Transición de nivel al completarlo y llegar a la puerta" {
   }
 
 }
+
+describe "Reinicio del personaje al configurar un nivel" {
+
+  test "Al configurar el nivel, el personaje recupera vida, queda sin arma y vacia su inventario" {
+    prisionero.vida(35)
+    prisionero.obtenerArma(espada)
+    prisionero.ubicarEn(game.at(20, 20), derecha)
+
+    nivel1.configurarPersonaje()
+
+    assert.equals(100, prisionero.vida())
+    assert.equals(game.at(12, 4), prisionero.position())
+    assert.equals(arriba, prisionero.orientacionActual())
+    assert.equals(10, prisionero.poderDeAtaque())
+    assert.that(!prisionero.inventario().contains(espada))
+  }
+
+}

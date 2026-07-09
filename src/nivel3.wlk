@@ -30,10 +30,8 @@ object nivel3 {
   }
 
   method configurarPersonaje() {
-    prisionero.position_(game.at(12, 4))
-    prisionero.orientacionActual(arriba)
-    prisionero.inventario().clear()
-    prisionero.armaEquipada(sinArma)
+    prisionero.reiniciarEstado()
+    prisionero.ubicarEn(game.at(12, 4), arriba)
   }
 
   method configurarEnemigos() {

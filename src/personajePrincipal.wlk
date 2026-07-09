@@ -12,7 +12,6 @@ object prisionero {
   var arma = sinArma
   var orientacionActual = arriba
   const inventario = #{ }
-  var property armaEquipada = sinArma
 
   method image() = "personaje-" + orientacionActual.stringImage() + ".png"
                                                                   // + arma.stringImage()
@@ -60,7 +59,6 @@ object prisionero {
 
   method equiparArma(unaArma) {
     arma = unaArma
-    armaEquipada = unaArma
     hudArma.actualizar(unaArma)
   }
 
@@ -69,4 +67,14 @@ object prisionero {
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
   }
 
+  method reiniciarEstado() {
+    vida = 100
+    inventario.clear()
+    self.equiparArma(sinArma)
+  }
+
+  method ubicarEn(unaPosicion, unaOrientacion) {
+    self.position_(unaPosicion)
+    self.orientacionActual(unaOrientacion)
+  }
 }
