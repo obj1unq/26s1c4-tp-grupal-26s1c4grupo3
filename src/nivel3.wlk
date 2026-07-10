@@ -8,6 +8,7 @@ import gestorArmas.*
 import configuracionJuego.*
 import hudArma.*
 import finDeJuego.*
+import fabricaEnemigos.*
 
 object nivel3 {
   const enemigos = #{}
@@ -37,19 +38,18 @@ object nivel3 {
   method configurarEnemigos() {
     enemigos.clear()
 
-    enemigos.add(new EnemigoEsqueleto(position = game.at(5, 18), vida = 90, fuerza = 25))
-    enemigos.add(new EnemigoEsqueleto(position = game.at(19, 18), vida = 90, fuerza = 25))
-    enemigos.add(new EnemigoEsqueleto(position = game.at(9, 20), vida = 90, fuerza = 25))
-    enemigos.add(new EnemigoEsqueleto(position = game.at(15, 20), vida = 90, fuerza = 25))
-    enemigos.add(new EnemigoEsqueleto(position = game.at(12, 20), vida = 90, fuerza = 25))
+    const enemigosDelNivel = fabricaEnemigos.crearEsqueletos(self.posicionesEnemigos(), self.vidaEnemigos(), self.fuerzaEnemigos())
+    enemigosDelNivel.forEach({ enemigo => enemigos.add(enemigo) })
   }
 
-  method configurarArmas() {
-    gestorArmas.iniciar()
+  method posicionesEnemigos() = [game.at(5, 18), game.at(19, 18), game.at(9, 20), game.at(15, 20), game.at(12, 20)]
 
-    gestorArmas.agregarArma(espadaEnMapa, game.at(10, 6))
-    gestorArmas.agregarArma(baculoEnMapa, game.at(12, 6))
-    gestorArmas.agregarArma(arcoEnMapa, game.at(14, 6))
+  method vidaEnemigos() = 90
+
+  method fuerzaEnemigos() = 25
+
+  method configurarArmas() {
+    gestorArmas.configurarArmasIniciales()
   }
 
   method agregarVisuales() {
@@ -106,5 +106,5 @@ object nivel3 {
   method reiniciar() {
     prisionero.reiniciarVida()
     self.iniciar()
-}
+  }
 }

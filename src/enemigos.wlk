@@ -74,3 +74,7 @@ class EnemigoEsqueleto inherits Enemigo(vida = 100, fuerza = 15){
 
     override method image() = "enemigoPrimerMapa.png"
 }
+
+class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
+    override method image() = "enemigoSegundoMapa.png"
+}
