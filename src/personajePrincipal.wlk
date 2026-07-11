@@ -14,8 +14,7 @@ object prisionero {
   const inventario = #{ }
 
   method image() = "personaje-" + orientacionActual.stringImage() + ".png"
-                                                                  // + arma.stringImage()
-                                                                  // No implementado, reemplazado por icono fijo de arma por tiempo.
+
   method position() = ubicacion
   method position_(nuevaPosicion) {
     ubicacion = nuevaPosicion

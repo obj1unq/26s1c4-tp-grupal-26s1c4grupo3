@@ -1,9 +1,6 @@
 import wollok.game.*
 import personajePrincipal.*
 import direcciones.*
-import armas.*
-import enemigos.*
-import mapa.*
 import gestorArmas.*
 import configuracionJuego.*
 import hudArma.*

@@ -1,7 +1,7 @@
 import wollok.game.*
 
 object hudArma {
-  var property iconoActual = ""
+  var iconoActual = ""
 
   method position() = game.at(20, 0)
   method image() = iconoActual

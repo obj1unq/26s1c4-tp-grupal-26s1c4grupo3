@@ -5,8 +5,6 @@ class Alcance {
   const ancho
   const profundidad
 
-  method ancho() = ancho
-  method profundidad() = profundidad
   method radio() = (ancho - 1) / 2
 
   method enemigosEnAlcance(personaje) = self.objetosEnAlcance(personaje).filter { objeto => objeto.esEnemigo() }
@@ -28,9 +26,8 @@ object espada {
   const property poder = 30
 
   method image() = "espadaNivel1.png"
-  //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Espada"
-  method iconoHud() = "inventario_espada.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
+  method iconoHud() = "inventario_espada.png"
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
 }
 
@@ -52,9 +49,8 @@ object baculo {
   const property poder = 20
 
   method image() = "baculoNivel1.png"
-  //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Báculo"
-  method iconoHud() = "inventario_baculo.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
+  method iconoHud() = "inventario_baculo.png"
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
 }
 
@@ -76,9 +72,8 @@ object arco {
   const property poder = 90
 
   method image() = "arcoNivel1.png"
-  //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Arco"
-  method iconoHud() = "inventario_arco.png" // PENDIENTE: reemplazar por el ícono de HUD final (Nicole)
+  method iconoHud() = "inventario_arco.png"
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
 }
 
@@ -100,7 +95,6 @@ object sinArma {
   const property poder = 0
 
   method image() = ""
-  //method stringImage() = "" No utilizado aun, explicado en Prisionero.
   method nombre() = "Sin arma"
   method iconoHud() = "inventario_vacio.png" 
   method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)

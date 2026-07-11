@@ -6,8 +6,6 @@ object gestorArmas {
   const armasDelNivel = []
   var armaYaElegida = false
 
-  method armasDelNivel() = armasDelNivel
-
   method armaYaElegida() = armaYaElegida
 
   method iniciar() {

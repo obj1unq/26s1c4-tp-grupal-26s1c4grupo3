@@ -17,7 +17,6 @@ class Enemigo {
 
     method recibirAtaque(daño) {
         vida = (vida - daño).max(0)
-        //console.println("Recibí " + daño + " de daño, me quedan " + vida + " de vida") PARA VERIFICAR EN TERMINAL
         if (!self.estaVivo()) {
             self.morir()
         }

@@ -16,7 +16,7 @@ object configuracionJuego {
 }
 
 object fondo {
-  var property imagenActual = ""
+  var imagenActual = ""
 
   method position() = game.at(0, 0)
   method image() = imagenActual
