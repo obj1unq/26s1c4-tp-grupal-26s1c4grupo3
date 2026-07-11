@@ -1,25 +1,12 @@
 import enemigos.*
 object fabricaEnemigos {
 
-    method crearEsqueleto(posicion, vida, fuerza) =
-        new EnemigoEsqueleto(position = posicion, vida = vida, fuerza = fuerza)
+    method crearEsqueleto(posicion) = new EnemigoEsqueleto(position = posicion)
 
-    method crearBestia(posicion, vida, fuerza) =
-        new EnemigoBestia(position = posicion, vida = vida, fuerza = fuerza)
+    method crearBestia(posicion) = new EnemigoBestia(position = posicion)
 
-    method crearEsqueletos(posiciones, vida, fuerza) {
-        const enemigos = []
+    method crearEsqueletos(posiciones) = posiciones.map { posicion => self.crearEsqueleto(posicion) }
 
-        posiciones.forEach({ posicion => enemigos.add(self.crearEsqueleto(posicion, vida, fuerza)) })
+    method crearBestias(posiciones) = posiciones.map { posicion => self.crearBestia(posicion) }
 
-        return enemigos
-    }
-
-    method crearBestias(posiciones, vida, fuerza) {
-        const enemigos = []
-
-        posiciones.forEach({ posicion => enemigos.add(self.crearBestia(posicion, vida, fuerza)) })
-
-        return enemigos
-    }
 }
