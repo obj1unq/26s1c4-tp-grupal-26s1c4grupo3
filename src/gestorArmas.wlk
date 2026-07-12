@@ -4,14 +4,8 @@ import armas.*
 
 object gestorArmas {
   const armasDelNivel = []
-  var armaYaElegida = false
 
-  method armaYaElegida() = armaYaElegida
-
-  method iniciar() {
-    armasDelNivel.clear()
-    armaYaElegida = false
-  }
+  method armaYaElegida() = armasDelNivel.isEmpty()
 
   method agregarArma(arma, posicion) {
     arma.position_(posicion)
@@ -19,49 +13,37 @@ object gestorArmas {
   }
 
   method agregarVisuales() {
-    armasDelNivel.forEach({ arma =>
-      game.addVisual(arma)
-    })
+    armasDelNivel.forEach({ arma => game.addVisual(arma) })
   }
 
   method intentarElegirArma() {
-    if (!armaYaElegida && self.hayArmaEnLaPosicionDelPersonaje()) {
+    if (self.hayArmaEnLaPosicionDelPersonaje()) {
       self.elegirArma(self.armaEnLaPosicionDelPersonaje())
     }
   }
 
   method hayArmaEnLaPosicionDelPersonaje() =
-    armasDelNivel.any({ armaEnMapa =>
-      armaEnMapa.position() == prisionero.position()
-    })
+    armasDelNivel.any({ armaEnMapa => armaEnMapa.position() == prisionero.position() })
 
   method armaEnLaPosicionDelPersonaje() =
-    armasDelNivel.find({ armaEnMapa =>
-      armaEnMapa.position() == prisionero.position()
-    })
+    armasDelNivel.find({ armaEnMapa => armaEnMapa.position() == prisionero.position() })
 
   method elegirArma(armaEnMapa) {
     const armaReal = armaEnMapa.arma()
-
-    prisionero.obtenerArma(armaReal)
-
-    armaYaElegida = true
+    prisionero.equiparArma(armaReal)
     self.quitarArmasDelNivel()
   }
 
   method quitarArmasDelNivel() {
-    armasDelNivel.forEach({ armaEnMapa =>
-      game.removeVisual(armaEnMapa)
-    })
-
+    armasDelNivel.forEach({ armaEnMapa => game.removeVisual(armaEnMapa) })
     armasDelNivel.clear()
   }
 
   method configurarArmasIniciales() {
-    self.iniciar()
-
+    armasDelNivel.clear()
     self.agregarArma(espadaEnMapa, game.at(10, 6))
     self.agregarArma(baculoEnMapa, game.at(12, 6))
     self.agregarArma(arcoEnMapa, game.at(14, 6))
   }
 }
+
