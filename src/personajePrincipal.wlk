@@ -6,27 +6,14 @@ import hudArma.*
 import finDeJuego.*
 
 object prisionero {
-  var ubicacion = game.at(12, 3)
+  var property position = game.at(12, 3)
+  var property orientacionActual = arriba
   var property vida = 100
-  const fuerzaBase = 10
+  var vidaMaxima = 100
   var arma = sinArma
-  var orientacionActual = arriba
-  const inventario = #{ }
+  const fuerzaBase = 10
 
   method image() = "personaje-" + orientacionActual.stringImage() + ".png"
-
-  method position() = ubicacion
-  method position_(nuevaPosicion) {
-    ubicacion = nuevaPosicion
-  }
-
-  method orientacionActual() = orientacionActual
-
-  method orientacionActual(nuevaOrientacion) {
-    orientacionActual = nuevaOrientacion
-  }
-
-  method inventario() = inventario
 
   method esEnemigo() = false
 
@@ -42,23 +29,21 @@ object prisionero {
   }
 
   method mover(direccion) {
-    const posicionNueva = direccion.siguiente(self.position())
-    if (self.puedeMoverseA(posicionNueva)) {
-      self.position_(posicionNueva)
-      self.orientacionActual(direccion)
-    }
+    const posicionNueva = direccion.siguiente(position)
+
+    if (self.puedeMoverseA(posicionNueva)) self.ubicarEn(posicionNueva, direccion) 
+  }
+
+  method ubicarEn(unaPosicion, unaOrientacion) {
+    position = unaPosicion
+    orientacionActual = unaOrientacion
   }
 
   method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion)
 
-  method obtenerArma(unArma) {
-    inventario.add(unArma)
-    self.equiparArma(unArma)
-  }
-
-  method equiparArma(unaArma) {
-    arma = unaArma
-    hudArma.actualizar(unaArma)
+  method equiparArma(unArma) {
+    arma = unArma
+    hudArma.actualizar(unArma)
   }
 
   method atacar() {
@@ -66,17 +51,19 @@ object prisionero {
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
   }
 
-  method prepararParaNivel() {
-    inventario.clear()
+  method curar(cantidad) {
+    vida = (vida + cantidad).min(vidaMaxima)
+  }
+
+  method aumentarVidaMaxima(cantidad) {
+    vidaMaxima += cantidad
+    vida += cantidad
+  }
+
+  method prepararParaNuevaPartida() {
     self.equiparArma(sinArma)
+    vidaMaxima = 100
+    vida = vidaMaxima
   }
 
-  method reiniciarVida() {
-    vida = 100
-  }
-
-  method ubicarEn(unaPosicion, unaOrientacion) {
-    self.position_(unaPosicion)
-    self.orientacionActual(unaOrientacion)
-  }
 }
