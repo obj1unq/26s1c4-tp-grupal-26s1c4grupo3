@@ -5,7 +5,7 @@ import direcciones.*
 class Enemigo {
     var property position
     var vida
-    const fuerza
+    var fuerza
 
     method vida() = vida // getter para verificar daño del PJ principal sobre los enemigos en los tests
 
@@ -14,6 +14,11 @@ class Enemigo {
     method esEnemigo() = true
 
     method estaVivo() = vida > 0
+
+    method escalarPorDificultad(multiplicador) {
+        vida = (vida * multiplicador).round()
+        fuerza = (fuerza * multiplicador).round()
+    }
 
     method recibirAtaque(daño) {
         vida = (vida - daño).max(0)
@@ -71,9 +76,9 @@ class Enemigo {
 
 class EnemigoEsqueleto inherits Enemigo(vida = 100, fuerza = 15){
 
-    override method image() = "enemigoPrimerMapa.png"
+    override method image() = "enemigoEsqueleto.png"
 }
 
 class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
-    override method image() = "enemigoSegundoMapa.png"
+    override method image() = "enemigoBestia.png"
 }

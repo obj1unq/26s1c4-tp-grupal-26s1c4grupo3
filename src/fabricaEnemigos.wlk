@@ -1,12 +1,13 @@
 import enemigos.*
-object fabricaEnemigos {
 
-    method crearEsqueleto(posicion) = new EnemigoEsqueleto(position = posicion)
+class GeneradorDeEnemigos {
+    method crear(posiciones)
+}
 
-    method crearBestia(posicion) = new EnemigoBestia(position = posicion)
+object generadorDeEsqueletos inherits GeneradorDeEnemigos {
+    override method crear(posiciones) = posiciones.map { posicion => new EnemigoEsqueleto(position = posicion) }
+}
 
-    method crearEsqueletos(posiciones) = posiciones.map { posicion => self.crearEsqueleto(posicion) }
-
-    method crearBestias(posiciones) = posiciones.map { posicion => self.crearBestia(posicion) }
-
+object generadorDeBestias inherits GeneradorDeEnemigos {
+    override method crear(posiciones) = posiciones.map { posicion => new EnemigoBestia(position = posicion) }
 }
