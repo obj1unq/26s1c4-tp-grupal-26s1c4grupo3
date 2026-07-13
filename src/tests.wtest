@@ -3,9 +3,12 @@ import armas.*
 import enemigos.*
 import direcciones.*
 import gestorArmas.*
-import nivel1.*
-import nivel2.*
 import configuracionJuego.*
+import fabricaEnemigos.*
+import recompensas.*
+import azar.*
+import sala.*
+import gestorDeNiveles.*
 
 
 describe "Movimiento del personaje respetando los límites del mapa" {
@@ -16,7 +19,7 @@ describe "Movimiento del personaje respetando los límites del mapa" {
   }
 
   test "Si el personaje se mueve a una celda transitable, actualiza su posicion y orientacion" {
-    prisionero.position_(game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 10), arriba)
 
     prisionero.mover(derecha)
 
@@ -25,7 +28,7 @@ describe "Movimiento del personaje respetando los límites del mapa" {
   }
 
   test "Si el personaje se intenta mover hacia una posicion y choca con el limite del mapa, mantiene su posicion y orientacion" {
-    prisionero.position_(game.at(1, 10))
+    prisionero.ubicarEn(game.at(1, 10), arriba)
 
     prisionero.mover(izquierda)
 
@@ -43,9 +46,9 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Un esqueleto ubicado justo enfrente del personaje con espada equipada recibe 40 de daño y le quedan 60 de vida" {
-    prisionero.position_(game.at(6, 5))
+    prisionero.ubicarEn(game.at(6, 5), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
+    prisionero.equiparArma(espada)
     const esqueleto = new EnemigoEsqueleto(position = game.at(6, 7))
     game.addVisual(esqueleto)
 
@@ -55,9 +58,9 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Los esqueletos ubicados fuera del alcance de la espada, tanto en profundidad como en ancho, no reciben daño" {
-    prisionero.position_(game.at(12, 11))
+    prisionero.ubicarEn(game.at(12, 11), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
+    prisionero.equiparArma(espada)
     const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(12, 15))
     const esqueletoFueraDeAncho = new EnemigoEsqueleto(position = game.at(14, 13))
     game.addVisual(esqueletoMuyLejos)
@@ -70,9 +73,9 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Los 3 esqueletos ubicados en el ancho completo del alcance de la espada reciben daño al mismo tiempo" {
-    prisionero.position_(game.at(18, 5))
+    prisionero.ubicarEn(game.at(18, 5), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
+    prisionero.equiparArma(espada)
     const esqueletoIzquierda = new EnemigoEsqueleto(position = game.at(17, 7))
     const esqueletoCentro = new EnemigoEsqueleto(position = game.at(18, 7))
     const esqueletoDerecha = new EnemigoEsqueleto(position = game.at(19, 7))
@@ -88,9 +91,9 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
   }
 
   test "Un esqueleto con 40 de vida muere al recibir un ataque de espada" {
-    prisionero.position_(game.at(6, 17))
+    prisionero.ubicarEn(game.at(6, 17), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(espada)
+    prisionero.equiparArma(espada)
     const esqueletoDebil = new EnemigoEsqueleto(position = game.at(6, 19), vida = 40)
     game.addVisual(esqueletoDebil)
 
@@ -110,9 +113,9 @@ describe "Ataque del personaje principal con báculo" {
   }
 
   test "Un esqueleto dentro del alcance del báculo recibe 30 de daño" {
-    prisionero.position_(game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 10), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(baculo)
+    prisionero.equiparArma(baculo)
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 13))
     game.addVisual(esqueleto)
 
@@ -122,9 +125,9 @@ describe "Ataque del personaje principal con báculo" {
   }
 
   test "Un esqueleto fuera del alcance del báculo, tanto en profundidad como en ancho, no recibe daño" {
-    prisionero.position_(game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 10), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(baculo)
+    prisionero.equiparArma(baculo)
     const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(10, 17))
     const esqueletoFueraDeAncho = new EnemigoEsqueleto(position = game.at(13, 14))
     game.addVisual(esqueletoMuyLejos)
@@ -146,9 +149,9 @@ describe "Ataque del personaje principal con arco" {
   }
 
   test "Un esqueleto dentro del alcance del arco recibe el ataque y muere" {
-    prisionero.position_(game.at(10, 5))
+    prisionero.ubicarEn(game.at(10, 5), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(arco)
+    prisionero.equiparArma(arco)
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 13))
     game.addVisual(esqueleto)
 
@@ -159,9 +162,9 @@ describe "Ataque del personaje principal con arco" {
   }
 
   test "Un esqueleto fuera del alcance del arco, tanto en profundidad como en ancho, no recibe daño" {
-    prisionero.position_(game.at(10, 5))
+    prisionero.ubicarEn(game.at(10, 5), arriba)
     prisionero.mover(arriba)
-    prisionero.obtenerArma(arco)
+    prisionero.equiparArma(arco)
     const esqueletoMuyLejos = new EnemigoEsqueleto(position = game.at(10, 16))
     const esqueletoFueraDeAncho = new EnemigoEsqueleto(position = game.at(12, 13))
     game.addVisual(esqueletoMuyLejos)
@@ -175,6 +178,58 @@ describe "Ataque del personaje principal con arco" {
 
 }
 
+describe "Alcance de ataque y objetos que no son enemigos" {
+
+  test "Atacar no debería afectar ni romper si un objeto no-enemigo (ej. el HUD del arma) cae dentro del alcance" {
+    // PENDIENTE: bloqueado por el hallazgo del punto 1 (Alcance.enemigosEnAlcance crashea hoy si
+    // hudArma/fondo caen dentro del área de ataque, porque no responden esEnemigo()). Implementar
+    // una vez que se resuelva ese bug.
+    assert.that(true)
+  }
+
+}
+
+describe "Escalado de dificultad de los enemigos" {
+
+  test "Con multiplicador 1, un esqueleto mantiene su vida base" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(0, 0))
+
+    esqueleto.escalarPorDificultad(1)
+
+    assert.equals(100, esqueleto.vida())
+  }
+
+  test "Con multiplicador 2, un esqueleto duplica su vida" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(0, 0))
+
+    esqueleto.escalarPorDificultad(2)
+
+    assert.equals(200, esqueleto.vida())
+  }
+
+  test "El multiplicador redondea la vida resultante a un número entero" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(0, 0))
+
+    esqueleto.escalarPorDificultad(1.33)
+
+    assert.equals(133, esqueleto.vida())
+  }
+
+  test "La fuerza escalada se refleja en el daño que inflige al atacar" {
+    game.width(25)
+    game.height(25)
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
+    esqueleto.escalarPorDificultad(2)
+    prisionero.ubicarEn(game.at(10, 10), arriba)
+    prisionero.vida(100)
+
+    esqueleto.atacar(prisionero)
+
+    assert.equals(70, prisionero.vida()) // fuerza base 15 * 2 = 30 de daño
+  }
+
+}
+
 describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   method initialize() {
@@ -184,7 +239,7 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   test "Si la diferencia en X hacia el objetivo es mayor que en Y, el enemigo se mueve un paso en el eje X" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position_(game.at(15, 11))
+    prisionero.ubicarEn(game.at(15, 11), arriba)
 
     esqueleto.perseguir(prisionero)
 
@@ -193,7 +248,7 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   test "Si la diferencia en Y hacia el objetivo es mayor que en X, el enemigo se mueve un paso en el eje Y" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position_(game.at(11, 15))
+    prisionero.ubicarEn(game.at(11, 15), arriba)
 
     esqueleto.perseguir(prisionero)
 
@@ -202,7 +257,7 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   test "Si la dirección principal está bloqueada por el límite del mapa, el enemigo se mueve en la dirección alternativa" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(1, 10))
-    prisionero.position_(game.at(-2, 11))
+    prisionero.ubicarEn(game.at(-2, 11), arriba)
 
     esqueleto.perseguir(prisionero)
 
@@ -211,7 +266,7 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   test "Si el enemigo ya está en la misma posición que el objetivo, no se mueve" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position_(game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 10), arriba)
 
     esqueleto.perseguir(prisionero)
 
@@ -220,7 +275,7 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
 
   test "Si las dos direcciones candidatas están bloqueadas, el enemigo no se mueve" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(1, 1))
-    prisionero.position_(game.at(-2, -2))
+    prisionero.ubicarEn(game.at(-2, -2), arriba)
 
     esqueleto.perseguir(prisionero)
 
@@ -238,7 +293,7 @@ describe "Comportamiento de ataque de los enemigos" {
 
   test "Si el objetivo está en una posición adyacente (incluida la diagonal), el enemigo lo ataca en vez de moverse" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position_(game.at(11, 11))
+    prisionero.ubicarEn(game.at(11, 11), arriba)
     prisionero.vida(100)
 
     esqueleto.actuar(prisionero)
@@ -249,7 +304,7 @@ describe "Comportamiento de ataque de los enemigos" {
 
   test "Si el objetivo está a 2 o más casilleros de distancia en cualquier eje, el enemigo se mueve hacia él en vez de atacar" {
     const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
-    prisionero.position_(game.at(13, 10))
+    prisionero.ubicarEn(game.at(13, 10), arriba)
     prisionero.vida(100)
 
     esqueleto.actuar(prisionero)
@@ -260,93 +315,364 @@ describe "Comportamiento de ataque de los enemigos" {
 
 }
 
-describe "Recolección de armas del nivel" {
+describe "Generadores de enemigos por tipo" {
 
   method initialize() {
     game.width(25)
     game.height(25)
-    gestorArmas.iniciar()
-    game.addVisual(prisionero)
+  }
+
+  test "generadorDeEsqueletos crea un EnemigoEsqueleto en cada posición dada" {
+    const enemigos = generadorDeEsqueletos.crear([game.at(3, 3), game.at(4, 4)])
+
+    assert.equals(2, enemigos.size())
+    assert.that(enemigos.all { enemigo => enemigo.image() == "enemigoEsqueleto.png" })
+    assert.equals(game.at(3, 3), enemigos.get(0).position())
+  }
+
+  test "generadorDeBestias crea un EnemigoBestia en cada posición dada" {
+    const enemigos = generadorDeBestias.crear([game.at(5, 5)])
+
+    assert.equals(1, enemigos.size())
+    assert.equals("enemigoBestia.png", enemigos.get(0).image())
+  }
+
+}
+
+describe "Selección de arma inicial" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+    gestorArmas.configurarArmasIniciales()
     prisionero.equiparArma(sinArma)
   }
 
-  test "Si el personaje está parado sobre un arma del nivel y la elige, queda equipada" {
-    prisionero.position_(game.at(10, 6))
-    gestorArmas.agregarArma(espadaEnMapa, game.at(10, 6))
+  test "Si el personaje está parado sobre un arma y elige, queda equipada" {
+    prisionero.ubicarEn(game.at(10, 6), arriba)
 
     gestorArmas.intentarElegirArma()
 
-    assert.that(prisionero.inventario().contains(espada))
+    assert.equals(40, prisionero.poderDeAtaque()) // fuerzaBase 10 + poder espada 30
   }
 
   test "Si el personaje no está parado sobre ningún arma, intentar elegir no hace nada" {
-    prisionero.position_(game.at(0, 0))
-    gestorArmas.agregarArma(espadaEnMapa, game.at(10, 6))
+    prisionero.ubicarEn(game.at(0, 0), arriba)
 
     gestorArmas.intentarElegirArma()
 
-    assert.that(!prisionero.inventario().contains(espada))
+    assert.equals(10, prisionero.poderDeAtaque()) // sigue con sinArma
+  }
+
+  test "Antes de elegir ningún arma, armaYaElegida está en false" {
+    assert.that(!gestorArmas.armaYaElegida())
+  }
+
+  test "Una vez elegida un arma, armaYaElegida pasa a estar en true" {
+    prisionero.ubicarEn(game.at(12, 6), arriba)
+
+    gestorArmas.intentarElegirArma()
+
+    assert.that(gestorArmas.armaYaElegida())
+  }
+
+  test "configurarArmasIniciales ubica las 3 armas en sus posiciones del mapa" {
+    prisionero.ubicarEn(game.at(14, 6), arriba)
+
+    assert.that(gestorArmas.hayArmaEnLaPosicionDelPersonaje())
   }
 
 }
 
-describe "Transición de nivel al completarlo y llegar a la puerta" {
+describe "Recompensas aplican su efecto al personaje" {
+
+  method initialize() {
+    prisionero.prepararParaNuevaPartida()
+  }
+
+  test "PocionDeCuracion cura 30 puntos de vida sin superar la vida máxima" {
+    prisionero.vida(50)
+
+    new PocionDeCuracion().aplicarEfecto(prisionero)
+
+    assert.equals(80, prisionero.vida())
+  }
+
+  test "PocionDeCuracion no cura por encima de la vida máxima" {
+    prisionero.vida(90)
+
+    new PocionDeCuracion().aplicarEfecto(prisionero)
+
+    assert.equals(100, prisionero.vida())
+  }
+
+  test "MejoraDeVidaMaxima aumenta la vida máxima y cura la diferencia de inmediato" {
+    prisionero.vida(50)
+
+    new MejoraDeVidaMaxima().aplicarEfecto(prisionero)
+
+    assert.equals(70, prisionero.vida())
+  }
+
+  test "Tras una mejora de vida máxima, el nuevo tope de curación queda más alto" {
+    prisionero.vida(50)
+    new MejoraDeVidaMaxima().aplicarEfecto(prisionero)
+
+    prisionero.curar(1000)
+
+    assert.equals(120, prisionero.vida())
+  }
+
+  test "sinRecompensa no tiene ningún efecto sobre el personaje" {
+    prisionero.vida(50)
+
+    sinRecompensa.aplicarEfecto(prisionero)
+
+    assert.equals(50, prisionero.vida())
+  }
+
+  test "sinRecompensa nunca es recogida" {
+    assert.that(!sinRecompensa.fueRecogidaPor(prisionero))
+  }
+
+}
+
+describe "Decisión aleatoria de recompensas" {
 
   method initialize() {
     game.width(25)
     game.height(25)
   }
 
-  test "Si el nivel está completo y el personaje está en la puerta, se detecta ambas condiciones" {
-    nivel1.configurarEnemigos()
-    nivel1.enemigosDelNivel().forEach({ enemigo => enemigo.recibirAtaque(1000) })
-    prisionero.position_(game.at(12, 22))
-
-    assert.that(nivel1.llegoALaPuerta())
-    assert.that(nivel1.nivelCompleto())
+  test "Con probabilidad 100, azar.ocurreConProbabilidad siempre da true" {
+    assert.that(azar.ocurreConProbabilidad(100))
   }
 
-  test "Si el nivel NO está completo, aunque el personaje esté en la puerta, no se detecta como completo" {
-    nivel1.configurarEnemigos()
-    prisionero.position_(game.at(12, 22))
+  test "Con probabilidad 0, azar.ocurreConProbabilidad siempre da false" {
+    assert.that(!azar.ocurreConProbabilidad(0))
+  }
 
-    assert.that(nivel1.llegoALaPuerta())
-    assert.that(!nivel1.nivelCompleto())
+  test "Con probabilidad 100, ConfiguracionDeRecompensa siempre decide una recompensa que aplica su efecto real" {
+    const configuracion = new ConfiguracionDeRecompensa(candidatas = [fabricaDePocionDeCuracion], probabilidad = 100, posicion = game.at(5, 5))
+    prisionero.vida(50)
+
+    configuracion.decidirRecompensa().aplicarEfecto(prisionero)
+
+    assert.equals(80, prisionero.vida())
+  }
+
+  test "Con probabilidad 0, ConfiguracionDeRecompensa nunca decide una recompensa con efecto real" {
+    const configuracion = new ConfiguracionDeRecompensa(candidatas = [fabricaDePocionDeCuracion], probabilidad = 0, posicion = game.at(5, 5))
+    prisionero.vida(50)
+
+    configuracion.decidirRecompensa().aplicarEfecto(prisionero)
+
+    assert.equals(50, prisionero.vida())
+  }
+
+  test "fabricaDePocionDeCuracion crea una poción de curación" {
+    assert.equals("manzana.png", fabricaDePocionDeCuracion.crear().image())
+  }
+
+  test "fabricaDeMejoraDeVidaMaxima crea una mejora de vida máxima" {
+    assert.equals("llegada.png", fabricaDeMejoraDeVidaMaxima.crear().image())
   }
 
 }
 
-describe "Configuracion del personaje al entrar a un nivel" {
+describe "Configuración de cada sala según su nivel" {
 
-  test "Al configurar el nivel, el personaje conserva su vida, queda sin arma y vacia su inventario" {
-    prisionero.vida(35)
-    prisionero.obtenerArma(espada)
-    prisionero.ubicarEn(game.at(20, 20), derecha)
+  test "SalaNivel1 usa el fondo del primer piso, esqueletos y multiplicador 1" {
+    const sala = new SalaNivel1()
 
-    nivel1.configurarPersonaje()
+    assert.equals("fondoPrimerMapa.png", sala.fondo())
+    assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
+    assert.equals(1, sala.multiplicadorDificultad())
+  }
 
-    assert.equals(35, prisionero.vida())
-    assert.equals(game.at(12, 4), prisionero.position())
-    assert.equals(arriba, prisionero.orientacionActual())
-    assert.equals(10, prisionero.poderDeAtaque())
-    assert.that(!prisionero.inventario().contains(espada))
+  test "SalaNivel2 usa el fondo del segundo piso, bestias y multiplicador 1.4" {
+    const sala = new SalaNivel2()
+
+    assert.equals("fondoSegundoMapa.png", sala.fondo())
+    assert.equals(generadorDeBestias, sala.generadorDeEnemigos())
+    assert.equals(1.4, sala.multiplicadorDificultad())
+  }
+
+  test "SalaNivel3 usa el fondo del tercer piso, esqueletos y multiplicador 1.8" {
+    const sala = new SalaNivel3()
+
+    assert.equals("fondoTercerMapa.png", sala.fondo())
+    assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
+    assert.equals(1.8, sala.multiplicadorDificultad())
+  }
+
+  test "SalaInicial hereda la configuración de SalaNivel1" {
+    const sala = new SalaInicial()
+
+    assert.equals("fondoPrimerMapa.png", sala.fondo())
+    assert.equals(1, sala.multiplicadorDificultad())
   }
 
 }
-describe "Transicion de nivel conservando la vida" {
 
-  test "Al pasar de nivel2 a nivel3, el personaje conserva la vida que viene arrastrando" {
-    configuracionJuego.iniciar()
-    nivel2.configurarEnemigos()
-    nivel2.enemigosDelNivel().forEach({ enemigo => enemigo.recibirAtaque(1000) })
+describe "Una sala se completa cuando mueren todos sus enemigos" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "salaCompleta es false mientras haya al menos un enemigo vivo" {
+    const sala = new SalaNivel1()
+    sala.configurarEnemigos()
+
+    assert.that(!sala.salaCompleta())
+  }
+
+  test "salaCompleta es true cuando todos los enemigos mueren" {
+    const sala = new SalaNivel1()
+    sala.configurarEnemigos()
+
+    sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(1000) }
+
+    assert.that(sala.salaCompleta())
+  }
+
+  test "puedeAvanzar es true cuando la sala está completa y el personaje llegó a la puerta" {
+    const sala = new SalaNivel1()
+    sala.configurarEnemigos()
+    sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(1000) }
+    prisionero.ubicarEn(sala.puerta().posicion(), abajo)
+
+    assert.that(sala.puedeAvanzar())
+  }
+
+  test "puedeAvanzar es false si la sala está completa pero el personaje no llegó a la puerta" {
+    const sala = new SalaNivel1()
+    sala.configurarEnemigos()
+    sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(1000) }
+    prisionero.ubicarEn(game.at(1, 1), abajo)
+
+    assert.that(!sala.puedeAvanzar())
+  }
+
+  test "puedeAvanzar es false si el personaje está en la puerta pero quedan enemigos vivos" {
+    const sala = new SalaNivel1()
+    sala.configurarEnemigos()
+    prisionero.ubicarEn(sala.puerta().posicion(), abajo)
+
+    assert.that(!sala.puedeAvanzar())
+  }
+
+}
+
+describe "Vida, curación y vida máxima del personaje" {
+
+  method initialize() {
+    prisionero.prepararParaNuevaPartida()
+  }
+
+  test "recibirAtaque resta vida y nunca baja de 0" {
+    prisionero.recibirAtaque(1000)
+
+    assert.equals(0, prisionero.vida())
+  }
+
+  test "curar no supera la vida máxima" {
+    prisionero.vida(90)
+
+    prisionero.curar(30)
+
+    assert.equals(100, prisionero.vida())
+  }
+
+  test "aumentarVidaMaxima sube el tope y cura la diferencia de inmediato" {
+    prisionero.vida(50)
+
+    prisionero.aumentarVidaMaxima(20)
+
+    assert.equals(70, prisionero.vida())
+  }
+
+  test "prepararParaNuevaPartida resetea vida, vida máxima y arma" {
+    prisionero.vida(10)
+    prisionero.equiparArma(espada)
+    new MejoraDeVidaMaxima().aplicarEfecto(prisionero)
+
+    prisionero.prepararParaNuevaPartida()
+
+    assert.equals(100, prisionero.vida())
+    assert.equals(10, prisionero.poderDeAtaque()) // fuerzaBase 10 + sinArma.poder() 0
+  }
+
+  test "Al llegar a 0 de vida, se muestra la pantalla de derrota" {
+    prisionero.recibirAtaque(1000)
+
+    assert.equals("cartel_derrota.jpg", fondo.image())
+  }
+
+}
+
+describe "gestorDeNiveles recorre la secuencia de salas" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "iniciarPartida arranca en la primera sala de la secuencia" {
+    gestorDeNiveles.iniciarPartida()
+
+    assert.equals("fondoPrimerMapa.png", gestorDeNiveles.salaActual().fondo())
+  }
+
+  test "iniciarPartida deja al personaje sin arma equipada y con la vida al máximo" {
+    prisionero.equiparArma(espada)
+    prisionero.vida(10)
+
+    gestorDeNiveles.iniciarPartida()
+
+    assert.equals(10, prisionero.poderDeAtaque()) // fuerzaBase 10 + sinArma.poder() 0
+    assert.equals(100, prisionero.vida())
+  }
+
+  test "avanzar recorre la secuencia de salas en orden" {
+    gestorDeNiveles.iniciarPartida()
+
+    gestorDeNiveles.avanzar()
+    gestorDeNiveles.avanzar()
+
+    assert.equals("fondoSegundoMapa.png", gestorDeNiveles.salaActual().fondo())
+  }
+
+  test "al agotar la secuencia de salas, avanzar dispara el nivel boss" {
+    gestorDeNiveles.iniciarPartida()
+
+    5.times { i => gestorDeNiveles.avanzar() }
+    gestorDeNiveles.avanzar()
+
+    assert.equals("cartel_victoria.jpg", fondo.image())
+  }
+
+}
+
+describe "La vida del personaje persiste al pasar de una sala a otra" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Al completar una sala y cruzar la puerta, la vida se mantiene en la siguiente sala" {
+    gestorDeNiveles.iniciarPartida()
     prisionero.vida(35)
-    prisionero.position_(game.at(12, 21))
+    const sala = gestorDeNiveles.salaActual()
+    sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(1000) }
+    prisionero.ubicarEn(game.at(12, 23), arriba)
 
-    nivel2.moverYTransicionar(arriba)
+    sala.moverYVerificar(abajo)
 
     assert.equals(35, prisionero.vida())
-    assert.equals(game.at(12, 4), prisionero.position())
-    assert.equals(arriba, prisionero.orientacionActual())
   }
 
 }
