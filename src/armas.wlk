@@ -30,6 +30,8 @@ class Arma {
   method iconoHud()
 
   method enemigosEnAlcance(personaje) = self.alcance().enemigosEnAlcance(personaje)
+
+  method stringVestimenta()
 }
 
 object espada inherits Arma {
@@ -39,6 +41,8 @@ object espada inherits Arma {
   override method alcance() = new Alcance(ancho = 3, profundidad = 2)
 
   override method iconoHud() = "inventario_espada.png"
+
+  override method stringVestimenta() = "guerrero"
 }
 
 object baculo inherits Arma {
@@ -48,6 +52,8 @@ object baculo inherits Arma {
   override method alcance() = new Alcance(ancho = 5, profundidad = 5)
 
   override method iconoHud() = "inventario_baculo.png"
+
+  override method stringVestimenta() = "mago"
 }
 
 object arco inherits Arma {
@@ -57,6 +63,8 @@ object arco inherits Arma {
   override method alcance() = new Alcance(ancho = 1, profundidad = 9)
 
   override method iconoHud() = "inventario_arco.png"
+
+  override method stringVestimenta() = "arquero"
 }
 
 object sinArma inherits Arma {
@@ -66,6 +74,8 @@ object sinArma inherits Arma {
   override method alcance() = new Alcance(ancho = 1, profundidad = 1)
 
   override method iconoHud() = "inventario_vacio.png"
+
+  override method stringVestimenta() = "personaje"
 }
 
 
@@ -88,23 +98,25 @@ class ArmaEnMapa {
   }
 }
 
-object espadaEnMapa inherits ArmaEnMapa (position = game.at(10, 6)) {
+object espadaEnMapa inherits ArmaEnMapa (position = game.at(10, 7)) {
 
   override method image() = "espada.png"
 
   override method arma() = espada
 }
 
-object baculoEnMapa inherits ArmaEnMapa (position = game.at(12, 6)) {
+object baculoEnMapa inherits ArmaEnMapa (position = game.at(12, 7)) {
   override method image() = "baculo.png"
 
   override method arma() = baculo
 }
 
-object arcoEnMapa inherits ArmaEnMapa (position = game.at(14, 6)) {
+object arcoEnMapa inherits ArmaEnMapa (position = game.at(14, 7)) {
 
   override method image() = "arco.png"
 
   override method arma() = arco
+
+  
 }
 

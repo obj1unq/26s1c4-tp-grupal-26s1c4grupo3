@@ -2,6 +2,7 @@ import wollok.game.*
 import gestorDeNiveles.*
 import pantallaControles.*
 import configuracionJuego.*
+import pantallaClases.*
 
 object menuInicio {
   method mostrar() {
@@ -16,8 +17,8 @@ object menuInicio {
   }
 
   method empezar() {
-    gestorDeNiveles.iniciarPartida()
-  }
+    pantallaClases.mostrar()
+}
 
   method verControles() {
     pantallaControles.mostrar()

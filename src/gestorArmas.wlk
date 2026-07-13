@@ -41,9 +41,9 @@ object gestorArmas {
 
   method configurarArmasIniciales() {
     armasDelNivel.clear()
-    self.agregarArma(espadaEnMapa, game.at(10, 6))
-    self.agregarArma(baculoEnMapa, game.at(12, 6))
-    self.agregarArma(arcoEnMapa, game.at(14, 6))
+    self.agregarArma(espadaEnMapa, game.at(10, 9))
+    self.agregarArma(baculoEnMapa, game.at(12, 9))
+    self.agregarArma(arcoEnMapa, game.at(14, 9))
   }
 }
 

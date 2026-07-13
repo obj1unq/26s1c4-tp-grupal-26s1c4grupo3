@@ -37,9 +37,9 @@ class Sala {
   // overridear el día que alguna sala necesite algo distinto.
   method posicionesEnemigos() = [game.at(5, 18), game.at(19, 18), game.at(9, 20), game.at(15, 20), game.at(12, 18)]
   
-  method posicionDeAparicion() = game.at(12, 4)
+  method posicionDeAparicion() = game.center()
   
-  method orientacionDeAparicion() = arriba
+  method orientacionDeAparicion() = abajo
   
   method puerta() = new Puerta(posicion = game.at(12, 21))
   
