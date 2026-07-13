@@ -26,21 +26,28 @@ class Sala {
   var recompensaSpawneada = false
 
   // Hooks abstractos: cada SalaNivelX define lo que realmente varía por nivel.
+  
   method fondo()
+
   method generadorDeEnemigos()
+
   method multiplicadorDificultad()
 
   // Valores compartidos por todas las salas hoy (por ahora, ver diseño); se pueden
   // overridear el día que alguna sala necesite algo distinto.
   method posicionesEnemigos() = [game.at(5, 18), game.at(19, 18), game.at(9, 20), game.at(15, 20), game.at(12, 18)]
+  
   method posicionDeAparicion() = game.at(12, 4)
+  
   method orientacionDeAparicion() = arriba
-  method puerta() = new Puerta(posicion = game.at(12, 22))
+  
+  method puerta() = new Puerta(posicion = game.at(12, 21))
+  
   method configuracionDeRecompensa() =
     new ConfiguracionDeRecompensa(
       candidatas = [fabricaDePocionDeCuracion, fabricaDeMejoraDeVidaMaxima],
       probabilidad = 30,
-      posicion = game.at(12, 12)
+      posicion = game.at(12, 16)
     )
 
   method iniciar() {
@@ -75,8 +82,7 @@ class Sala {
   // Hook: la sala regular no reparte armas. Solo SalaInicial lo hace (override).
   method configurarArmas() { }
 
-  // La recompensa aparece recién al completar la sala (ver reaccionarSiSalaCompleta),
-  // no al entrar — es un premio por terminarla, no algo que ya esté ahí desde el inicio.
+  // La recompensa aparece recién al completar la sala (ver reaccionarSiSalaCompleta), no al entrar. 
   method intentarSpawnearRecompensa() {
     if (!recompensaSpawneada and self.salaCompleta()) {
       recompensaSpawneada = true
@@ -122,7 +128,7 @@ class Sala {
   }
 
   method configurarComportamientoEnemigos() {
-    game.onTick(700, "comportamientoDeEnemigos", { self.actuarEnemigos() })
+    game.onTick(500, "comportamientoDeEnemigos", { self.actuarEnemigos() })
   }
 
   method actuarEnemigos() {
@@ -170,19 +176,19 @@ class Sala {
 }
 
 class SalaNivel1 inherits Sala {
-  override method fondo() = "fondoPrimerMapa.png"
+  override method fondo() = "fondoPrimerNivel.png"
   override method generadorDeEnemigos() = generadorDeEsqueletos
   override method multiplicadorDificultad() = 1
 }
 
 class SalaNivel2 inherits Sala {
-  override method fondo() = "fondoSegundoMapa.png"
+  override method fondo() = "fondoSegundoNivel.png"
   override method generadorDeEnemigos() = generadorDeBestias
   override method multiplicadorDificultad() = 1.4
 }
 
 class SalaNivel3 inherits Sala {
-  override method fondo() = "fondoTercerMapa.png"
+  override method fondo() = "fondoTercerNivel.png"
   override method generadorDeEnemigos() = generadorDeEsqueletos
   override method multiplicadorDificultad() = 1.8
 }

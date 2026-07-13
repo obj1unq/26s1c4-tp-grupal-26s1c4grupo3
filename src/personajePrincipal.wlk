@@ -7,15 +7,17 @@ import finDeJuego.*
 
 object prisionero {
   var property position = game.at(12, 3)
-  var property orientacionActual = arriba
-  var property vida = 100
+  var property vida = vidaMaxima
   var vidaMaxima = 100
+  var orientacionActual = arriba
   var arma = sinArma
   const fuerzaBase = 10
 
   method image() = "personaje-" + orientacionActual.stringImage() + ".png"
 
   method esEnemigo() = false
+
+  method orientacionActual() = orientacionActual // Getter solo para test
 
   method estaVivo() = vida > 0
 

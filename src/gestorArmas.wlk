@@ -7,13 +7,13 @@ object gestorArmas {
 
   method armaYaElegida() = armasDelNivel.isEmpty()
 
-  method agregarArma(arma, posicion) {
-    arma.position_(posicion)
-    armasDelNivel.add(arma)
+  method agregarArma(armaEnMapa, posicion) {
+    armaEnMapa.position(posicion)
+    armasDelNivel.add(armaEnMapa)
   }
 
   method agregarVisuales() {
-    armasDelNivel.forEach({ arma => game.addVisual(arma) })
+    armasDelNivel.forEach({ armaEnMapa => game.addVisual(armaEnMapa) })
   }
 
   method intentarElegirArma() {

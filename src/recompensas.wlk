@@ -5,6 +5,7 @@ class Recompensa {
   var property position = null
 
   method image()
+
   method aplicarEfecto(personaje)
 
   method esEnemigo() = false
@@ -48,6 +49,7 @@ object sinRecompensa {
   method desaparecer() { }
 }
 
+// factory de recompensas
 class FabricaDeRecompensa {
   method crear()
 }
@@ -60,6 +62,7 @@ object fabricaDeMejoraDeVidaMaxima inherits FabricaDeRecompensa {
   override method crear() = new MejoraDeVidaMaxima()
 }
 
+
 // Consulta pura: decide SI aparece recompensa y CUÁL, sin tocar el mapa.
 // Quien orqueste (Sala) es responsable de llamar aparecerEn() como paso aparte.
 class ConfiguracionDeRecompensa {
@@ -71,7 +74,3 @@ class ConfiguracionDeRecompensa {
     if (azar.ocurreConProbabilidad(probabilidad)) candidatas.anyOne().crear() else sinRecompensa
 }
 
-object sinConfiguracionDeRecompensa {
-  method decidirRecompensa() = sinRecompensa
-  method posicion() = null
-}

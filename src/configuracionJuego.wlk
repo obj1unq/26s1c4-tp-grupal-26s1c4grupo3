@@ -19,7 +19,10 @@ object fondo {
   var imagenActual = ""
 
   method position() = game.at(0, 0)
+
   method image() = imagenActual
+
+  method esEnemigo() = false
 
   method cambiarA(unaImagen) {
     imagenActual = unaImagen

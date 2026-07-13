@@ -21,81 +21,83 @@ class Alcance {
   method objetosEnAlcance(personaje) = self.posicionesDelAlcanceDentroDelMapa(personaje).map { posicion => game.getObjectsIn(posicion) }.flatten()
 }
 
-object espada {
-  const alcance = new Alcance(ancho = 3, profundidad = 2)
-  const property poder = 30
+class Arma {
 
-  method image() = "espadaNivel1.png"
-  method nombre() = "Espada"
-  method iconoHud() = "inventario_espada.png"
-  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
+  method poder()
+
+  method alcance()
+
+  method iconoHud()
+
+  method enemigosEnAlcance(personaje) = self.alcance().enemigosEnAlcance(personaje)
 }
 
-object espadaEnMapa {
-  var ubicacion = game.at(10, 6)
+object espada inherits Arma {
 
-  method position() = ubicacion
-  method position_(nuevaPosicion) {
-    ubicacion = nuevaPosicion
-  }
+  override method poder() = 30
 
-  method image() = "espadaNivel1.png"
-  method arma() = espada
+  override method alcance() = new Alcance(ancho = 3, profundidad = 2)
+
+  override method iconoHud() = "inventario_espada.png"
+}
+
+object baculo inherits Arma {
+
+  override method poder() = 20
+
+  override method alcance() = new Alcance(ancho = 5, profundidad = 5)
+
+  override method iconoHud() = "inventario_baculo.png"
+}
+
+object arco inherits Arma {
+
+  override method poder() = 90
+
+  override method alcance() = new Alcance(ancho = 1, profundidad = 9)
+
+  override method iconoHud() = "inventario_arco.png"
+}
+
+object sinArma inherits Arma {
+
+  override method poder() = 0
+
+  override method alcance() = new Alcance(ancho = 1, profundidad = 1)
+
+  override method iconoHud() = "inventario_vacio.png"
+}
+
+
+// Armas en mapa
+
+class ArmaEnMapa {
+  var property position 
+
+  method image()
+
+  method arma()
+
   method esEnemigo() = false
 }
 
-object baculo {
-  const alcance = new Alcance(ancho = 5, profundidad = 5)
-  const property poder = 20
+object espadaEnMapa inherits ArmaEnMapa (position = game.at(10, 6)) {
 
-  method image() = "baculoNivel1.png"
-  method nombre() = "Báculo"
-  method iconoHud() = "inventario_baculo.png"
-  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
+  override method image() = "espada.png"
+
+  override method arma() = espada
 }
 
-object baculoEnMapa {
-  var ubicacion = game.at(12, 6)
+object baculoEnMapa inherits ArmaEnMapa (position = game.at(12, 6)) {
+  override method image() = "baculo.png"
 
-  method position() = ubicacion
-  method position_(nuevaPosicion) {
-    ubicacion = nuevaPosicion
-  }
-
-  method image() = "baculoNivel1.png"
-  method arma() = baculo
-  method esEnemigo() = false
+  override method arma() = baculo
 }
 
-object arco {
-  const alcance = new Alcance(ancho = 1, profundidad = 9)
-  const property poder = 90
+object arcoEnMapa inherits ArmaEnMapa (position = game.at(14, 6)) {
 
-  method image() = "arcoNivel1.png"
-  method nombre() = "Arco"
-  method iconoHud() = "inventario_arco.png"
-  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
+  override method image() = "arco.png"
+
+  override method arma() = arco
 }
 
-object arcoEnMapa {
-  var ubicacion = game.at(14, 6)
-
-  method position() = ubicacion
-  method position_(nuevaPosicion) {
-    ubicacion = nuevaPosicion
-  }
-
-  method image() = "arcoNivel1.png"
-  method arma() = arco
-  method esEnemigo() = false
-}
-
-object sinArma {
-  const alcance = new Alcance(ancho = 1, profundidad = 1)
-  const property poder = 0
-
-  method image() = ""
-  method nombre() = "Sin arma"
-  method iconoHud() = "inventario_vacio.png" 
-  method enemigosEnAlcance(personaje) = alcance.enemigosEnAlcance(personaje)
-}
