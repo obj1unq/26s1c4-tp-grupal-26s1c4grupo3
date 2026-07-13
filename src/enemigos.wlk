@@ -31,6 +31,10 @@ class Enemigo {
         game.removeVisual(self)
     }
 
+    method aparecer() {
+        game.addVisual(self)
+    }
+
     // movimiento autonomo:
     method puedeMoverseA(posicion) = mapa.puedePisarse(posicion)
 

@@ -6,8 +6,8 @@ import hudArma.*
 import finDeJuego.*
 
 object prisionero {
-  var property position = game.at(12, 3)
   var property vida = vidaMaxima
+  var position = game.at(12, 3)
   var vidaMaxima = 100
   var orientacionActual = arriba
   var arma = sinArma
@@ -18,6 +18,8 @@ object prisionero {
   method esEnemigo() = false
 
   method orientacionActual() = orientacionActual // Getter solo para test
+
+  method position() = position
 
   method estaVivo() = vida > 0
 

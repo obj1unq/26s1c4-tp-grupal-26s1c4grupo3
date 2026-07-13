@@ -124,7 +124,7 @@ class Sala {
 
   method iniciarCombate() {
     combateIniciado = true
-    enemigos.forEach { enemigo => game.addVisual(enemigo) }
+    enemigos.forEach { enemigo => enemigo.aparecer() }
   }
 
   method configurarComportamientoEnemigos() {

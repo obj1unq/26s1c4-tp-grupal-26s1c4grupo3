@@ -18,7 +18,7 @@ describe "Movimiento del personaje respetando los límites del mapa" {
     game.height(25)
   }
 
-  test "Si el personaje se mueve a una celda transitable, actualiza su posicion y orientacion" {
+  test "Si el personaje se mueve a una celda transitable, actualiza su posición y orientación" {
     prisionero.ubicarEn(game.at(10, 10), arriba)
 
     prisionero.mover(derecha)
@@ -27,12 +27,12 @@ describe "Movimiento del personaje respetando los límites del mapa" {
     assert.equals(derecha, prisionero.orientacionActual())
   }
 
-  test "Si el personaje se intenta mover hacia una posicion y choca con el limite del mapa, mantiene su posicion y orientacion" {
-    prisionero.ubicarEn(game.at(1, 10), arriba)
+  test "Si el personaje se intenta mover hacia una posición y choca con el límite del mapa, mantiene su posición y orientación" {
+    prisionero.ubicarEn(game.at(3, 10), arriba)
 
     prisionero.mover(izquierda)
 
-    assert.equals(game.at(1, 10), prisionero.position())
+    assert.equals(game.at(3, 10), prisionero.position())
     assert.equals(arriba, prisionero.orientacionActual())
   }
 
@@ -181,9 +181,7 @@ describe "Ataque del personaje principal con arco" {
 describe "Alcance de ataque y objetos que no son enemigos" {
 
   test "Atacar no debería afectar ni romper si un objeto no-enemigo (ej. el HUD del arma) cae dentro del alcance" {
-    // PENDIENTE: bloqueado por el hallazgo del punto 1 (Alcance.enemigosEnAlcance crashea hoy si
-    // hudArma/fondo caen dentro del área de ataque, porque no responden esEnemigo()). Implementar
-    // una vez que se resuelva ese bug.
+    // PENDIENTE: habia un bug porque ni hud ni fondo tenian el metodo .esEnemigo(), ya agregado pero test pendiente
     assert.that(true)
   }
 
@@ -256,12 +254,12 @@ describe "Movimiento autónomo del enemigo hacia su objetivo" {
   }
 
   test "Si la dirección principal está bloqueada por el límite del mapa, el enemigo se mueve en la dirección alternativa" {
-    const esqueleto = new EnemigoEsqueleto(position = game.at(1, 10))
-    prisionero.ubicarEn(game.at(-2, 11), arriba)
+    const esqueleto = new EnemigoEsqueleto(position = game.at(3, 10))
+    prisionero.ubicarEn(game.at(-5, 11), arriba)
 
     esqueleto.perseguir(prisionero)
 
-    assert.equals(game.at(1, 11), esqueleto.position())
+    assert.equals(game.at(3, 11), esqueleto.position())
   }
 
   test "Si el enemigo ya está en la misma posición que el objetivo, no se mueve" {
@@ -485,7 +483,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel1 usa el fondo del primer piso, esqueletos y multiplicador 1" {
     const sala = new SalaNivel1()
 
-    assert.equals("fondoPrimerMapa.png", sala.fondo())
+    assert.equals("fondoPrimerNivel.png", sala.fondo())
     assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
     assert.equals(1, sala.multiplicadorDificultad())
   }
@@ -493,7 +491,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel2 usa el fondo del segundo piso, bestias y multiplicador 1.4" {
     const sala = new SalaNivel2()
 
-    assert.equals("fondoSegundoMapa.png", sala.fondo())
+    assert.equals("fondoSegundoNivel.png", sala.fondo())
     assert.equals(generadorDeBestias, sala.generadorDeEnemigos())
     assert.equals(1.4, sala.multiplicadorDificultad())
   }
@@ -501,7 +499,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel3 usa el fondo del tercer piso, esqueletos y multiplicador 1.8" {
     const sala = new SalaNivel3()
 
-    assert.equals("fondoTercerMapa.png", sala.fondo())
+    assert.equals("fondoTercerNivel.png", sala.fondo())
     assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
     assert.equals(1.8, sala.multiplicadorDificultad())
   }
@@ -509,7 +507,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaInicial hereda la configuración de SalaNivel1" {
     const sala = new SalaInicial()
 
-    assert.equals("fondoPrimerMapa.png", sala.fondo())
+    assert.equals("fondoPrimerNivel.png", sala.fondo())
     assert.equals(1, sala.multiplicadorDificultad())
   }
 
@@ -623,7 +621,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
   test "iniciarPartida arranca en la primera sala de la secuencia" {
     gestorDeNiveles.iniciarPartida()
 
-    assert.equals("fondoPrimerMapa.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("fondoPrimerNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "iniciarPartida deja al personaje sin arma equipada y con la vida al máximo" {
@@ -642,7 +640,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     gestorDeNiveles.avanzar()
     gestorDeNiveles.avanzar()
 
-    assert.equals("fondoSegundoMapa.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "al agotar la secuencia de salas, avanzar dispara el nivel boss" {
@@ -668,7 +666,7 @@ describe "La vida del personaje persiste al pasar de una sala a otra" {
     prisionero.vida(35)
     const sala = gestorDeNiveles.salaActual()
     sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(1000) }
-    prisionero.ubicarEn(game.at(12, 23), arriba)
+    prisionero.ubicarEn(sala.puerta().posicion().up(1), arriba)
 
     sala.moverYVerificar(abajo)
 

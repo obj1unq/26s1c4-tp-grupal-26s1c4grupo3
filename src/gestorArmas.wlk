@@ -13,7 +13,7 @@ object gestorArmas {
   }
 
   method agregarVisuales() {
-    armasDelNivel.forEach({ armaEnMapa => game.addVisual(armaEnMapa) })
+    armasDelNivel.forEach({ armaEnMapa => armaEnMapa.aparecer() })
   }
 
   method intentarElegirArma() {
@@ -35,7 +35,7 @@ object gestorArmas {
   }
 
   method quitarArmasDelNivel() {
-    armasDelNivel.forEach({ armaEnMapa => game.removeVisual(armaEnMapa) })
+    armasDelNivel.forEach({ armaEnMapa => armaEnMapa.desaparecer() })
     armasDelNivel.clear()
   }
 

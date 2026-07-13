@@ -79,6 +79,13 @@ class ArmaEnMapa {
   method arma()
 
   method esEnemigo() = false
+
+  method aparecer() {
+    game.addVisual(self)
+  }
+  method desaparecer() {
+    game.removeVisual(self)
+  }
 }
 
 object espadaEnMapa inherits ArmaEnMapa (position = game.at(10, 6)) {
