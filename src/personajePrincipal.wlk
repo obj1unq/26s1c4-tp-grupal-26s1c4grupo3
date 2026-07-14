@@ -4,6 +4,7 @@ import mapa.*
 import direcciones.*
 import hudArma.*
 import finDeJuego.*
+import herida.*
 
 object prisionero {
   var property vida = vidaMaxima
@@ -13,7 +14,7 @@ object prisionero {
   var arma = sinArma
   const fuerzaBase = 10
 
-  method image() = arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
+  method image() = "personaje\\" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
 
   method esEnemigo() = false
 
@@ -27,6 +28,7 @@ object prisionero {
 
   method recibirAtaque(daño) {
     vida = (vida - daño).max(0)
+    gestorHeridas.mostrarEn(self)
     if (!self.estaVivo()) {
       finDeJuego.mostrarDerrota()
     }
@@ -53,6 +55,8 @@ object prisionero {
   method atacar() {
     const enemigos = arma.enemigosEnAlcance(self)
     enemigos.forEach({ enemigo => enemigo.recibirAtaque(self.poderDeAtaque()) })
+
+    arma.reproducirSonidoDeAtaque()
   }
 
   method curar(cantidad) {

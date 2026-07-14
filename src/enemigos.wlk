@@ -1,6 +1,7 @@
 import wollok.game.*
 import mapa.*
 import direcciones.*
+import herida.*
 
 class Enemigo {
     var property position
@@ -22,12 +23,14 @@ class Enemigo {
 
     method recibirAtaque(daño) {
         vida = (vida - daño).max(0)
+        gestorHeridas.mostrarEn(self)
         if (!self.estaVivo()) {
             self.morir()
         }
     }
 
     method morir() {
+        self.reproducirSonidoDeMuerte()
         game.removeVisual(self)
     }
 
@@ -76,13 +79,19 @@ class Enemigo {
         }
     }
 
+    method reproducirSonidoDeMuerte() {
+        const sonidoDeMuerte = game.sound("sonidos\\muerteEnemigo.mp3")
+
+        sonidoDeMuerte.volume(0.2)
+        sonidoDeMuerte.play()
+}
 }
 
 class EnemigoEsqueleto inherits Enemigo(vida = 100, fuerza = 15){
 
-    override method image() = "enemigoEsqueleto.png"
+    override method image() = "enemigos\\enemigoEsqueleto.png"
 }
 
 class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
-    override method image() = "enemigoBestia.png"
+    override method image() = "enemigos\\enemigoBestia.png"
 }

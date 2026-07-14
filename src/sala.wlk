@@ -176,19 +176,19 @@ class Sala {
 }
 
 class SalaNivel1 inherits Sala {
-  override method fondo() = "fondoPrimerNivel.png"
+  override method fondo() = "mapas\\fondoPrimerNivel.png"
   override method generadorDeEnemigos() = generadorDeEsqueletos
   override method multiplicadorDificultad() = 1
 }
 
 class SalaNivel2 inherits Sala {
-  override method fondo() = "fondoSegundoNivel.png"
+  override method fondo() = "mapas\\fondoSegundoNivel.png"
   override method generadorDeEnemigos() = generadorDeBestias
   override method multiplicadorDificultad() = 1.4
 }
 
 class SalaNivel3 inherits Sala {
-  override method fondo() = "fondoTercerNivel.png"
+  override method fondo() = "mapas\\fondoTercerNivel.png"
   override method generadorDeEnemigos() = generadorDeEsqueletos
   override method multiplicadorDificultad() = 1.8
 }
