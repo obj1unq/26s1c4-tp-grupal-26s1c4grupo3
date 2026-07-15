@@ -113,6 +113,7 @@ class Sala {
     keyboard.d().onPressDo({ self.moverYVerificar(derecha) })
 
     keyboard.k().onPressDo({ prisionero.atacar() })
+    keyboard.space().onPressDo({ prisionero.atacar() })
     keyboard.p().onPressDo({ self.abortarPartida() })
   }
 
@@ -189,7 +190,7 @@ class SalaNivel2 inherits Sala {
 
 class SalaNivel3 inherits Sala {
   override method fondo() = "mapas\\fondoTercerNivel.png"
-  override method generadorDeEnemigos() = generadorDeEsqueletos
+  override method generadorDeEnemigos() = generadorDeReyOscuro
   override method multiplicadorDificultad() = 1.8
 }
 

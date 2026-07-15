@@ -1,32 +1,52 @@
 # Escapa de la fortaleza
 
+Juego 2D hecho en Wollok Game para la materia Programación con Objetos (UNQ).
+
 ## Equipo de desarrollo
 
 - Fernandez, Ramiro
 - Perez, Nicole
 - Sanchez, Geronimo
 
-## Capturas 
+## Reglas de juego
 
-![menu principal](capturas/menu_juego.jpg)
+Un prisionero debe escapar de una fortaleza atravesando 3 salas, cada una más difícil que la anterior, hasta enfrentar al jefe final.
 
-## Reglas de Juego / Instrucciones
+### Elegir arma
 
-Un prisionero debe escapar de una fortaleza atravesando 3 niveles, cada uno con más enemigos y de mayor dificultad que el anterior.
+Al arrancar la partida (sala inicial), el prisionero aparece frente a 3 armas, cada una con su propio alcance (ancho y profundidad del área de ataque) y poder:
 
-Al arrancar el juego aparece un menú principal:
-- **ENTER**: empezar la partida.
+- **Espada** — alcance corto y ancho (cuerpo a cuerpo).
+- **Báculo** — alcance mediano y ancho (área).
+- **Arco** — alcance angosto pero muy largo (a distancia).
 
-Controles durante el juego:
+Al pararse sobre un arma y confirmar con **ENTER**, las demás desaparecen y recién ahí los enemigos de la sala empiezan a acercarse.
+
+### Combate
+
+Cada sala tiene 5 enemigos que persiguen y atacan al prisionero cuerpo a cuerpo. El tipo de enemigo y su dificultad escalan por sala:
+
+- **Sala 1** — Esqueletos (vida y fuerza base).
+- **Sala 2** — Bestias, un 40% más fuertes que en la sala 1.
+- **Sala 3** — Rey Oscuro, un 80% más fuerte que en la sala 1.
+
+Una sala se completa al derrotar a todos sus enemigos, lo que habilita la puerta de salida hacia la siguiente. Al completar una sala hay una chance de que aparezca una recompensa (poción de curación o mejora de vida máxima) que el prisionero puede recoger antes de avanzar.
+
+Tras las 3 salas se llega al jefe final; al vencerlo se gana la partida. Si la vida del prisionero llega a 0 en cualquier momento, se pierde. En ambos casos se vuelve al menú principal.
+
+## Controles
+
+- **ENTER**: empezar la partida / elegir arma / confirmar.
 - **WASD** o **flechas**: moverse.
-- **K**: atacar con el arma equipada.
-- **ENTER**: elegir un arma / confirmar.
-- **R**: reiniciar el nivel actual.
+- **K** o **space**: atacar con el arma equipada.
+- **P**: Regresa al menu principal
 
-Al comenzar cada nivel, el prisionero aparece frente a 3 armas (espada, báculo y arco, cada una con su propio alcance y poder de ataque). Al elegir una, las demás desaparecen y recién ahí los enemigos empiezan a acercarse. Un nivel se completa al derrotar a todos sus enemigos, lo que habilita la puerta de salida al siguiente nivel. Al completar el nivel 3 se gana la partida; si la vida del prisionero llega a 0 en cualquier nivel, se pierde. En ambos casos se vuelve al menú principal.
+## Tests
+
+Los tests unitarios están en `src/tests.wtest`.
 
 ## Otros
 
 - Objetos 1 c4, UNQ
-- Version Wollok: "4.2.3"
+- Versión Wollok: `4.2.3`
 - Una vez terminado, no tenemos problemas en que el repositorio sea público.
