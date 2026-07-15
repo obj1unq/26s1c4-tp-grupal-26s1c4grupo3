@@ -19,10 +19,6 @@ class Enemigo inherits SerVivo {
         game.removeVisual(self)
     }
 
-    method aparecer() {
-        game.addVisual(self)
-    }
-
     method orientarHacia(objetivo) {
         if (!self.estaEnLaMismaPosicion(objetivo)) {
             self.orientarA(buscadorDeDireccion.direccionHacia(position, objetivo.position()))

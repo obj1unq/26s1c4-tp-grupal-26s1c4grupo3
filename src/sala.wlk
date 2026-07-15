@@ -97,8 +97,8 @@ class Sala {
   }
 
   method agregarVisuales() {
-    game.addVisual(prisionero)
-    game.addVisual(hudArma)
+    prisionero.aparecer()
+    hudArma.aparecer()
   }
 
   method configurarTeclado() {

@@ -12,6 +12,10 @@ class SerVivo {
 
   method orientacionActual() = orientacionActual
 
+  method aparecer() {
+    game.addVisual(self)
+  }
+
   method moverA(unaPosicion) {
     position = unaPosicion
   }

@@ -9,6 +9,10 @@ object hudArma {
 
   method esEnemigo() = false
 
+  method aparecer() {
+    game.addVisual(self)
+  }
+
   method actualizar(arma) {
     iconoActual = arma.iconoHud()
   }
