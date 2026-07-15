@@ -1,8 +1,4 @@
 import wollok.game.*
-import personajePrincipal.*
-import direcciones.*
-import armas.*
-import mapa.*
 import menuInicio.*
 import configuracionJuego.*
 import musicaDeFondo.*
