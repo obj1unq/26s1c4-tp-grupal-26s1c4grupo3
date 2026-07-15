@@ -4,34 +4,22 @@ import mapa.*
 import direcciones.*
 import hudArma.*
 import finDeJuego.*
-import herida.*
+import serVivo.*
 
-object prisionero {
-  var property vida = vidaMaxima
-  var position = game.center() 
+object prisionero inherits SerVivo (position = game.center(), vida = 100) {
   var vidaMaxima = 100
   var orientacionActual = abajo
   var arma = sinArma
   const fuerzaBase = 10
 
-  method image() = "personaje/" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
-
-  method esEnemigo() = false
+  override method image() = "personaje\\" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
 
   method orientacionActual() = orientacionActual // Getter solo para test
 
-  method position() = position
-
-  method estaVivo() = vida > 0
-
   method poderDeAtaque() = fuerzaBase + arma.poder()
 
-  method recibirAtaque(daño) {
-    vida = (vida - daño).max(0)
-    gestorHeridas.mostrarEn(self)
-    if (!self.estaVivo()) {
-      finDeJuego.mostrarDerrota()
-    }
+  override method morir() {
+    finDeJuego.mostrarDerrota()
   }
 
   method mover(direccion) {
@@ -41,7 +29,7 @@ object prisionero {
   }
 
   method ubicarEn(unaPosicion, unaOrientacion) {
-    position = unaPosicion
+    self.moverA(unaPosicion)
     orientacionActual = unaOrientacion
   }
 
