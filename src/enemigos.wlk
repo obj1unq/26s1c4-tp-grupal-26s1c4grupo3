@@ -83,3 +83,6 @@ class EnemigoEsqueleto inherits Enemigo(vida = 100, fuerza = 15){
 class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
     override method image() = "enemigos\\enemigoBestia.png"
 }
+class EnemigoReyOscuro inherits Enemigo(vida = 200,fuerza = 30) {
+    override method image() = "enemigos\\enemigoReyOscuro.png"
+}

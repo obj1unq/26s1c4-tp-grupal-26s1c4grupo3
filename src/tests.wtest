@@ -536,7 +536,7 @@ describe "Configuración de cada sala según su nivel" {
     const sala = new SalaNivel3()
 
     assert.equals("mapas\\fondoTercerNivel.png", sala.fondo())
-    assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
+    assert.equals(generadorDeReyOscuro, sala.generadorDeEnemigos())
     assert.equals(1.8, sala.multiplicadorDificultad())
   }
 
@@ -725,7 +725,8 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     gestorDeNiveles.iniciarPartida()
 
     gestorDeNiveles.avanzar()
-    gestorDeNiveles.avanzar()
+    //gestorDeNiveles.avanzar()
+    // comentado por reduccion temporal de salas hasta la version final (ver gestorDeNiveles.wlk)
 
     assert.equals("mapas\\fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
   }
