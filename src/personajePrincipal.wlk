@@ -14,7 +14,7 @@ object prisionero {
   var arma = sinArma
   const fuerzaBase = 10
 
-  method image() = "personaje\\" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
+  method image() = "personaje/" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
 
   method esEnemigo() = false
 

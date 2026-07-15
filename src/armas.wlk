@@ -49,11 +49,11 @@ object espada inherits Arma {
 
   override method alcance() = new Alcance(ancho = 3, profundidad = 2)
 
-  override method iconoHud() = "inventario\\inventario_espada.png"
+  override method iconoHud() = "inventario/inventario_espada.png"
 
   override method stringVestimenta() = "guerrero"
 
-  override method archivoSonidoDeAtaque() = "sonidos\\ataqueEspada.mp3"
+  override method archivoSonidoDeAtaque() = "sonidos/ataqueEspada.mp3"
 }
 
 object baculo inherits Arma {
@@ -62,11 +62,11 @@ object baculo inherits Arma {
 
   override method alcance() = new Alcance(ancho = 5, profundidad = 5)
 
-  override method iconoHud() = "inventario\\inventario_baculo.png"
+  override method iconoHud() = "inventario/inventario_baculo.png"
 
   override method stringVestimenta() = "mago"
 
-  override method archivoSonidoDeAtaque() = "sonidos\\ataqueBaculo.mp3"
+  override method archivoSonidoDeAtaque() = "sonidos/ataqueBaculo.mp3"
 }
 
 object arco inherits Arma {
@@ -75,11 +75,11 @@ object arco inherits Arma {
 
   override method alcance() = new Alcance(ancho = 1, profundidad = 9)
 
-  override method iconoHud() = "inventario\\inventario_arco.png"
+  override method iconoHud() = "inventario/inventario_arco.png"
 
   override method stringVestimenta() = "arquero"
 
-  override method archivoSonidoDeAtaque() = "sonidos\\ataqueArco.mp3"
+  override method archivoSonidoDeAtaque() = "sonidos/ataqueArco.mp3"
 
 }
 
@@ -89,7 +89,7 @@ object sinArma inherits Arma {
 
   override method alcance() = new Alcance(ancho = 1, profundidad = 1)
 
-  override method iconoHud() = "inventario\\inventario_vacio.png"
+  override method iconoHud() = "inventario/inventario_vacio.png"
 
   override method stringVestimenta() = "personaje"
 
@@ -120,20 +120,20 @@ class ArmaEnMapa {
 
 object espadaEnMapa inherits ArmaEnMapa (position = game.at(10, 7)) {
 
-  override method image() = "armas\\espada.png"
+  override method image() = "armas/espada.png"
 
   override method arma() = espada
 }
 
 object baculoEnMapa inherits ArmaEnMapa (position = game.at(12, 7)) {
-  override method image() = "armas\\baculo.png"
+  override method image() = "armas/baculo.png"
 
   override method arma() = baculo
 }
 
 object arcoEnMapa inherits ArmaEnMapa (position = game.at(14, 7)) {
 
-  override method image() = "armas\\arco.png"
+  override method image() = "armas/arco.png"
 
   override method arma() = arco
 
