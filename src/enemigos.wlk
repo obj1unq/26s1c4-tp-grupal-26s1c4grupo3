@@ -34,16 +34,13 @@ class Enemigo inherits SerVivo {
 
     method esDireccionUtil(direccion) = self.puedeMoverseA(direccion.siguiente(position))
 
-    method direccionDisponibleHacia(objetivo) = self.direccionesCandidatas(objetivo).findOrDefault({ direccion => self.esDireccionUtil(direccion) }, null)
+    method direccionDisponibleHacia(objetivo) = self.direccionesCandidatas(objetivo).findOrDefault({ direccion => self.esDireccionUtil(direccion) }, sinDireccion)
 
     method direccionParaAcercarseA(objetivo) =
-        if (self.estaEnLaMismaPosicion(objetivo)) null else self.direccionDisponibleHacia(objetivo)
+        if (self.estaEnLaMismaPosicion(objetivo)) sinDireccion else self.direccionDisponibleHacia(objetivo)
 
     method perseguir(objetivo) {
-        const direccionElegida = self.direccionParaAcercarseA(objetivo)
-        if (direccionElegida != null) {
-            self.moverA(direccionElegida.siguiente(position))
-        }
+        self.moverA(self.direccionParaAcercarseA(objetivo).siguiente(position))
     }
 
     // comportamientos de ataque:

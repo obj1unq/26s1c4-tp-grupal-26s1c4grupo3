@@ -59,7 +59,7 @@ object izquierda inherits Direccion{
 object derecha inherits Direccion{
 
     override method stringImage() = "derecha"
-    
+
     override method siguiente(unaPosicion) = unaPosicion.right(1)
 
     override method posicionesAdyacentes(centro, radio) {
@@ -69,6 +69,11 @@ object derecha inherits Direccion{
     override method posicionesHaciaAdelante(centro, profundidad) {
         return (1..profundidad).map { p => game.at(centro.x() + p, centro.y()) }
     }
+}
+
+object sinDireccion {
+
+    method siguiente(unaPosicion) = unaPosicion
 }
 
 
