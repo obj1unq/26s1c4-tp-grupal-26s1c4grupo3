@@ -97,5 +97,8 @@ object buscadorDeDireccion {
         else
             [self.direccionEnY(posicionActual, posicionObjetivo), self.direccionEnX(posicionActual, posicionObjetivo)]
 
+    method direccionHacia(posicionActual, posicionObjetivo) =
+        self.direccionesCandidatas(posicionActual, posicionObjetivo).first()
+
 }
 

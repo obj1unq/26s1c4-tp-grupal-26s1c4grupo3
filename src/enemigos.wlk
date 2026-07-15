@@ -1,10 +1,12 @@
 import wollok.game.*
 import mapa.*
 import direcciones.*
+import armas.*
 import serVivo.*
 
 class Enemigo inherits SerVivo {
     var fuerza
+    var orientacionActual = abajo
 
     override method esEnemigo() = true
 
@@ -20,6 +22,14 @@ class Enemigo inherits SerVivo {
 
     method aparecer() {
         game.addVisual(self)
+    }
+
+    method orientacionActual() = orientacionActual
+
+    method orientarHacia(objetivo) {
+        if (!self.estaEnLaMismaPosicion(objetivo)) {
+            orientacionActual = buscadorDeDireccion.direccionHacia(position, objetivo.position())
+        }
     }
 
     // movimiento autonomo:
@@ -44,8 +54,9 @@ class Enemigo inherits SerVivo {
     }
 
     // comportamientos de ataque:
-    method estaEnRangoDeAtaque(objetivo) =
-        (objetivo.position().x() - position.x()).abs() <= 1 and (objetivo.position().y() - position.y()).abs() <= 1
+    method alcance() = new Alcance(ancho = 3, profundidad = 1)
+
+    method estaEnRangoDeAtaque(objetivo) = self.alcance().posicionesDelAlcance(self).contains(objetivo.position())
 
     method atacar(objetivo) {
         objetivo.recibirAtaque(fuerza)
@@ -53,6 +64,7 @@ class Enemigo inherits SerVivo {
 
     method actuar(objetivo) {
         if (objetivo.estaVivo()) {
+            self.orientarHacia(objetivo)
             self.reaccionarA(objetivo)
         }
     }
