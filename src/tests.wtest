@@ -600,6 +600,57 @@ describe "Una sala se completa cuando mueren todos sus enemigos" {
 
 }
 
+class SalaDePrueba inherits SalaNivel1 {
+  override method configuracionDeRecompensa() =
+    new ConfiguracionDeRecompensa(candidatas = [fabricaDePocionDeCuracion], probabilidad = 100, posicion = game.at(12, 16))
+}
+
+describe "Ciclo completo de recompensas en una sala" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "La recompensa no aparece mientras queden enemigos vivos" {
+    const sala = new SalaDePrueba()
+    sala.configurarEnemigos()
+
+    sala.intentarSpawnearRecompensa()
+
+    assert.that(!game.allVisuals().any { visual => visual.image() == "manzana.png" })
+  }
+
+  test "Al completar la sala, la recompensa aparece en su posición y cura al pisarla" {
+    const sala = new SalaDePrueba()
+    sala.configurarEnemigos()
+    sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(1000) }
+    prisionero.vida(50)
+
+    sala.intentarSpawnearRecompensa()
+    prisionero.ubicarEn(game.at(12, 16), abajo)
+    sala.intentarRecogerRecompensa()
+
+    assert.equals(80, prisionero.vida())
+  }
+
+  test "Una vez recogida, la misma recompensa no se puede volver a recoger" {
+    const sala = new SalaDePrueba()
+    sala.configurarEnemigos()
+    sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(1000) }
+    prisionero.vida(50)
+    sala.intentarSpawnearRecompensa()
+    prisionero.ubicarEn(game.at(12, 16), abajo)
+    sala.intentarRecogerRecompensa()
+    prisionero.vida(50)
+
+    sala.intentarRecogerRecompensa()
+
+    assert.equals(50, prisionero.vida())
+  }
+
+}
+
 describe "Vida, curación y vida máxima del personaje" {
 
   method initialize() {
