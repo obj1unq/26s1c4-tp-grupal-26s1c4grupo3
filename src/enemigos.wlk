@@ -1,12 +1,11 @@
 import wollok.game.*
 import mapa.*
 import direcciones.*
-import armas.*
+import alcance.*
 import serVivo.*
 
 class Enemigo inherits SerVivo {
     var fuerza
-    var orientacionActual = abajo
 
     override method esEnemigo() = true
 
@@ -24,11 +23,9 @@ class Enemigo inherits SerVivo {
         game.addVisual(self)
     }
 
-    method orientacionActual() = orientacionActual
-
     method orientarHacia(objetivo) {
         if (!self.estaEnLaMismaPosicion(objetivo)) {
-            orientacionActual = buscadorDeDireccion.direccionHacia(position, objetivo.position())
+            self.orientarA(buscadorDeDireccion.direccionHacia(position, objetivo.position()))
         }
     }
 

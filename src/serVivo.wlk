@@ -1,15 +1,23 @@
 import wollok.game.*
+import direcciones.*
 import herida.*
 
 class SerVivo {
   var position
   var property vida
   var herida = sinHerida
+  var orientacionActual = abajo
 
   method position() = position
 
+  method orientacionActual() = orientacionActual
+
   method moverA(unaPosicion) {
     position = unaPosicion
+  }
+
+  method orientarA(unaDireccion) {
+    orientacionActual = unaDireccion
   }
 
   method image()

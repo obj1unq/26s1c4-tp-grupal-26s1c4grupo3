@@ -8,13 +8,10 @@ import serVivo.*
 
 object prisionero inherits SerVivo (position = game.center(), vida = 100) {
   var vidaMaxima = 100
-  var orientacionActual = abajo
   var arma = sinArma
   const fuerzaBase = 10
 
   override method image() = "personaje\\" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
-
-  method orientacionActual() = orientacionActual // Getter solo para test
 
   method poderDeAtaque() = fuerzaBase + arma.poder()
 
@@ -30,7 +27,7 @@ object prisionero inherits SerVivo (position = game.center(), vida = 100) {
 
   method ubicarEn(unaPosicion, unaOrientacion) {
     self.moverA(unaPosicion)
-    orientacionActual = unaOrientacion
+    self.orientarA(unaOrientacion)
   }
 
   method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion)
