@@ -1,6 +1,7 @@
 import wollok.game.*
 import personajePrincipal.*
 import armas.*
+import hudArma.*
 
 object gestorArmas {
   const armasDelNivel = []
@@ -30,6 +31,7 @@ object gestorArmas {
   method elegirArma(armaEnMapa) {
     const armaReal = armaEnMapa.arma()
     prisionero.equiparArma(armaReal)
+    hudArma.actualizar(armaReal)
     self.quitarArmasDelNivel()
   }
 

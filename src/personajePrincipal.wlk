@@ -34,7 +34,6 @@ object prisionero inherits SerVivo (position = game.center(), vida = 100) {
 
   method equiparArma(unArma) {
     arma = unArma
-    hudArma.actualizar(unArma)
   }
 
   method atacar() {
@@ -55,6 +54,7 @@ object prisionero inherits SerVivo (position = game.center(), vida = 100) {
 
   method prepararParaNuevaPartida() {
     self.equiparArma(sinArma)
+    hudArma.actualizar(sinArma)
     vidaMaxima = 100
     vida = vidaMaxima
   }
