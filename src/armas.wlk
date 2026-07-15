@@ -33,7 +33,7 @@ class Arma {
 
   method stringVestimenta()
 
-  method archivoSonidoDeAtaque() = ""
+  method archivoSonidoDeAtaque()
 
   method reproducirSonidoDeAtaque() {
     const sonidoAtaque = game.sound(self.archivoSonidoDeAtaque())
@@ -93,6 +93,8 @@ object sinArma inherits Arma {
 
   override method stringVestimenta() = "personaje"
 
+  override method archivoSonidoDeAtaque() = ""
+
   override method reproducirSonidoDeAtaque() {
     // Sin arma no reproduce ningún sonido
   }
@@ -118,25 +120,22 @@ class ArmaEnMapa {
   }
 }
 
-object espadaEnMapa inherits ArmaEnMapa (position = game.at(10, 7)) {
+object espadaEnMapa inherits ArmaEnMapa (position = game.at(10, 9)) {
 
   override method image() = "armas\\espada.png"
 
   override method arma() = espada
 }
 
-object baculoEnMapa inherits ArmaEnMapa (position = game.at(12, 7)) {
+object baculoEnMapa inherits ArmaEnMapa (position = game.at(12, 9)) {
   override method image() = "armas\\baculo.png"
 
   override method arma() = baculo
 }
 
-object arcoEnMapa inherits ArmaEnMapa (position = game.at(14, 7)) {
+object arcoEnMapa inherits ArmaEnMapa (position = game.at(14, 9)) {
 
   override method image() = "armas\\arco.png"
 
   override method arma() = arco
-
-  
 }
-
