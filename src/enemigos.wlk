@@ -1,35 +1,19 @@
 import wollok.game.*
 import mapa.*
 import direcciones.*
-import herida.*
+import serVivo.*
 
-class Enemigo {
-    var property position
-    var vida
+class Enemigo inherits SerVivo {
     var fuerza
 
-    method vida() = vida // getter para verificar daño del PJ principal sobre los enemigos en los tests
-
-    method image()
-
-    method esEnemigo() = true
-
-    method estaVivo() = vida > 0
+    override method esEnemigo() = true
 
     method escalarPorDificultad(multiplicador) {
         vida = (vida * multiplicador).round()
         fuerza = (fuerza * multiplicador).round()
     }
 
-    method recibirAtaque(daño) {
-        vida = (vida - daño).max(0)
-        gestorHeridas.mostrarEn(self)
-        if (!self.estaVivo()) {
-            self.morir()
-        }
-    }
-
-    method morir() {
+    override method morir() {
         self.reproducirSonidoDeMuerte()
         game.removeVisual(self)
     }
@@ -40,10 +24,6 @@ class Enemigo {
 
     // movimiento autonomo:
     method puedeMoverseA(posicion) = mapa.puedePisarse(posicion)
-
-    method moverA(posicion) {
-        position = posicion
-    }
 
     method estaEnLaMismaPosicion(objetivo) = position == objetivo.position()
 
@@ -80,18 +60,18 @@ class Enemigo {
     }
 
     method reproducirSonidoDeMuerte() {
-        const sonidoDeMuerte = game.sound("sonidos/muerteEnemigo.mp3")
+        const sonidoDeMuerte = game.sound("sonidos\\muerteEnemigo.mp3")
 
         sonidoDeMuerte.volume(0.2)
         sonidoDeMuerte.play()
-}
+    }
 }
 
 class EnemigoEsqueleto inherits Enemigo(vida = 100, fuerza = 15){
 
-    override method image() = "enemigos/enemigoEsqueleto.png"
+    override method image() = "enemigos\\enemigoEsqueleto.png"
 }
 
 class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
-    override method image() = "enemigos/enemigoBestia.png"
+    override method image() = "enemigos\\enemigoBestia.png"
 }
