@@ -52,6 +52,12 @@ class Enemigo inherits SerVivo {
     }
 
     method actuar(objetivo) {
+        if (objetivo.estaVivo()) {
+            self.reaccionarA(objetivo)
+        }
+    }
+
+    method reaccionarA(objetivo) {
         if (self.estaEnRangoDeAtaque(objetivo)) {
             self.atacar(objetivo)
         } else {
