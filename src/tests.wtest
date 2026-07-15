@@ -178,6 +178,42 @@ describe "Ataque del personaje principal con arco" {
 
 }
 
+describe "Marca de herida al recibir daño (SerVivo)" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Si un mismo enemigo recibe varios golpes seguidos, la marca de herida no se acumula" {
+    const esqueleto = new EnemigoEsqueleto(position = game.at(10, 10))
+    game.addVisual(esqueleto)
+
+    esqueleto.recibirAtaque(1)
+    esqueleto.recibirAtaque(1)
+    esqueleto.recibirAtaque(1)
+
+    assert.equals(1, game.allVisuals().count { visual => visual.image() == "heridaSangrado.png" })
+  }
+
+  test "Si varios enemigos distintos son golpeados al mismo tiempo, cada uno muestra su propia marca de herida" {
+    prisionero.ubicarEn(game.at(18, 5), arriba)
+    prisionero.mover(arriba)
+    prisionero.equiparArma(espada)
+    const esqueletoIzquierda = new EnemigoEsqueleto(position = game.at(17, 7))
+    const esqueletoCentro = new EnemigoEsqueleto(position = game.at(18, 7))
+    const esqueletoDerecha = new EnemigoEsqueleto(position = game.at(19, 7))
+    game.addVisual(esqueletoIzquierda)
+    game.addVisual(esqueletoCentro)
+    game.addVisual(esqueletoDerecha)
+
+    prisionero.atacar()
+
+    assert.equals(3, game.allVisuals().count { visual => visual.image() == "heridaSangrado.png" })
+  }
+
+}
+
 describe "Alcance de ataque y objetos que no son enemigos" {
 
   test "Atacar no debería afectar ni romper si un objeto no-enemigo (ej. el HUD del arma) cae dentro del alcance" {
@@ -324,7 +360,7 @@ describe "Generadores de enemigos por tipo" {
     const enemigos = generadorDeEsqueletos.crear([game.at(3, 3), game.at(4, 4)])
 
     assert.equals(2, enemigos.size())
-    assert.that(enemigos.all { enemigo => enemigo.image() == "enemigos/enemigoEsqueleto.png" })
+    assert.that(enemigos.all { enemigo => enemigo.image() == "enemigos\\enemigoEsqueleto.png" })
     assert.equals(game.at(3, 3), enemigos.get(0).position())
   }
 
@@ -332,7 +368,7 @@ describe "Generadores de enemigos por tipo" {
     const enemigos = generadorDeBestias.crear([game.at(5, 5)])
 
     assert.equals(1, enemigos.size())
-    assert.equals("enemigos/enemigoBestia.png", enemigos.get(0).image())
+    assert.equals("enemigos\\enemigoBestia.png", enemigos.get(0).image())
   }
 
 }
@@ -483,7 +519,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel1 usa el fondo del primer piso, esqueletos y multiplicador 1" {
     const sala = new SalaNivel1()
 
-    assert.equals("mapas/fondoPrimerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", sala.fondo())
     assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
     assert.equals(1, sala.multiplicadorDificultad())
   }
@@ -491,7 +527,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel2 usa el fondo del segundo piso, bestias y multiplicador 1.4" {
     const sala = new SalaNivel2()
 
-    assert.equals("mapas/fondoSegundoNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoSegundoNivel.png", sala.fondo())
     assert.equals(generadorDeBestias, sala.generadorDeEnemigos())
     assert.equals(1.4, sala.multiplicadorDificultad())
   }
@@ -499,7 +535,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel3 usa el fondo del tercer piso, esqueletos y multiplicador 1.8" {
     const sala = new SalaNivel3()
 
-    assert.equals("mapas/fondoTercerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoTercerNivel.png", sala.fondo())
     assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
     assert.equals(1.8, sala.multiplicadorDificultad())
   }
@@ -507,7 +543,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaInicial hereda la configuración de SalaNivel1" {
     const sala = new SalaInicial()
 
-    assert.equals("mapas/fondoPrimerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", sala.fondo())
     assert.equals(1, sala.multiplicadorDificultad())
   }
 
@@ -606,7 +642,7 @@ describe "Vida, curación y vida máxima del personaje" {
   test "Al llegar a 0 de vida, se muestra la pantalla de derrota" {
     prisionero.recibirAtaque(1000)
 
-    assert.equals("carteles/cartel_derrota.jpg", fondo.image())
+    assert.equals("carteles\\cartel_derrota.jpg", fondo.image())
   }
 
 }
@@ -621,7 +657,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
   test "iniciarPartida arranca en la primera sala de la secuencia" {
     gestorDeNiveles.iniciarPartida()
 
-    assert.equals("mapas/fondoPrimerNivel.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "iniciarPartida deja al personaje sin arma equipada y con la vida al máximo" {
@@ -640,7 +676,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     gestorDeNiveles.avanzar()
     gestorDeNiveles.avanzar()
 
-    assert.equals("mapas/fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("mapas\\fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "al agotar la secuencia de salas, avanzar dispara el nivel boss" {
@@ -649,7 +685,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     5.times { i => gestorDeNiveles.avanzar() }
     gestorDeNiveles.avanzar()
 
-    assert.equals("carteles/cartel_victoria.jpg", fondo.image())
+    assert.equals("carteles\\cartel_victoria.jpg", fondo.image())
   }
 
 }
