@@ -6,7 +6,7 @@ object pantallaClases {
 
   method mostrar() {
     game.clear()
-    configuracionJuego.aplicarFondo("mapas/fondoPrimerNivel.png")
+    configuracionJuego.aplicarFondo("mapas\\fondoPrimerNivel.png")
     game.addVisual(cartelDeClases)
 
     keyboard.enter().onPressDo({
@@ -19,7 +19,7 @@ object cartelDeClases {
 
   method position() = game.at(0, 0)
 
-  method image() = "carteles/CartelClases.png"
+  method image() = "carteles\\CartelClases.png"
 
   method esEnemigo() = false
 }
