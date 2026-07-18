@@ -68,7 +68,7 @@ class Enemigo inherits SerVivo {
     }
 
     method reproducirSonidoDeMuerte() {
-        const sonidoDeMuerte = game.sound("sonidos\\muerteEnemigo.mp3")
+        const sonidoDeMuerte = game.sound("sonidos/muerteEnemigo.mp3")
 
         sonidoDeMuerte.volume(0.2)
         sonidoDeMuerte.play()
@@ -77,12 +77,12 @@ class Enemigo inherits SerVivo {
 
 class EnemigoEsqueleto inherits Enemigo(vida = 100, fuerza = 15){
 
-    override method image() = "enemigos\\enemigoEsqueleto.png"
+    override method image() = "enemigos/enemigoEsqueleto.png"
 }
 
 class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
-    override method image() = "enemigos\\enemigoBestia.png"
+    override method image() = "enemigos/enemigoBestia.png"
 }
 class EnemigoReyOscuro inherits Enemigo(vida = 200,fuerza = 30) {
-    override method image() = "enemigos\\enemigoReyOscuro.png"
+    override method image() = "enemigos/enemigoReyOscuro.png"
 }

@@ -11,7 +11,7 @@ object prisionero inherits SerVivo (position = game.center(), vida = 100) {
   var arma = sinArma
   const fuerzaBase = 10
 
-  override method image() = "personaje\\" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
+  override method image() = "personaje/" + arma.stringVestimenta() + "-" + orientacionActual.stringImage() + ".png"
 
   method poderDeAtaque() = fuerzaBase + arma.poder()
 
