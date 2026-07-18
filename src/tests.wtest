@@ -737,7 +737,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     5.times { i => gestorDeNiveles.avanzar() }
     gestorDeNiveles.avanzar()
 
-    assert.equals("carteles\\cartel_victoria.jpg", fondo.image())
+    assert.equals("mapas\\fondoTercerNivel.png", fondo.image())
   }
 
 }

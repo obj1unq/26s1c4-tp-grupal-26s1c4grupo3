@@ -3,6 +3,7 @@ import mapa.*
 import direcciones.*
 import alcance.*
 import serVivo.*
+import marcaSuelo.*
 
 class Enemigo inherits SerVivo {
     var fuerza
@@ -85,4 +86,63 @@ class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
 }
 class EnemigoReyOscuro inherits Enemigo(vida = 200,fuerza = 30) {
     override method image() = "enemigos\\enemigoReyOscuro.png"
+}
+
+class EnemigoFinal inherits Enemigo(vida = 300, fuerza = 40) {
+    var property estado = inactivo
+
+    override method image() = estado.image()
+
+    override method atacar(objetivo) {
+        if (estado.estaInactivo()) {
+            estado = atacando
+            game.schedule(400, {
+                estado = impacto
+                self.reproducirSonidoDeImpacto()
+                self.mostrarImpactoEnSuelo(objetivo)
+                objetivo.recibirAtaque(fuerza)
+                game.schedule(650, { estado = inactivo })
+            })
+        }
+    }
+
+    method reproducirSonidoDeImpacto() {
+        const sonidoImpacto = game.sound("sonidos\\golpeBoss.mp3")
+
+        sonidoImpacto.volume(0.2)
+        sonidoImpacto.play()
+    }
+
+    method mostrarImpactoEnSuelo(objetivo) {
+        const marcas = self.alcance().posicionesDelAlcanceDentroDelMapa(self).map { posicion => new MarcaSuelo(position = posicion) }
+
+        marcas.forEach { marca => game.addVisual(marca) }
+        self.pasarAlFrente(objetivo)
+        game.schedule(300, { marcas.forEach { marca => marca.ocultar() } })
+    }
+
+    method pasarAlFrente(objetivo) {
+        game.removeVisual(objetivo)
+        game.addVisual(objetivo)
+        game.removeVisual(self)
+        game.addVisual(self)
+    }
+}
+
+class EstadoDeAtaque {
+    method image()
+    method estaInactivo() = false
+}
+
+object inactivo inherits EstadoDeAtaque {
+    override method image() = "enemigos\\bossfinal.png"
+    override method estaInactivo() = true
+}
+
+object atacando inherits EstadoDeAtaque {
+    override method image() = "enemigos\\bossfinalAtaca.png"
+}
+
+object impacto inherits EstadoDeAtaque {
+    override method image() = "enemigos\\bossfinalImpacto.png"
 }
