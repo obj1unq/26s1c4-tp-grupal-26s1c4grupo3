@@ -5,10 +5,10 @@ Juego 2D hecho en Wollok Game para la materia Programación con Objetos (UNQ).
 ## Cómo probarlo
 
 El proyecto se entrega listo para correr en la carpeta
-[`Juego Objetos 1 - Escapa de la Fortaleza/`](<Juego Objetos 1 - Escapa de la Fortaleza>),
-con una versión autocontenida por sistema operativo `Windows/` y `Linux-Mac/`, cada una
-con su propio manual de juego e instrucciones de instalación (IDE de Wollok o línea de
-comandos). Elegí la carpeta de tu sistema y ahí adentro tenés todo lo necesario.
+[`JuegoEscapaDeLaFortaleza/`](JuegoEscapaDeLaFortaleza), con una versión autocontenida por
+sistema operativo — `Windows/` y `LinuxMac/` —, cada una con su propio manual de juego e
+instrucciones de instalación (IDE de Wollok o línea de comandos). Elegí la carpeta de tu
+sistema y ahí adentro tenés todo lo necesario.
 
 ## Equipo de desarrollo
 

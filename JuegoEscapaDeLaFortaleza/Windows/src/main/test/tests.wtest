@@ -361,7 +361,7 @@ describe "Generadores de enemigos por tipo" {
     const enemigos = generadorDeEsqueletos.crear([game.at(3, 3), game.at(4, 4)])
 
     assert.equals(2, enemigos.size())
-    assert.that(enemigos.all { enemigo => enemigo.image() == "enemigos/enemigoEsqueleto.png" })
+    assert.that(enemigos.all { enemigo => enemigo.image() == "enemigos\\enemigoEsqueleto.png" })
     assert.equals(game.at(3, 3), enemigos.get(0).position())
   }
 
@@ -369,7 +369,7 @@ describe "Generadores de enemigos por tipo" {
     const enemigos = generadorDeBestias.crear([game.at(5, 5)])
 
     assert.equals(1, enemigos.size())
-    assert.equals("enemigos/enemigoBestia.png", enemigos.get(0).image())
+    assert.equals("enemigos\\enemigoBestia.png", enemigos.get(0).image())
   }
 
 }
@@ -506,11 +506,11 @@ describe "Decisión aleatoria de recompensas" {
   }
 
   test "fabricaDePocionDeCuracion crea una poción de curación" {
-    assert.equals("recompensas/pocionDeCuracion.png", fabricaDePocionDeCuracion.crear().image())
+    assert.equals("recompensas\\pocionDeCuracion.png", fabricaDePocionDeCuracion.crear().image())
   }
 
   test "fabricaDeMejoraDeVidaMaxima crea una mejora de vida máxima" {
-    assert.equals("recompensas/mejoraDeVidaMaxima.png", fabricaDeMejoraDeVidaMaxima.crear().image())
+    assert.equals("recompensas\\mejoraDeVidaMaxima.png", fabricaDeMejoraDeVidaMaxima.crear().image())
   }
 
 }
@@ -520,7 +520,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel1 usa el fondo del primer piso, esqueletos y multiplicador 1" {
     const sala = new SalaNivel1()
 
-    assert.equals("mapas/fondoPrimerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", sala.fondo())
     assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
     assert.equals(1, sala.multiplicadorDificultad())
   }
@@ -528,7 +528,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel2 usa el fondo del segundo piso, bestias y multiplicador 1.4" {
     const sala = new SalaNivel2()
 
-    assert.equals("mapas/fondoSegundoNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoSegundoNivel.png", sala.fondo())
     assert.equals(generadorDeBestias, sala.generadorDeEnemigos())
     assert.equals(1.4, sala.multiplicadorDificultad())
   }
@@ -536,7 +536,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel3 usa el fondo del tercer piso, esqueletos y multiplicador 1.8" {
     const sala = new SalaNivel3()
 
-    assert.equals("mapas/fondoTercerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoTercerNivel.png", sala.fondo())
     assert.equals(generadorDeReyOscuro, sala.generadorDeEnemigos())
     assert.equals(1.8, sala.multiplicadorDificultad())
   }
@@ -553,7 +553,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaInicial hereda la configuración de SalaNivel1" {
     const sala = new SalaInicial()
 
-    assert.equals("mapas/fondoPrimerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", sala.fondo())
     assert.equals(1, sala.multiplicadorDificultad())
   }
 
@@ -628,7 +628,7 @@ describe "Ciclo completo de recompensas en una sala" {
 
     sala.intentarSpawnearRecompensa()
 
-    assert.that(!game.allVisuals().any { visual => visual.image() == "recompensas/pocionDeCuracion.png" })
+    assert.that(!game.allVisuals().any { visual => visual.image() == "recompensas\\pocionDeCuracion.png" })
   }
 
   test "Al completar la sala, la recompensa aparece en su posición y cura al pisarla" {
@@ -703,7 +703,7 @@ describe "Vida, curación y vida máxima del personaje" {
   test "Al llegar a 0 de vida, se muestra la pantalla de derrota" {
     prisionero.recibirAtaque(1000)
 
-    assert.equals("carteles/cartel_derrota.jpg", fondo.image())
+    assert.equals("carteles\\cartel_derrota.jpg", fondo.image())
   }
 
 }
@@ -718,7 +718,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
   test "iniciarPartida arranca en la primera sala de la secuencia" {
     gestorDeNiveles.iniciarPartida()
 
-    assert.equals("mapas/fondoPrimerNivel.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "iniciarPartida deja al personaje sin arma equipada y con la vida al máximo" {
@@ -738,7 +738,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     //gestorDeNiveles.avanzar()
     // comentado por reduccion temporal de salas hasta la version final (ver gestorDeNiveles.wlk)
 
-    assert.equals("mapas/fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("mapas\\fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "al agotar la secuencia de salas, avanzar dispara el nivel boss" {
@@ -747,7 +747,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     5.times { i => gestorDeNiveles.avanzar() }
     gestorDeNiveles.avanzar()
 
-    assert.equals("mapas/fondoTercerNivel.png", fondo.image())
+    assert.equals("mapas\\fondoTercerNivel.png", fondo.image())
   }
 
 }
