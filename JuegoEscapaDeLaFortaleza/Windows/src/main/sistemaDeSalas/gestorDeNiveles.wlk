@@ -5,8 +5,8 @@ import visuales.finDeJuego.*
 object gestorDeNiveles {
   const secuenciaDeSalas = [
     new SalaInicial(),
-    //new SalaNivel2(),
-    //new SalaNivel3(),
+    new SalaNivel2(),
+    new SalaNivel3(),
     new SalaBoss()
   ]
 

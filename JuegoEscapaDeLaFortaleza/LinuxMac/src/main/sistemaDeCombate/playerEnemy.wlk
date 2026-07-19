@@ -96,10 +96,12 @@ class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
     var estado = inactivo
     const cooldownAtaque = new CooldownManager(totalCooldownTime = 1500)
     const tiempoDeCarga = 1000
-    const duracionDelImpacto = 650
+    const duracionDelImpacto = 800
     const duracionDeMarcas = 300
 
     override method image() = estado.image()
+
+    override method alcance() = new Alcance(ancho = 3, profundidad = 3)
 
     override method pasarTiempo(milisegundos) {
         cooldownAtaque.onTimePassed(milisegundos)
