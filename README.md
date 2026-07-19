@@ -6,7 +6,7 @@ Juego 2D hecho en Wollok Game para la materia Programación con Objetos (UNQ).
 
 El proyecto se entrega listo para correr en la carpeta
 [`Juego Objetos 1 - Escapa de la Fortaleza/`](<Juego Objetos 1 - Escapa de la Fortaleza>),
-con una versión autocontenida por sistema operativo — `Windows/` y `Linux-Mac/` —, cada una
+con una versión autocontenida por sistema operativo `Windows/` y `Linux-Mac/`, cada una
 con su propio manual de juego e instrucciones de instalación (IDE de Wollok o línea de
 comandos). Elegí la carpeta de tu sistema y ahí adentro tenés todo lo necesario.
 
@@ -57,10 +57,10 @@ Si la vida del prisionero llega a 0 en cualquier momento (contra cualquier enemi
 
 ## Tests
 
-Los tests unitarios están en `src/main/test/tests.wtest` (71 tests).
+Los tests unitarios están en `src/main/test/tests.wtest`.
 
 ## Otros
 
 - Objetos 1 c4, UNQ
 - Versión Wollok: `4.2.3`
-- Una vez terminado, no tenemos problemas en que el repositorio sea público.
+- No tenemos problemas en que el repositorio sea público.
