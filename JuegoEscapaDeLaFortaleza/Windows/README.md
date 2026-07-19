@@ -1,10 +1,10 @@
-# Escapa de la fortaleza (versión Linux / Mac)
+# Escapa de la fortaleza (versión Windows)
 
 Juego 2D hecho en Wollok Game para la materia Programación con Objetos (UNQ).
 
 Esta carpeta es autocontenida: tiene el código (`src/`), los assets (`assets/`) y la
-configuración (`package.json`) necesarios para correr el juego en **Linux o Mac**. No hace
-falta nada más que lo que está acá adentro.
+configuración (`package.json`) necesarios para correr el juego en **Windows**. No hace falta
+nada más que lo que está acá adentro.
 
 ## Equipo de desarrollo
 
@@ -62,7 +62,7 @@ el jefe), se pierde. En ambos casos se vuelve al menú principal.
 - **P**: volver al menú principal.
 - **+** / **-**: subir o bajar el volumen de la música.
 
-## Instalación y ejecución (Linux / Mac)
+## Instalación y ejecución (Windows)
 
 Hay dos formas de correrlo: con el **IDE de Wollok** (no requiere terminal) o con la **línea
 de comandos**.
@@ -71,7 +71,7 @@ de comandos**.
 
 1. Descargar e instalar Wollok desde [wollok.org](https://www.wollok.org/) (versión 4.2.3 o
    compatible).
-2. **File → Open Folder** y seleccionar esta carpeta completa (`LinuxMac`), no un archivo
+2. **File → Open Folder** y seleccionar esta carpeta completa (`Windows`), no un archivo
    suelto.
 3. Abrir `src/main/main.wpgm` en el explorador de archivos del IDE.
 4. Correr con el botón de **Run** (▶) del editor (o clic derecho → *Run Wollok Program*). Se
@@ -87,18 +87,14 @@ Requiere [Node.js](https://nodejs.org/) (versión 18 o superior).
    ```
    npm install -g wollok-ts-cli
    ```
-   Si da un error de permisos (`EACCES`), es porque el prefix global de npm (`/usr/local`) es
-   del sistema. Opciones: `sudo npm install -g wollok-ts-cli`, o configurar antes un prefix de
-   npm en tu carpeta de usuario (`npm config set prefix '~/.npm-global'` + agregar
-   `~/.npm-global/bin` al `PATH`) para no depender de `sudo`.
-2. Abrir una terminal **dentro de esta carpeta** (`LinuxMac`).
+2. Abrir una terminal **dentro de esta carpeta** (`Windows`).
 3. Correr el juego:
    ```
-   wollok run src.main.escapaDeLaFortaleza
+   wollok run src.main.main.escapaDeLaFortaleza
    ```
-   Se abre en el navegador, puerto por defecto `4200`.
+   Se abre en el navegador, puerto por defecto `3000`.
 4. Correr los tests:
    ```
    wollok test
    ```
-   Deberían pasar los 72 tests.
+   Deberían pasar los 85 tests.

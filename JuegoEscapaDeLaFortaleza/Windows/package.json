@@ -1,9 +1,8 @@
 {
-    "name": "tp-juego-base",
-    "version": "1.0.0",
+    "name": "escapa-de-la-fortaleza",
+    "version": "2.9.1",
     "resourceFolder": "assets",
     "wollokVersion": "4.2.3",
-    "author": "palumbon",
+    "author": "Grupo 3 - 26s1c4",
     "license": "ISC"
   }
-  

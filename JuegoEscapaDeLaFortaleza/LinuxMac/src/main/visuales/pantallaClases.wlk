@@ -1,6 +1,8 @@
 import wollok.game.*
 import sistemaDeSalas.configuracionJuego.*
 import sistemaDeSalas.gestorDeNiveles.*
+import sistemaDeSalas.sistemaSonido.*
+import sistemaDeCombate.objetoDelTablero.*
 
 object pantallaClases {
 
@@ -12,14 +14,13 @@ object pantallaClases {
     keyboard.enter().onPressDo({
       gestorDeNiveles.iniciarPartida()
     })
+    sistemaSonido.configurarTeclas()
   }
 }
 
-object cartelDeClases {
+object cartelDeClases inherits ObjetoDelTablero {
 
   method position() = game.at(0, 0)
 
   method image() = "carteles/CartelClases.png"
-
-  method esEnemigo() = false
 }

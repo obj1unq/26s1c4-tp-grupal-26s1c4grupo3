@@ -54,6 +54,10 @@ class PlayerEnemy inherits Player {
         objetivo.recibirAtaque(fuerza)
     }
 
+    // Hook de reloj: la sala (dueña del único reloj del juego) avisa cuánto tiempo
+    // pasó en cada tick. La mayoría de los enemigos no lleva tiempos propios.
+    method pasarTiempo(milisegundos) { }
+
     method actuar(objetivo) {
         if (objetivo.estaVivo()) {
             self.orientarHacia(objetivo)
@@ -90,28 +94,74 @@ class EnemigoReyOscuro inherits PlayerEnemy(vida = 100,fuerza = 25) {
 }
 
 class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
-    var property estado = inactivo
+    var estado = inactivo
     const cooldownAtaque = new CooldownManager(totalCooldownTime = 1500)
+    const tiempoDeCarga = 1000
+    const duracionDelImpacto = 650
+    const duracionDeMarcas = 300
 
     override method image() = estado.image()
 
-    override method actuar(objetivo) {
-        cooldownAtaque.onTimePassed(600)
-        super(objetivo)
+    override method pasarTiempo(milisegundos) {
+        cooldownAtaque.onTimePassed(milisegundos)
     }
 
+    // Mientras carga o impacta el golpe, el boss queda quieto: lo decide su estado.
+    override method actuar(objetivo) {
+        if (estado.permiteActuar()) {
+            super(objetivo)
+        }
+    }
+
+    // El golpe no es instantáneo: al iniciar la carga se marca en el piso la zona
+    // de impacto y el daño recién impacta cuando la carga termina, solo si el
+    // objetivo sigue parado en la zona marcada (se puede esquivar).
     override method atacar(objetivo) {
         if (cooldownAtaque.estaListo()) {
-            cooldownAtaque.activar()
-            estado = atacando
-            game.schedule(400, {
-                estado = impacto
-                self.reproducirSonidoDeImpacto()
-                self.mostrarImpactoEnSuelo(objetivo)
-                objetivo.recibirAtaque(fuerza)
-                game.schedule(650, { estado = inactivo })
-            })
+            self.iniciarCarga(objetivo)
         }
+    }
+
+    method iniciarCarga(objetivo) {
+        cooldownAtaque.activar()
+        estado = atacando
+        const marcas = self.marcarZonaDeImpacto()
+        objetivo.superponerImage()
+        self.superponerImage()
+        game.schedule(tiempoDeCarga, { self.impactarSiSigueVivo(objetivo, marcas) })
+    }
+
+    method marcarZonaDeImpacto() {
+        const marcas = self.alcance().posicionesDelAlcanceDentroDelMapa(self).map { posicion => new MarcaSuelo(position = posicion) }
+
+        marcas.forEach { marca => marca.aparecer() }
+        return marcas
+    }
+
+    method impactarSiSigueVivo(objetivo, marcas) {
+        if (self.estaVivo()) {
+            self.impactar(objetivo, marcas)
+        } else {
+            self.limpiarMarcas(marcas)
+        }
+    }
+
+    method impactar(objetivo, marcas) {
+        estado = impacto
+        self.reproducirSonidoDeImpacto()
+        self.dañarSiEstaEnLaZona(objetivo, marcas)
+        game.schedule(duracionDelImpacto, { estado = inactivo })
+        game.schedule(duracionDeMarcas, { self.limpiarMarcas(marcas) })
+    }
+
+    method dañarSiEstaEnLaZona(objetivo, marcas) {
+        if (marcas.any { marca => marca.position() == objetivo.position() }) {
+            objetivo.recibirAtaque(fuerza)
+        }
+    }
+
+    method limpiarMarcas(marcas) {
+        marcas.forEach { marca => marca.ocultar() }
     }
 
     method reproducirSonidoDeImpacto() {
@@ -120,36 +170,29 @@ class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
         sonidoImpacto.volume(0.2)
         sonidoImpacto.play()
     }
-
-    method mostrarImpactoEnSuelo(objetivo) {
-        const marcas = self.alcance().posicionesDelAlcanceDentroDelMapa(self).map { posicion => new MarcaSuelo(position = posicion) }
-
-        marcas.forEach { marca => game.addVisual(marca) }
-        self.pasarAlFrente(objetivo)
-        game.schedule(300, { marcas.forEach { marca => marca.ocultar() } })
-    }
-
-    method pasarAlFrente(objetivo) {
-        game.removeVisual(objetivo)
-        game.addVisual(objetivo)
-        game.removeVisual(self)
-        game.addVisual(self)
-    }
 }
 
 
 class EstadoDeAtaque {
     method image()
+
+    method permiteActuar()
 }
 
 object inactivo inherits EstadoDeAtaque {
     override method image() = "enemigos\\bossfinal.png"
+
+    override method permiteActuar() = true
 }
 
 object atacando inherits EstadoDeAtaque {
     override method image() = "enemigos\\bossfinalAtaca.png"
+
+    override method permiteActuar() = false
 }
 
 object impacto inherits EstadoDeAtaque {
     override method image() = "enemigos\\bossfinalImpacto.png"
+
+    override method permiteActuar() = false
 }

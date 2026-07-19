@@ -1,14 +1,13 @@
 import wollok.game.*
 import azar.*
+import sistemaDeCombate.objetoDelTablero.*
 
-class Recompensa {
+class Recompensa inherits ObjetoDelTablero {
   var property position = null
 
   method image()
 
   method aplicarEfecto(personaje)
-
-  method esEnemigo() = false
 
   method aparecerEn(unaPosicion) {
     position = unaPosicion
@@ -75,6 +74,8 @@ class ConfiguracionDeRecompensa {
   const property posicion
 
   method decidirRecompensa() =
-    if (azar.ocurreConProbabilidad(probabilidad)) candidatas.anyOne().crear() else sinRecompensa
+    if (self.hayCandidatas() and azar.ocurreConProbabilidad(probabilidad)) candidatas.anyOne().crear() else sinRecompensa
+
+  method hayCandidatas() = !candidatas.isEmpty()
 }
 

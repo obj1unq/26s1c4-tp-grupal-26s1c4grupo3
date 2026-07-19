@@ -2,6 +2,7 @@ import wollok.game.*
 import sistemaDeSalas.gestorDeNiveles.*
 import pantallaControles.*
 import sistemaDeSalas.configuracionJuego.*
+import sistemaDeSalas.sistemaSonido.*
 import pantallaClases.*
 
 object menuInicio {
@@ -14,6 +15,7 @@ object menuInicio {
   method configurarTeclado() {
     keyboard.enter().onPressDo({ self.empezar() })
     keyboard.c().onPressDo({ self.verControles() })
+    sistemaSonido.configurarTeclas()
   }
 
   method empezar() {

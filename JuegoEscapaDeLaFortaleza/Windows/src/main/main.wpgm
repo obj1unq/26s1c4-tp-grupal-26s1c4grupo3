@@ -6,8 +6,6 @@ import sistemaDeSalas.sistemaSonido.*
 program escapaDeLaFortaleza {
   configuracionJuego.iniciar()
   sistemaSonido.iniciar()
-  keyboard.plusKey().onPressDo({ sistemaSonido.subirVolumen() })
-  keyboard.minusKey().onPressDo({ sistemaSonido.bajarVolumen() })
   menuInicio.mostrar()
   game.start()
 }

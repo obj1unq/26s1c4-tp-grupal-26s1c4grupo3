@@ -1,5 +1,6 @@
 import wollok.game.*
 import alcance.*
+import objetoDelTablero.*
 
 class Arma {
 
@@ -83,14 +84,12 @@ object sinArma inherits Arma {
 
 // Armas en mapa
 
-class ArmaEnMapa {
-  var property position 
+class ArmaEnMapa inherits ObjetoDelTablero {
+  var property position
 
   method image()
 
   method arma()
-
-  method esEnemigo() = false
 
   method aparecer() {
     game.addVisual(self)

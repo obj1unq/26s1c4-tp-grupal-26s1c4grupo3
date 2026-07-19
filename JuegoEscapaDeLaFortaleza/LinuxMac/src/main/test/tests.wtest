@@ -10,6 +10,7 @@ import sistemaDeSalas.recompensas.*
 import sistemaDeSalas.main.*
 import sistemaDeSalas.azar.*
 import sistemaDeSalas.configuracionJuego.*
+import visuales.hudArma.*
 
 
 describe "Movimiento del personaje respetando los límites del mapa" {
@@ -179,7 +180,7 @@ describe "Ataque del personaje principal con arco" {
 
 }
 
-describe "Marca de herida al recibir daño (SerVivo)" {
+describe "Marca de herida al recibir daño" {
 
   method initialize() {
     game.width(25)
@@ -217,9 +218,21 @@ describe "Marca de herida al recibir daño (SerVivo)" {
 
 describe "Alcance de ataque y objetos que no son enemigos" {
 
-  test "Atacar no debería afectar ni romper si un objeto no-enemigo (ej. el HUD del arma) cae dentro del alcance" {
-    // PENDIENTE: habia un bug porque ni hud ni fondo tenian el metodo .esEnemigo(), ya agregado pero test pendiente
-    assert.that(true)
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Un objeto no-enemigo dentro del alcance no rompe el ataque y los enemigos igual reciben el daño" {
+    prisionero.ubicarEn(game.at(20, 2), abajo)
+    prisionero.equiparArma(espada)
+    hudArma.aparecer() // el HUD vive en (20, 0), dentro del alcance de la espada hacia abajo
+    const esqueleto = new EnemigoEsqueleto(position = game.at(20, 1))
+    game.addVisual(esqueleto)
+
+    prisionero.atacar()
+
+    assert.equals(50, esqueleto.vida())
   }
 
 }
@@ -388,7 +401,7 @@ describe "Selección de arma inicial" {
 
     gestorArmas.intentarElegirArma()
 
-    assert.equals(50, prisionero.poderDeAtaque()) // fuerzaBase 10 + poder espada 30
+    assert.equals(50, prisionero.poderDeAtaque()) // fuerzaBase 10 + poder espada 40
   }
 
   test "Si el personaje no está parado sobre ningún arma, intentar elegir no hace nada" {
@@ -533,7 +546,7 @@ describe "Configuración de cada sala según su nivel" {
     assert.equals(1.4, sala.multiplicadorDificultad())
   }
 
-  test "SalaNivel3 usa el fondo del tercer piso, esqueletos y multiplicador 1.8" {
+  test "SalaNivel3 usa el fondo del tercer piso, el rey oscuro y multiplicador 1.8" {
     const sala = new SalaNivel3()
 
     assert.equals("mapas/fondoTercerNivel.png", sala.fondo())
@@ -735,19 +748,168 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
     gestorDeNiveles.iniciarPartida()
 
     gestorDeNiveles.avanzar()
-    //gestorDeNiveles.avanzar()
-    // comentado por reduccion temporal de salas hasta la version final (ver gestorDeNiveles.wlk)
 
     assert.equals("mapas/fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
-  test "al agotar la secuencia de salas, avanzar dispara el nivel boss" {
+  test "la secuencia completa termina en la sala del boss" {
     gestorDeNiveles.iniciarPartida()
 
-    5.times { i => gestorDeNiveles.avanzar() }
+    3.times { paso => gestorDeNiveles.avanzar() }
+
+    assert.equals(generadorEnemigoFinal, gestorDeNiveles.salaActual().generadorDeEnemigos())
+  }
+
+  test "cuando ya no quedan salas por delante, avanzar muestra la pantalla de victoria" {
+    gestorDeNiveles.iniciarPartida()
+    3.times { paso => gestorDeNiveles.avanzar() }
+
     gestorDeNiveles.avanzar()
 
-    assert.equals("mapas/fondoTercerNivel.png", fondo.image())
+    assert.equals("carteles/cartel_victoria.jpg", fondo.image())
+  }
+
+}
+
+describe "SalaBoss: el nivel final" {
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "La sala del boss genera un único enemigo con el generador del enemigo final" {
+    const sala = new SalaBoss()
+
+    sala.configurarEnemigos()
+
+    assert.equals(1, sala.enemigosDeLaSala().size())
+    assert.equals(generadorEnemigoFinal, sala.generadorDeEnemigos())
+  }
+
+  test "Mientras el boss siga vivo, no hay victoria" {
+    const sala = new SalaBoss()
+    sala.configurarEnemigos()
+
+    sala.reaccionarSiSalaCompleta()
+
+    assert.that(fondo.image() != "carteles/cartel_victoria.jpg")
+  }
+
+  test "Al morir el boss se muestra la pantalla de victoria, sin necesidad de llegar a una puerta" {
+    const sala = new SalaBoss()
+    sala.configurarEnemigos()
+    sala.enemigosDeLaSala().forEach { enemigo => enemigo.recibirAtaque(5000) }
+
+    sala.reaccionarSiSalaCompleta()
+
+    assert.equals("carteles/cartel_victoria.jpg", fondo.image())
+  }
+
+}
+
+describe "Ataque con carga del enemigo final" {
+
+  // El boss arranca orientado hacia abajo: su zona de impacto desde (10,10) es la fila y=9.
+
+  method initialize() {
+    game.width(25)
+    game.height(25)
+  }
+
+  test "Durante la carga el boss muestra la animación de ataque y el daño todavía no impactó" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+
+    boss.atacar(prisionero)
+
+    assert.equals("enemigos/bossfinalAtaca.png", boss.image())
+    assert.equals(100, prisionero.vida())
+  }
+
+  test "Al iniciar la carga, la zona de impacto queda marcada en el piso" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+
+    boss.atacar(prisionero)
+
+    assert.equals(3, game.allVisuals().count { visual => visual.image() == "efectos/grietaSuelo.png" })
+  }
+
+  test "Si pasa tiempo pero la carga no terminó, el daño sigue sin impactar" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+    boss.atacar(prisionero)
+
+    game.flushEvents(500)
+
+    assert.equals(100, prisionero.vida())
+  }
+
+  test "Si el objetivo sigue en la zona marcada al terminar la carga, el daño impacta" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+    boss.atacar(prisionero)
+
+    game.flushEvents(1100)
+
+    assert.equals(60, prisionero.vida())
+  }
+
+  test "Si el objetivo salió de la zona marcada durante la carga, esquiva el golpe" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+    boss.atacar(prisionero)
+
+    prisionero.ubicarEn(game.at(5, 5), abajo)
+    game.flushEvents(1100)
+
+    assert.equals(100, prisionero.vida())
+  }
+
+  test "Mientras carga el golpe, el boss no se mueve aunque el objetivo se aleje" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+    boss.atacar(prisionero)
+
+    prisionero.ubicarEn(game.at(10, 15), abajo)
+    boss.actuar(prisionero)
+
+    assert.equals(game.at(10, 10), boss.position())
+  }
+
+  test "Las marcas del piso se limpian después del impacto" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+    boss.atacar(prisionero)
+
+    game.flushEvents(1100)
+    game.flushEvents(1500)
+
+    assert.equals(0, game.allVisuals().count { visual => visual.image() == "efectos/grietaSuelo.png" })
+  }
+
+  test "Si el boss muere durante la carga, el golpe pendiente se cancela y las marcas se limpian" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+    boss.atacar(prisionero)
+
+    boss.recibirAtaque(5000)
+    game.flushEvents(2000)
+
+    assert.equals(100, prisionero.vida())
+    assert.equals(0, game.allVisuals().count { visual => visual.image() == "efectos/grietaSuelo.png" })
+  }
+
+  test "El cooldown impide encadenar un segundo golpe inmediato" {
+    const boss = new EnemigoFinal(position = game.at(10, 10))
+    prisionero.ubicarEn(game.at(10, 9), abajo)
+
+    boss.atacar(prisionero)
+    boss.atacar(prisionero)
+    game.flushEvents(5000)
+
+    assert.equals(60, prisionero.vida())
   }
 
 }

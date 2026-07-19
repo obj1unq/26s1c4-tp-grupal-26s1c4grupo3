@@ -10,6 +10,13 @@ object sistemaSonido {
     sonido.play()
   }
 
+  // game.clear() borra todos los handlers de teclado, así que cada pantalla
+  // debe re-registrar estas teclas al configurar su propio teclado.
+  method configurarTeclas() {
+    keyboard.plusKey().onPressDo({ self.subirVolumen() })
+    keyboard.minusKey().onPressDo({ self.bajarVolumen() })
+  }
+
   method subirVolumen() {
     sonido.volume((sonido.volume() + 0.1).min(1))
   }

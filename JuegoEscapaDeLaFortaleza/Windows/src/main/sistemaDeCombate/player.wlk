@@ -1,8 +1,9 @@
 import wollok.game.*
 import sistemaDirecciones.*
 import herida.*
+import objetoDelTablero.*
 
-class Player {
+class Player inherits ObjetoDelTablero {
   var position
   var property vida
   var herida = sinHerida
@@ -16,6 +17,13 @@ class Player {
     game.addVisual(self)
   }
 
+  // Wollok dibuja los visuales en orden de llegada: re-agregarse deja la imagen
+  // propia por encima de lo agregado antes (ej. las marcas de ataque en el piso).
+  method superponerImage() {
+    game.removeVisual(self)
+    game.addVisual(self)
+  }
+
   method moverA(unaPosicion) {
     position = unaPosicion
   }
@@ -25,8 +33,6 @@ class Player {
   }
 
   method image()
-
-  method esEnemigo() = false
 
   method estaVivo() = vida > 0
 

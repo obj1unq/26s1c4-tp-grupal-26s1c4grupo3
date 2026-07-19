@@ -1,4 +1,5 @@
 import wollok.game.*
+import sistemaDeCombate.objetoDelTablero.*
 
 object configuracionJuego {
 
@@ -15,14 +16,12 @@ object configuracionJuego {
   }
 }
 
-object fondo {
+object fondo inherits ObjetoDelTablero {
   var imagenActual = ""
 
   method position() = game.at(0, 0)
 
   method image() = imagenActual
-
-  method esEnemigo() = false
 
   method cambiarA(unaImagen) {
     imagenActual = unaImagen

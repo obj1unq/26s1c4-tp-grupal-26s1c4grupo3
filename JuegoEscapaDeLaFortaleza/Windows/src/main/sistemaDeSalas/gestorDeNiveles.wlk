@@ -1,15 +1,13 @@
 import main.*
 import sistemaDeCombate.playerCharacter.*
-import nivelBoss.*
+import visuales.finDeJuego.*
 
 object gestorDeNiveles {
   const secuenciaDeSalas = [
     new SalaInicial(),
-    //new SalaNivel1(),
-    new SalaNivel2(),
     //new SalaNivel2(),
     //new SalaNivel3(),
-    new SalaNivel3()
+    new SalaBoss()
   ]
 
   var indiceActual = 0
@@ -29,7 +27,8 @@ object gestorDeNiveles {
       indiceActual += 1
       self.salaActual().iniciar()
     } else {
-      nivelBoss.iniciar()
+      // Sin salas pendientes, el juego está ganado (hoy la SalaBoss lo resuelve sola al morir el boss, pero el gestor mantiene la semántica completa).
+      finDeJuego.mostrarVictoria()
     }
   }
 }

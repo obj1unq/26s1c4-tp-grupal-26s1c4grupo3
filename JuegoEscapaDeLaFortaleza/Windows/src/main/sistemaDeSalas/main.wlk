@@ -3,11 +3,13 @@ import sistemaDeCombate.sistemaDirecciones.*
 import sistemaDeCombate.playerCharacter.*
 import visuales.hudArma.*
 import visuales.menuInicio.*
+import visuales.finDeJuego.*
 import gestorArmas.*
 import configuracionJuego.*
 import recompensas.*
 import fabricaEnemigos.*
 import gestorDeNiveles.*
+import sistemaSonido.*
 
 class Puerta {
   const property posicion
@@ -20,6 +22,9 @@ object sinPuerta {
 }
 
 class Sala {
+  // Único reloj del juego: la sala tickea y les avisa a los enemigos cuánto tiempo
+  // pasó; cada entidad administra sus propios tiempos internos (ej. cooldown del boss).
+  const milisegundosPorTick = 600
   const enemigos = #{}
   var combateIniciado = false
   var recompensaActual = sinRecompensa
@@ -115,6 +120,7 @@ class Sala {
     keyboard.k().onPressDo({ prisionero.atacar() })
     keyboard.space().onPressDo({ prisionero.atacar() })
     keyboard.p().onPressDo({ self.abortarPartida() })
+    sistemaSonido.configurarTeclas()
   }
 
   // Hook: por default el combate arranca directamente (ya hay arma equipada).
@@ -129,12 +135,15 @@ class Sala {
   }
 
   method configurarComportamientoEnemigos() {
-    game.onTick(600, "comportamientoDeEnemigos", { self.actuarEnemigos() })
+    game.onTick(milisegundosPorTick, "comportamientoDeEnemigos", { self.actuarEnemigos() })
   }
 
   method actuarEnemigos() {
     if (combateIniciado) {
-      enemigos.filter { enemigo => enemigo.estaVivo() }.forEach { enemigo => enemigo.actuar(prisionero) }
+      enemigos.filter { enemigo => enemigo.estaVivo() }.forEach { enemigo =>
+        enemigo.pasarTiempo(milisegundosPorTick)
+        enemigo.actuar(prisionero)
+      }
       self.reaccionarSiSalaCompleta()
     }
   }
@@ -170,8 +179,8 @@ class Sala {
     }
   }
 
+  // mostrar() hace game.clear(), que ya elimina el tick de enemigos junto con el resto de handlers.
   method abortarPartida() {
-    game.removeTickEvent("comportamientoDeEnemigos")
     menuInicio.mostrar()
   }
 }
@@ -200,6 +209,23 @@ class SalaNivel3 inherits Sala {
       probabilidad = 100,
       posicion = game.at(12, 16)
     )
+}
+
+class SalaBoss inherits Sala {
+
+  method posicionDelBoss() = game.at(12, 21)
+  override method posicionDeAparicion() = game.at(12, 5)
+  override method fondo() = "mapas\\fondoTercerNivel.png"
+  override method generadorDeEnemigos() = generadorEnemigoFinal
+  override method posicionesEnemigos() = [self.posicionDelBoss()]
+  override method multiplicadorDificultad() = 1
+
+  // La sala del boss no tiene puerta: al morir el boss se gana directamente.
+  override method reaccionarSiSalaCompleta() {
+    if (self.salaCompleta()) {
+      finDeJuego.mostrarVictoria()
+    }
+  }
 }
 
 class SalaInicial inherits SalaNivel1 {

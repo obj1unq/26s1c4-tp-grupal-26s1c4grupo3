@@ -1,6 +1,7 @@
 import wollok.game.*
 import menuInicio.*
 import sistemaDeSalas.configuracionJuego.*
+import sistemaDeSalas.sistemaSonido.*
 
 object finDeJuego {
   method mostrarVictoria() {
@@ -17,5 +18,6 @@ object finDeJuego {
 
   method configurarVuelta() {
     keyboard.enter().onPressDo({ menuInicio.mostrar() })
+    sistemaSonido.configurarTeclas()
   }
 }
