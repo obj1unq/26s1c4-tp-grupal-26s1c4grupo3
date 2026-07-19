@@ -46,7 +46,7 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
     game.height(25)
   }
 
-  test "Un esqueleto ubicado justo enfrente del personaje con espada equipada recibe 40 de daño y le quedan 60 de vida" {
+  test "Un esqueleto ubicado justo enfrente del personaje con espada equipada recibe 50 de daño y le quedan 50 de vida" {
     prisionero.ubicarEn(game.at(6, 5), arriba)
     prisionero.mover(arriba)
     prisionero.equiparArma(espada)
@@ -55,7 +55,7 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
 
     prisionero.atacar()
 
-    assert.equals(60, esqueleto.vida())
+    assert.equals(50, esqueleto.vida())
   }
 
   test "Los esqueletos ubicados fuera del alcance de la espada, tanto en profundidad como en ancho, no reciben daño" {
@@ -86,9 +86,9 @@ describe "Ataque del personaje principal a enemigos en su alcance" {
 
     prisionero.atacar()
 
-    assert.equals(60, esqueletoIzquierda.vida())
-    assert.equals(60, esqueletoCentro.vida())
-    assert.equals(60, esqueletoDerecha.vida())
+    assert.equals(50, esqueletoIzquierda.vida())
+    assert.equals(50, esqueletoCentro.vida())
+    assert.equals(50, esqueletoDerecha.vida())
   }
 
   test "Un esqueleto con 40 de vida muere al recibir un ataque de espada" {
@@ -113,7 +113,7 @@ describe "Ataque del personaje principal con báculo" {
     game.height(25)
   }
 
-  test "Un esqueleto dentro del alcance del báculo recibe 30 de daño" {
+  test "Un esqueleto dentro del alcance del báculo recibe 40 de daño" {
     prisionero.ubicarEn(game.at(10, 10), arriba)
     prisionero.mover(arriba)
     prisionero.equiparArma(baculo)
@@ -122,7 +122,7 @@ describe "Ataque del personaje principal con báculo" {
 
     prisionero.atacar()
 
-    assert.equals(70, esqueleto.vida())
+    assert.equals(60, esqueleto.vida())
   }
 
   test "Un esqueleto fuera del alcance del báculo, tanto en profundidad como en ancho, no recibe daño" {
@@ -388,7 +388,7 @@ describe "Selección de arma inicial" {
 
     gestorArmas.intentarElegirArma()
 
-    assert.equals(40, prisionero.poderDeAtaque()) // fuerzaBase 10 + poder espada 30
+    assert.equals(50, prisionero.poderDeAtaque()) // fuerzaBase 10 + poder espada 30
   }
 
   test "Si el personaje no está parado sobre ningún arma, intentar elegir no hace nada" {

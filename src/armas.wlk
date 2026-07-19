@@ -25,7 +25,7 @@ class Arma {
 
 object espada inherits Arma {
 
-  override method poder() = 30
+  override method poder() = 40
 
   override method alcance() = new Alcance(ancho = 3, profundidad = 2)
 
@@ -38,7 +38,7 @@ object espada inherits Arma {
 
 object baculo inherits Arma {
 
-  override method poder() = 20
+  override method poder() = 30
 
   override method alcance() = new Alcance(ancho = 5, profundidad = 5)
 

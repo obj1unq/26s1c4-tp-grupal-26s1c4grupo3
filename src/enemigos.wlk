@@ -4,6 +4,7 @@ import direcciones.*
 import alcance.*
 import serVivo.*
 import marcaSuelo.*
+import cooldown.*
 
 class Enemigo inherits SerVivo {
     var fuerza
@@ -84,17 +85,24 @@ class EnemigoEsqueleto inherits Enemigo(vida = 100, fuerza = 15){
 class EnemigoBestia inherits Enemigo(vida = 100,fuerza = 20) {
     override method image() = "enemigos/enemigoBestia.png"
 }
-class EnemigoReyOscuro inherits Enemigo(vida = 200,fuerza = 30) {
+class EnemigoReyOscuro inherits Enemigo(vida = 100,fuerza = 20) {
     override method image() = "enemigos/enemigoReyOscuro.png"
 }
 
-class EnemigoFinal inherits Enemigo(vida = 300, fuerza = 40) {
+class EnemigoFinal inherits Enemigo(vida = 1000, fuerza = 40) {
     var property estado = inactivo
+    const cooldownAtaque = new CooldownManager(totalCooldownTime = 1500)
 
     override method image() = estado.image()
 
+    override method actuar(objetivo) {
+        cooldownAtaque.onTimePassed(600)
+        super(objetivo)
+    }
+
     override method atacar(objetivo) {
-        if (estado.estaInactivo()) {
+        if (cooldownAtaque.estaListo()) {
+            cooldownAtaque.activar()
             estado = atacando
             game.schedule(400, {
                 estado = impacto
@@ -129,14 +137,13 @@ class EnemigoFinal inherits Enemigo(vida = 300, fuerza = 40) {
     }
 }
 
+
 class EstadoDeAtaque {
     method image()
-    method estaInactivo() = false
 }
 
 object inactivo inherits EstadoDeAtaque {
     override method image() = "enemigos/bossfinal.png"
-    override method estaInactivo() = true
 }
 
 object atacando inherits EstadoDeAtaque {
