@@ -1,4 +1,4 @@
-# Escapa de la fortaleza (versión Windows)
+# Escapa de la fortaleza 1.9.4 (versión Windows)
 
 Juego 2D hecho en Wollok Game para la materia Programación con Objetos (UNQ).
 
