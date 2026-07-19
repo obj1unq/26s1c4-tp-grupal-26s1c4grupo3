@@ -28,7 +28,6 @@ class PlayerEnemy inherits Player {
     }
 
     // movimiento autonomo:
-    method puedeMoverseA(posicion) = mapa.puedePisarse(posicion)
 
     method estaEnLaMismaPosicion(objetivo) = position == objetivo.position()
 

@@ -30,8 +30,6 @@ object prisionero inherits Player (position = game.center(), vida = 100) {
     self.orientarA(unaOrientacion)
   }
 
-  method puedeMoverseA(unaPosicion) = mapa.puedePisarse(unaPosicion)
-
   method equiparArma(unArma) {
     arma = unArma
   }

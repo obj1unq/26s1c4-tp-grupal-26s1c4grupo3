@@ -2,6 +2,7 @@ import wollok.game.*
 import sistemaDirecciones.*
 import herida.*
 import objetoDelTablero.*
+import sistemaDeSalas.mapa.*
 
 class Player inherits ObjetoDelTablero {
   var position
@@ -27,6 +28,8 @@ class Player inherits ObjetoDelTablero {
   method moverA(unaPosicion) {
     position = unaPosicion
   }
+
+  method puedeMoverseA(posicion) = mapa.puedePisarse(posicion) 
 
   method orientarA(unaDireccion) {
     orientacionActual = unaDireccion
