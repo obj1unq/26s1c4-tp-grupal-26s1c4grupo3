@@ -15,3 +15,7 @@ object generadorDeBestias inherits GeneradorDeEnemigos {
 object generadorDeReyOscuro inherits GeneradorDeEnemigos {
     override method crear(posiciones) = posiciones.map { posicion => new EnemigoReyOscuro(position = posicion) }
 }
+
+object generadorEnemigoFinal  inherits GeneradorDeEnemigos {
+    override method crear(posiciones) = posiciones.map { posicion => new EnemigoFinal(position = posicion) }
+}

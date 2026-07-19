@@ -6,7 +6,7 @@ object gestorDeNiveles {
   const secuenciaDeSalas = [
     new SalaInicial(),
     //new SalaNivel1(),
-    new SalaNivel2(),
+    //new SalaNivel2(),
     //new SalaNivel2(),
     //new SalaNivel3(),
     new SalaNivel3()
