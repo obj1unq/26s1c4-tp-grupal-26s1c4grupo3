@@ -1,3 +1,4 @@
+import wollok.game.*
 object mapa {
 
   const posicionesBloqueadas = [
@@ -39,5 +40,8 @@ object mapa {
 
   method puedePisarse(posicion) =
     self.estaDentroDelMapa(posicion) &&
-    !self.estaBloqueada(posicion)
+    !self.estaBloqueada(posicion) &&
+    self.noHayEnemigo(posicion)
+
+  method noHayEnemigo(posicion) = game.getObjectsIn(posicion).filter { objeto => objeto.esEnemigo() }.isEmpty()
 }

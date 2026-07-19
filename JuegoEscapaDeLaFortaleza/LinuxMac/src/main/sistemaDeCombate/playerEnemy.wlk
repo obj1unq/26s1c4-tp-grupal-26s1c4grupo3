@@ -28,7 +28,6 @@ class PlayerEnemy inherits Player {
     }
 
     // movimiento autonomo:
-    method puedeMoverseA(posicion) = mapa.puedePisarse(posicion)
 
     method estaEnLaMismaPosicion(objetivo) = position == objetivo.position()
 
@@ -74,7 +73,7 @@ class PlayerEnemy inherits Player {
     }
 
     method reproducirSonidoDeMuerte() {
-        const sonidoDeMuerte = game.sound("sonidos/muerteEnemigo.mp3")
+        const sonidoDeMuerte = game.sound("sonidos\\muerteEnemigo.mp3")
 
         sonidoDeMuerte.volume(0.2)
         sonidoDeMuerte.play()
@@ -83,14 +82,14 @@ class PlayerEnemy inherits Player {
 
 class EnemigoEsqueleto inherits PlayerEnemy(vida = 100, fuerza = 15){
 
-    override method image() = "enemigos/enemigoEsqueleto.png"
+    override method image() = "enemigos\\enemigoEsqueleto.png"
 }
 
 class EnemigoBestia inherits PlayerEnemy(vida = 100,fuerza = 20) {
-    override method image() = "enemigos/enemigoBestia.png"
+    override method image() = "enemigos\\enemigoBestia.png"
 }
 class EnemigoReyOscuro inherits PlayerEnemy(vida = 100,fuerza = 25) {
-    override method image() = "enemigos/enemigoReyOscuro.png"
+    override method image() = "enemigos\\enemigoReyOscuro.png"
 }
 
 class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
@@ -112,11 +111,6 @@ class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
             super(objetivo)
         }
     }
-
-    method actualizarEstado() {
-        estado = estado.actualizarEstado(self)
-    } 
-    //{ if (estado = impacto) {estado = inactivo} }
 
     // El golpe no es instantáneo: al iniciar la carga se marca en el piso la zona
     // de impacto y el daño recién impacta cuando la carga termina, solo si el
@@ -143,7 +137,6 @@ class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
         return marcas
     }
 
-    // Si el boss murió durante la carga, el golpe pendiente se cancela.
     method impactarSiSigueVivo(objetivo, marcas) {
         if (self.estaVivo()) {
             self.impactar(objetivo, marcas)
@@ -156,8 +149,8 @@ class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
         estado = impacto
         self.reproducirSonidoDeImpacto()
         self.dañarSiEstaEnLaZona(objetivo, marcas)
+        game.schedule(duracionDelImpacto, { estado = inactivo })
         game.schedule(duracionDeMarcas, { self.limpiarMarcas(marcas) })
-        game.schedule(duracionDelImpacto, { self.actualizarEstado() })
     }
 
     method dañarSiEstaEnLaZona(objetivo, marcas) {
@@ -171,7 +164,7 @@ class EnemigoFinal inherits PlayerEnemy(vida = 1000, fuerza = 40) {
     }
 
     method reproducirSonidoDeImpacto() {
-        const sonidoImpacto = game.sound("sonidos/golpeBoss.mp3")
+        const sonidoImpacto = game.sound("sonidos\\golpeBoss.mp3")
 
         sonidoImpacto.volume(0.2)
         sonidoImpacto.play()
@@ -183,28 +176,22 @@ class EstadoDeAtaque {
     method image()
 
     method permiteActuar()
-
-    method actualizarEstado() = inactivo
 }
 
 object inactivo inherits EstadoDeAtaque {
-    override method image() = "enemigos/bossfinal.png"
+    override method image() = "enemigos\\bossfinal.png"
 
     override method permiteActuar() = true
 }
 
 object atacando inherits EstadoDeAtaque {
-    override method image() = "enemigos/bossfinalAtaca.png"
+    override method image() = "enemigos\\bossfinalAtaca.png"
 
     override method permiteActuar() = false
-
-    override method actualizarEstado() {}
 }
 
 object impacto inherits EstadoDeAtaque {
-    override method image() = "enemigos/bossfinalImpacto.png"
+    override method image() = "enemigos\\bossfinalImpacto.png"
 
     override method permiteActuar() = false
-
-    
 }

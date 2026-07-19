@@ -8,7 +8,7 @@ import pantallaClases.*
 object menuInicio {
   method mostrar() {
     game.clear()
-    configuracionJuego.aplicarFondo("carteles/menu_juego.jpg")
+    configuracionJuego.aplicarFondo("carteles\\menu_juego.jpg")
     self.configurarTeclado()
   }
 

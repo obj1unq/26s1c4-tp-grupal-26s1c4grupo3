@@ -6,13 +6,13 @@ import sistemaDeSalas.sistemaSonido.*
 object finDeJuego {
   method mostrarVictoria() {
     game.clear()
-    configuracionJuego.aplicarFondo("carteles/cartel_victoria.jpg")
+    configuracionJuego.aplicarFondo("carteles\\cartel_victoria.jpg")
     self.configurarVuelta()
   }
 
   method mostrarDerrota() {
     game.clear()
-    configuracionJuego.aplicarFondo("carteles/cartel_derrota.jpg")
+    configuracionJuego.aplicarFondo("carteles\\cartel_derrota.jpg")
     self.configurarVuelta()
   }
 

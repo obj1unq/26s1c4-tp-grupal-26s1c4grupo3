@@ -24,7 +24,7 @@ class Recompensa inherits ObjetoDelTablero {
 class PocionDeCuracion inherits Recompensa {
   const property cantidadDeCuracion = 30
 
-  override method image() = "recompensas/pocionDeCuracion.png"
+  override method image() = "recompensas\\pocionDeCuracion.png"
 
   override method aplicarEfecto(personaje) {
     personaje.curar(cantidadDeCuracion)
@@ -34,7 +34,7 @@ class PocionDeCuracion inherits Recompensa {
 class MejoraDeVidaMaxima inherits Recompensa {
   const incremento = 20
 
-  override method image() = "recompensas/mejoraDeVidaMaxima.png"
+  override method image() = "recompensas\\mejoraDeVidaMaxima.png"
 
   override method aplicarEfecto(personaje) {
     personaje.aumentarVidaMaxima(incremento)

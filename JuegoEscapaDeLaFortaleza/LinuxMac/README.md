@@ -96,7 +96,7 @@ Requiere [Node.js](https://nodejs.org/) (versión 18 o superior).
    ```
    wollok run src.main.main.escapaDeLaFortaleza
    ```
-   Se abre en el navegador, puerto por defecto `3000`.
+   Se abre en el navegador, puerto por defecto `4200`.
 4. Correr los tests:
    ```
    wollok test

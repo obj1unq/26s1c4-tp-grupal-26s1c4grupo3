@@ -374,7 +374,7 @@ describe "Generadores de enemigos por tipo" {
     const enemigos = generadorDeEsqueletos.crear([game.at(3, 3), game.at(4, 4)])
 
     assert.equals(2, enemigos.size())
-    assert.that(enemigos.all { enemigo => enemigo.image() == "enemigos/enemigoEsqueleto.png" })
+    assert.that(enemigos.all { enemigo => enemigo.image() == "enemigos\\enemigoEsqueleto.png" })
     assert.equals(game.at(3, 3), enemigos.get(0).position())
   }
 
@@ -382,7 +382,7 @@ describe "Generadores de enemigos por tipo" {
     const enemigos = generadorDeBestias.crear([game.at(5, 5)])
 
     assert.equals(1, enemigos.size())
-    assert.equals("enemigos/enemigoBestia.png", enemigos.get(0).image())
+    assert.equals("enemigos\\enemigoBestia.png", enemigos.get(0).image())
   }
 
 }
@@ -519,11 +519,11 @@ describe "Decisión aleatoria de recompensas" {
   }
 
   test "fabricaDePocionDeCuracion crea una poción de curación" {
-    assert.equals("recompensas/pocionDeCuracion.png", fabricaDePocionDeCuracion.crear().image())
+    assert.equals("recompensas\\pocionDeCuracion.png", fabricaDePocionDeCuracion.crear().image())
   }
 
   test "fabricaDeMejoraDeVidaMaxima crea una mejora de vida máxima" {
-    assert.equals("recompensas/mejoraDeVidaMaxima.png", fabricaDeMejoraDeVidaMaxima.crear().image())
+    assert.equals("recompensas\\mejoraDeVidaMaxima.png", fabricaDeMejoraDeVidaMaxima.crear().image())
   }
 
 }
@@ -533,7 +533,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel1 usa el fondo del primer piso, esqueletos y multiplicador 1" {
     const sala = new SalaNivel1()
 
-    assert.equals("mapas/fondoPrimerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", sala.fondo())
     assert.equals(generadorDeEsqueletos, sala.generadorDeEnemigos())
     assert.equals(1, sala.multiplicadorDificultad())
   }
@@ -541,7 +541,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel2 usa el fondo del segundo piso, bestias y multiplicador 1.4" {
     const sala = new SalaNivel2()
 
-    assert.equals("mapas/fondoSegundoNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoSegundoNivel.png", sala.fondo())
     assert.equals(generadorDeBestias, sala.generadorDeEnemigos())
     assert.equals(1.4, sala.multiplicadorDificultad())
   }
@@ -549,7 +549,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaNivel3 usa el fondo del tercer piso, el rey oscuro y multiplicador 1.8" {
     const sala = new SalaNivel3()
 
-    assert.equals("mapas/fondoTercerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoTercerNivel.png", sala.fondo())
     assert.equals(generadorDeReyOscuro, sala.generadorDeEnemigos())
     assert.equals(1.8, sala.multiplicadorDificultad())
   }
@@ -566,7 +566,7 @@ describe "Configuración de cada sala según su nivel" {
   test "SalaInicial hereda la configuración de SalaNivel1" {
     const sala = new SalaInicial()
 
-    assert.equals("mapas/fondoPrimerNivel.png", sala.fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", sala.fondo())
     assert.equals(1, sala.multiplicadorDificultad())
   }
 
@@ -641,7 +641,7 @@ describe "Ciclo completo de recompensas en una sala" {
 
     sala.intentarSpawnearRecompensa()
 
-    assert.that(!game.allVisuals().any { visual => visual.image() == "recompensas/pocionDeCuracion.png" })
+    assert.that(!game.allVisuals().any { visual => visual.image() == "recompensas\\pocionDeCuracion.png" })
   }
 
   test "Al completar la sala, la recompensa aparece en su posición y cura al pisarla" {
@@ -716,7 +716,7 @@ describe "Vida, curación y vida máxima del personaje" {
   test "Al llegar a 0 de vida, se muestra la pantalla de derrota" {
     prisionero.recibirAtaque(1000)
 
-    assert.equals("carteles/cartel_derrota.jpg", fondo.image())
+    assert.equals("carteles\\cartel_derrota.jpg", fondo.image())
   }
 
 }
@@ -731,7 +731,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
   test "iniciarPartida arranca en la primera sala de la secuencia" {
     gestorDeNiveles.iniciarPartida()
 
-    assert.equals("mapas/fondoPrimerNivel.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("mapas\\fondoPrimerNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "iniciarPartida deja al personaje sin arma equipada y con la vida al máximo" {
@@ -749,7 +749,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
 
     gestorDeNiveles.avanzar()
 
-    assert.equals("mapas/fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
+    assert.equals("mapas\\fondoSegundoNivel.png", gestorDeNiveles.salaActual().fondo())
   }
 
   test "la secuencia completa termina en la sala del boss" {
@@ -766,7 +766,7 @@ describe "gestorDeNiveles recorre la secuencia de salas" {
 
     gestorDeNiveles.avanzar()
 
-    assert.equals("carteles/cartel_victoria.jpg", fondo.image())
+    assert.equals("carteles\\cartel_victoria.jpg", fondo.image())
   }
 
 }
@@ -793,7 +793,7 @@ describe "SalaBoss: el nivel final" {
 
     sala.reaccionarSiSalaCompleta()
 
-    assert.that(fondo.image() != "carteles/cartel_victoria.jpg")
+    assert.that(fondo.image() != "carteles\\cartel_victoria.jpg")
   }
 
   test "Al morir el boss se muestra la pantalla de victoria, sin necesidad de llegar a una puerta" {
@@ -803,7 +803,7 @@ describe "SalaBoss: el nivel final" {
 
     sala.reaccionarSiSalaCompleta()
 
-    assert.equals("carteles/cartel_victoria.jpg", fondo.image())
+    assert.equals("carteles\\cartel_victoria.jpg", fondo.image())
   }
 
 }
@@ -823,7 +823,7 @@ describe "Ataque con carga del enemigo final" {
 
     boss.atacar(prisionero)
 
-    assert.equals("enemigos/bossfinalAtaca.png", boss.image())
+    assert.equals("enemigos\\bossfinalAtaca.png", boss.image())
     assert.equals(100, prisionero.vida())
   }
 
@@ -833,7 +833,7 @@ describe "Ataque con carga del enemigo final" {
 
     boss.atacar(prisionero)
 
-    assert.equals(3, game.allVisuals().count { visual => visual.image() == "efectos/grietaSuelo.png" })
+    assert.equals(3, game.allVisuals().count { visual => visual.image() == "efectos\\grietaSuelo.png" })
   }
 
   test "Si pasa tiempo pero la carga no terminó, el daño sigue sin impactar" {
@@ -886,7 +886,7 @@ describe "Ataque con carga del enemigo final" {
     game.flushEvents(1100)
     game.flushEvents(1500)
 
-    assert.equals(0, game.allVisuals().count { visual => visual.image() == "efectos/grietaSuelo.png" })
+    assert.equals(0, game.allVisuals().count { visual => visual.image() == "efectos\\grietaSuelo.png" })
   }
 
   test "Si el boss muere durante la carga, el golpe pendiente se cancela y las marcas se limpian" {
@@ -898,7 +898,7 @@ describe "Ataque con carga del enemigo final" {
     game.flushEvents(2000)
 
     assert.equals(100, prisionero.vida())
-    assert.equals(0, game.allVisuals().count { visual => visual.image() == "efectos/grietaSuelo.png" })
+    assert.equals(0, game.allVisuals().count { visual => visual.image() == "efectos\\grietaSuelo.png" })
   }
 
   test "El cooldown impide encadenar un segundo golpe inmediato" {
