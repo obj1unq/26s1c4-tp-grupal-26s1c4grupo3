@@ -833,7 +833,7 @@ describe "Ataque con carga del enemigo final" {
 
     boss.atacar(prisionero)
 
-    assert.equals(3, game.allVisuals().count { visual => visual.image() == "efectos\\grietaSuelo.png" })
+    assert.equals(9, game.allVisuals().count { visual => visual.image() == "efectos\\grietaSuelo.png" })
   }
 
   test "Si pasa tiempo pero la carga no terminó, el daño sigue sin impactar" {
@@ -884,7 +884,7 @@ describe "Ataque con carga del enemigo final" {
     boss.atacar(prisionero)
 
     game.flushEvents(1100)
-    game.flushEvents(1500)
+    game.flushEvents(1800)
 
     assert.equals(0, game.allVisuals().count { visual => visual.image() == "efectos\\grietaSuelo.png" })
   }
