@@ -9,6 +9,7 @@ import recompensas.*
 import azar.*
 import sala.*
 import gestorDeNiveles.*
+import cooldown.*
 
 
 describe "Movimiento del personaje respetando los límites del mapa" {
@@ -759,6 +760,63 @@ describe "La vida del personaje persiste al pasar de una sala a otra" {
     sala.moverYVerificar(abajo)
 
     assert.equals(35, prisionero.vida())
+  }
+
+}
+
+describe "CooldownManager" {
+
+  test "Recién creado, el cooldown está listo sin necesidad de esperar" {
+    const cooldown = new CooldownManager(totalCooldownTime = 3000)
+
+    assert.that(cooldown.estaListo())
+  }
+
+  test "Al activarlo, deja de estar listo" {
+    const cooldown = new CooldownManager(totalCooldownTime = 3000)
+
+    cooldown.activar()
+
+    assert.that(!cooldown.estaListo())
+  }
+
+  test "Si pasó menos tiempo que el total del cooldown, sigue sin estar listo" {
+    const cooldown = new CooldownManager(totalCooldownTime = 3000)
+    cooldown.activar()
+
+    cooldown.onTimePassed(1000)
+
+    assert.that(!cooldown.estaListo())
+  }
+
+  test "Si el tiempo pasado acumulado llega justo al total, vuelve a estar listo" {
+    const cooldown = new CooldownManager(totalCooldownTime = 3000)
+    cooldown.activar()
+
+    cooldown.onTimePassed(1000)
+    cooldown.onTimePassed(2000)
+
+    assert.that(cooldown.estaListo())
+  }
+
+  test "Si el tiempo pasado supera el total, no rompe: el cooldown queda listo igual" {
+    const cooldown = new CooldownManager(totalCooldownTime = 3000)
+    cooldown.activar()
+
+    cooldown.onTimePassed(5000)
+
+    assert.that(cooldown.estaListo())
+  }
+
+  test "Activar de nuevo en medio de un cooldown en curso lo reinicia al total" {
+    const cooldown = new CooldownManager(totalCooldownTime = 3000)
+    cooldown.activar()
+    cooldown.onTimePassed(2000)
+
+    cooldown.activar()
+    cooldown.onTimePassed(2000)
+
+    assert.that(!cooldown.estaListo())
   }
 
 }
